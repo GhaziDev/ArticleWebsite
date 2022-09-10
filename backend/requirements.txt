@@ -30,7 +30,6 @@ kwonly-args==1.0.10
 lazy-object-proxy==1.7.1
 MarkupSafe==2.1.1
 mccabe==0.6.1
-mod-wsgi==4.9.3
 oauthlib==3.2.0
 outcome==1.1.0
 packaging==21.3
