@@ -57,7 +57,7 @@ const Login = ()=>{
     }
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post('http://139.99.169.115/login/',login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
+        axios.post('http://139.99.169.115:8000/login/',login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
             (res)=>{
 
                     navigate('/',{replace:true})
