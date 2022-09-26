@@ -73,7 +73,6 @@ const Signup = () => {
             display: "none",
           });
         } else {
-          console.log(e.response.data);
           setExist({
             ...exist,
             display: "flex",

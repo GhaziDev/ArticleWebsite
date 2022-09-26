@@ -7,6 +7,7 @@ import {Routes,Route,BrowserRouter as Router} from 'react-router-dom';
 import UserProfile from './components/userprofile.js';
 import './App.css'
 import PasswordResetAsk, { PasswordResetPage } from './components/reset.js';
+import 'draft-js/dist/Draft.css';
 
 
 const themeContext = createContext()

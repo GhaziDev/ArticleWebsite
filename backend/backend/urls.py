@@ -29,6 +29,7 @@ router.register(r'articles',views.ArticleView,basename='article')
 router.register(r'comments',views.CommentView,basename='comment')
 router.register(r'tag',views.TagView,basename='tag')
 router.register(r'signup',views.SignupView,basename='signup')
+router.register(r'userprofile',views.UserProfileView,basename='userprofile')
 
 
 urlpatterns = [
@@ -43,7 +44,6 @@ urlpatterns = [
      path('accounts/', include('django.contrib.auth.urls')),
      path('verify/<uuid:token>/<str:user>/',views.VerifyUser.as_view(),name='verify'),
      path('verified/',views.CheckVerified.as_view(),name='verified'),
-     path('userprofile/<str:user>/',views.UserProfileView.as_view(),name='userprofile'),
      path('reset/',views.PasswordResetView.as_view(),name='reset'),
      path('reset/<uuid:token>/<int:id>/',views.PasswordChangeView.as_view(),name='reset')
     

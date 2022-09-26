@@ -57,13 +57,10 @@ const Login = ()=>{
     }
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post('https://139.99.169.115:8000/login/',login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
+        axios.post('http://127.0.0.1:8000/login/',login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
             (res)=>{
 
                     navigate('/',{replace:true})
-                    console.log(res)
-                    console.log(Cookies.get('csrftoken'))
-
 
             }
         ).catch((e)=>{

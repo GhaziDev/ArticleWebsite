@@ -28,6 +28,7 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.urls import reverse
 import uuid
+
 class CurrentUser(views.APIView):
     def get(self,request):
         return Response(request.user.username,status=200)
@@ -63,7 +64,8 @@ class ArticleView(viewsets.ModelViewSet):
             title_img = request.FILES['title_img']
             if not 20<=len(title)<=60:
                 return Response("Title should be between 20-60 characters!",status=400)
-            new_article = models.Article.objects.create(title=title,title_img=title_img,description=description,user=request.user,tag=tag,date=date)
+            user_profile = models.UserProfile.objects.get(id=request.user.id)
+            new_article = models.Article.objects.create(title=title,title_img=title_img,description=description,user=request.user,tag=tag,date=date,user_profile=user_profile)
             return Response(new_article.id)
         if article.errors.get('title_img'):
            return Response('Upload an image of type : png,jpeg,jpg,ico,gif,webp',status=400)
@@ -110,11 +112,10 @@ class SignupView(viewsets.ModelViewSet):
                 validate_password(password)
             except ValidationError as e:
                 return Response(e,status=400)
-            user = models.CustomUser.objects.create_user(username=username,email=email,password=make_password(password))
+
+            user = models.CustomUser.objects.create_user(username=username,email=email,password=password)
             user.is_active = False
             user.save()
-
-            print(user.token)
             send_mail(subject='Email Confirmation',message=f'Click on this link to verify your email : http://127.0.0.1:8000/verify/{user.token}/{user}',from_email=None, recipient_list=[email])
             return Response("Account Created.",status=200)
         return Response("Fail")
@@ -123,7 +124,7 @@ class CheckUserExist(views.APIView):
     serializer_class = serializer.CheckUserSerializer
     def post(self,request):
         data = serializer.CheckUserSerializer(data=request.data)
-        valid = ASCIIUsernameValidator()
+        valid = ASCIIUsernameValidator() # validating username using a custom validator by django.
         if data.is_valid():
             try:
                 valid(data.data['username'])
@@ -166,7 +167,7 @@ class LoginView(views.APIView):
         if data.is_valid():
             email = data.data['email']
             password = data.data['password']
-            auth = authenticate(username=email,password=password)
+            auth = authenticate(email=email,password=password)
             if auth:
                 login(request,auth)
                 return Response("Success",status=200)
@@ -217,7 +218,9 @@ class VerifyUser(views.APIView):
     def get(self,request,token,user):
         user = models.CustomUser.objects.get(email=user)
         user.is_active = True
+        profile = models.UserProfile.objects.create(user=user,bio='A Developer and Content Creator :)',img='C:/Users/ghazi/Desktop/images.jfif')
         user.save()
+        profile.save()
         
         print(user.is_active)
 
@@ -234,10 +237,26 @@ class CheckVerified(views.APIView):
 
 
 
-class UserProfileView(views.APIView):
-    def get(self,request,user):
-        print(models.CustomUser.objects.get(username=user).user_articles)
-        return HttpResponse(models.CustomUser.objects.get(username=user).user_articles)
+class UserProfileView(viewsets.ModelViewSet):
+    serializer_class = serializer.UserProfileSerializer
+    def get_queryset(self): # fetching profiles
+        return models.UserProfile.objects.all()
+    
+    def put(self,request,id): # creating profile
+        permission_classes = [IsAuthenticated,]
+        data = serializer.UserProfileSerializer(data=request.data)
+        print(data.is_valid())
+        print(data.errors())
+        if data.is_valid():
+            img = data.data['img']
+            bio = data.data['bio']
+            models.UserProfile.objects.filter(id=id).update(bio=bio,img=img)
+            return Response("Profile updated!",status=200)
+        return Response("fail to create a profile",status=400)
+
+
+
+
     
 class PasswordResetView(views.APIView):
     serializer_class = serializer.PasswordResetSerializer

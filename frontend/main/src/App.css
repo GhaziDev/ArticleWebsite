@@ -116,10 +116,12 @@ input:checked + .slider:before {
 
 
 .article-div{
-  position:absolute;
-  top:0;
-  right:30px;
+  display:flex;
+  justify-content: center;
+  flex-wrap:nowrap;
+  flex-direction: column;
   width:100%;
+  height:100%;
  
 }
 
@@ -140,15 +142,6 @@ input:checked + .slider:before {
 
 
 
-#subart{
-  display:flex;
-  flex-flow: column wrap;
-  justify-content: center;
-  align-items: center;
-  height:800px;
-  width:470px;
-  margin:30px;
-}
 
 #subart .exit{
   height:40px;
@@ -225,6 +218,7 @@ input:checked + .slider:before {
 
 
 
+
 .parent-grid{
   display:flex;
   flex-flow: row wrap;
@@ -271,15 +265,12 @@ input:checked + .slider:before {
 
 
 .imglbl{
-  display:grid;
-  text-align: center;
-  vertical-align: center;
-  
+
+  padding: 10px 10px 10px 10px;
   border:1px solid;
   cursor: pointer;
   border-radius: 4px;
-  width:100px;
-  height:50px;
+  width:150px;
 
 }
 
@@ -293,25 +284,15 @@ input:checked + .slider:before {
 .tag-sel{
   background-color: dodgerblue;
   border-color:dodgerblue;
-  width:160px;
   height:40px;
 }
 
 
 
-.tag{
-  display:inline-block;
-  justify-content: end;
-  align-items: end;
-  color:white;
-  cursor: pointer;
- 
-  justify-content: center;
-}
 
 .chars{
-  position:relative;
-  bottom:20px;
+  position: relative;
+  bottom: 6px;
 }
 
 .tag-sel:focus{
@@ -369,6 +350,7 @@ input:checked + .slider:before {
   display:flex;
   width:160px;
   height:40px;
+  align-self:center;
   justify-content: center;
   align-items: center;
   cursor:pointer;
@@ -380,22 +362,39 @@ input:checked + .slider:before {
 
 }
 
+.artcl-sub-div{
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  padding-top:20px;
+}
+
 
 .bottom{
+  position:relative;
+  top:50%;
   display:flex;
-  flex-flow: row nowrap;
+  flex-flow: column-reverse wrap;
   justify-content: space-between;
-  width:100%;
-  padding-top:30px;
+
+  background-color: white;
+}
+
+.title-div{
+  position: relative;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow:column wrap;
 }
 
 
 .title-inp{
-  border-top:0;
-  border-right:0;
-  border-left:0;
-  outline:0;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
   transition: 0.3s ease-in-out all;
+
 }
 
 .title-inp:focus{
@@ -406,23 +405,22 @@ input:checked + .slider:before {
 
 .title-img{
   display:flex;
-  flex-flow: column;
+  flex-flow: column wrap;
   justify-content: flex-start;
-  position:relative;
-  left:236px;
-  bottom:30px;
 
 }
-
 
 
 .dialog-content{
-  display:flex;
-  flex-flow:column wrap;
-  justify-content: center;
-  align-items: center;
+  height:1000px;
 }
 
+.dialog-form{
+  display:flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+}
 .img-inp{
   display:none;
 }
@@ -747,6 +745,32 @@ input:checked + .slider:before {
 
 }
 
+.editor{
+  background-color: white;
+  width:80%;
+  color:black;
+}
+
+.tag{
+  display: flex;
+  justify-content: flex-end;
+  height: fit-content;
+}
+
+.upper-side{
+  display:flex;
+  justify-content: space-around;
+  flex-flow:row nowrap;
+}
+
+.texteditor{
+  height:400px;
+}
+
+.editor-div{
+  display: flex;
+  justify-content: center;
+}
 .navi{
   display:flex;
   gap:10px;

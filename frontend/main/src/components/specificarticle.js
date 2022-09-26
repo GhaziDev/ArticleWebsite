@@ -9,6 +9,9 @@ import Footer from './footer.js'
 import {themeContext} from '../App.js'
 import { Dialog, TextField } from '@mui/material';
 import {ThemeSwitch} from './navig.js'
+import parse, { domToReact } from 'html-react-parser';
+import convert from 'htmr';
+
 
 const EditArticle = ({user,article,theme,description,id,setArticle,redirect})=>{
     let [open,setOpen] = useState(false)
@@ -131,9 +134,11 @@ const SpecificArticle = ()=>{
         e.preventDefault()
         axios.post('http://127.0.0.1:8000/comments/',comment,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             setUpdated(updated+1)
-            setComment({desc:'',article:0,user:0,date:''})
+            setComment({
+                ...comment,
+                desc:''
+            })
         }).catch((e)=>{
-            console.log(e.response.data)
         })
     }
 
@@ -163,7 +168,6 @@ const SpecificArticle = ()=>{
             }).catch((e)=>{
                 if(e.response){
                     if(e.response.status===401){
-                        console.log(e.response.status)
 
                         
 
@@ -245,7 +249,7 @@ const SpecificArticle = ()=>{
             <img alt='timg' className='article-img' src={article.title_img}/>
             </div>
             <p className='article-desc' >
-                {article.description}
+                    {convert(article.description)}
             </p>
             <div className='article-user'>
                 <FontAwesomeIcon icon={faUser}></FontAwesomeIcon>

@@ -2,13 +2,15 @@
 import {useEffect,useContext,useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import {themeContext} from '../App.js';
-import { Dialog, TextField, TextareaAutosize, CreateMUIStyled } from '@mui/material';
-import {makeStyles} from '@mui/styles'
+import { Dialog} from '@mui/material';
 import CsrfToken from './csrf.js';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { text } from '@fortawesome/fontawesome-svg-core';
-
+import { Editor, EditorState } from 'react-draft-wysiwyg'
+import './react-draft-wysiwyg.css';
+import { convertToRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import {stateToHTML} from 'draft-js-export-html';
 
 
 function TextFormat({format,setFormat,modifyText,setModifyText}){
@@ -214,6 +216,11 @@ function DisplayDialogOrAuth() {
     let [disabled,setDisabled] = useState(false)
     let [error,setError] = useState('')
     let [auth, setAuth] = useState(true);
+    const [editorState, setEditorState] = useState(() =>
+    EditorState?.createEmpty(),
+    )
+
+
     let [article, setArticle] = useState({
         title: "",
         title_img: "",
@@ -222,10 +229,21 @@ function DisplayDialogOrAuth() {
         user: "",
         date: new Date().getDate(),
       });
-    let [modifyText,setModifyText] = useState({fontWeight:'400',textDecoration:'none',fontStyle:'none'})
-    let [format,setFormat] = useState({'bold':false,'italic':false,'underline':false})
-    let {fontWeight,textDecoration,fontStyle} = modifyText
     let { title, title_img, description, user, tag, date } = article;
+
+
+
+    let handleText = (e)=>{
+      let html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+      console.log(html)
+      setArticle(
+        {
+          ...article,
+          'description':html
+        }
+      )
+      
+    } 
   let handleSubmit = (e) => {
     e.preventDefault();
     let formData = new FormData();
@@ -250,6 +268,7 @@ function DisplayDialogOrAuth() {
       })
       .catch((e) => {
         setError(e.response.data)
+      
 
 
       });
@@ -290,7 +309,6 @@ function DisplayDialogOrAuth() {
         }
       }
   
-    let [disp, setDisp] = useState({ display: "none" });
     let handleCount = (e) => {
       return e.target.value.length;
     };
@@ -340,15 +358,16 @@ function DisplayDialogOrAuth() {
     }
     else{
     return (
+
       <div className="article-div">
+        <head><meta charset="utf-8" /></head>
         <div className="nav-div-right">
         <div className='nav-div'>
             <button
               id="article-btn"
               onClick={() => handleOpen()}
               style={{ color: theme.setTextColor, backgroundColor: theme.setButtonColor }}
-              className="create-button"
-            >
+              className="create-button">
               Create Article
             </button>
             <LoginOrLogout auth={auth} setAuth={setAuth} theme={{theme}}
@@ -356,24 +375,35 @@ function DisplayDialogOrAuth() {
             </div>
         
         </div>
-        <div className="toggle-div" id="tdiv" style={{ display: disp.display,backgroundColor:theme.setBg,color:theme.setTextColor}}>
           <Dialog PaperProps={{
               style:{
-                  backgroundColor:theme.setBg,color:theme.setButtonColor
-  
-              }
-          }}  fullWidth={true} maxWidth='lg' open={open} onClose={() => handleClose()} className="dialog">
-             <div className='dialog-content'>
-            <form method="dialog" onSubmit={(e) => handleSubmit(e)} id="subart" style={{backgroundColor:theme.setBg,color:theme.setTextColor}}>
+                  backgroundColor:theme.setBg,color:theme.setButtonColor}}}  fullWidth={true} maxWidth='lg' open={open} onClose={() => handleClose()} className="dialog">
+            <div className='dialog-content'>
+            <form method="dialog" onSubmit={(e) => handleSubmit(e)}  style={{backgroundColor:theme.setBg,color:theme.setTextColor}} className='dialog-form'>
               <button onClick={handleClose} style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor,borderRadius:'4px',border:'none'}} className="exit">
                 Exit
               </button>
               <CsrfToken />
+              <div className='upper-side'>
+              <div className="title-img">
+                <label required for="upload" className="imglbl" alt='Error'>
+                  Upload An Image
+                </label>
+              <input
+              className='img0'
+                id="upload"
+                required
+                type="file"
+                name="title_img"
+                accept="image/*"
+                onChange={(e) => handleChange(e.target.name, e.target.files[0])}
+              ></input>
+              </div>
+              <div className='title-div'>
               <CharsLeft
                 chars={title.length}
                 handleCount={handleCount}
               ></CharsLeft>
-  
               <input
                 minLength={20}
                 maxLength={50}
@@ -386,44 +416,8 @@ function DisplayDialogOrAuth() {
                 placeholder="Insert your Title"
                 style={{backgroundColor:theme.setBg,color:theme.setTextColor}}
               ></input>
-  <div className="title-img">
-              <div class="divlbl">
-                <label required for="upload" className="imglbl" alt='Error'>
-                  Upload An Image
-                </label>
               </div>
-              <input
-              className='img0'
-                id="upload"
-                required
-                type="file"
-                name="title_img"
-                accept="image/*"
-                onChange={(e) => handleChange(e.target.name, e.target.files[0])}
-              ></input>
-              </div>
-                <TextField
-                multiline={true}
-                inputProps={{minLength:4000,style:{backgroundColor:theme.setButtonColor,color:theme.setTextColor,width:'600px',whiteSpace:'pre-wrap',textDecoration:textDecoration,fontStyle:fontStyle,fontWeight:fontWeight}}}
-                maxRows={7}
-                  required
-                  name="description"
-                  value={description}
-                  onChange={(e) => handleChange("description", e.target.value)}
-                  placeholder="Write a description"
-                ></TextField>
-  
-              <div className='bottom'>
-              <button
-                type="submit"
-                id="confirmBtn"
-                value="default"
-                className="article-submit"
-                style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}
-                disabled={disabled}
-              >
-                <span>Post</span>
-              </button>
+
               <div className="tag">
                 <select
                   default="select a tag"
@@ -441,15 +435,28 @@ function DisplayDialogOrAuth() {
                   </option>
                 </select>
               </div>
-
+              </div>
+              <div className='editor-div'>
+                <Editor UploadEnabled wrapperClassName='editor'  onChange={(e)=>handleText(e)} editorClassName='texteditor'editorState={editorState} onEditorStateChange={setEditorState}></Editor>
+                </div>
+                <div className='artcl-sub-div'>
+              <button
+                type="submit"
+                id="confirmBtn"
+                value="default"
+                className="article-submit"
+                style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}
+                disabled={disabled}
+              >
+    
+                <span>Post</span>
+              </button>
               </div>
               <InvalidImage error={error}></InvalidImage>
-              
             </form>
             </div>
           </Dialog>
         </div>
-      </div>
     );
   }
 }

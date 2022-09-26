@@ -64,7 +64,6 @@ function PasswordResetPage(){
 
     useEffect(()=>{
         axios.get(`http://127.0.0.1:8000/reset/${token}/${id}/`).catch((e)=>{
-            console.log(e.response.data)
             setFound({'found':true,val:1})
             found.val = 1
 
@@ -75,7 +74,6 @@ function PasswordResetPage(){
     let handleSubmit = (e)=>{
         e.preventDefault()
         axios.post(`http://127.0.0.1:8000/reset/${token}/${id}/`,{"password":password},{headers:{'X-CSRFTOKEN':Cookies.get('csrftoken')}}).catch((e)=>{
-            console.log(e.data.response)
         })
     }
 

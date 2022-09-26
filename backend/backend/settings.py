@@ -26,9 +26,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['139.99.169.115','globeofarticles']
+ALLOWED_HOSTS = ['139.99.169.115','globeofarticles','127.0.0.1','localhost']
 ACCESS_CONTROL_ALLOW_ORIGIN = '*'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -60,6 +60,7 @@ CSRF_TRUSTED_ORIGINS = [ "http://127.0.0.1:3000",'http://127.0.0.1:8000','http:/
 # Application definition
 
 INSTALLED_APPS = [
+    'django_extensions',
     'coverage',
     'storages',
     'main.validators',

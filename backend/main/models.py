@@ -24,6 +24,10 @@ class Tag(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE,to_field='username',related_name='user_profile')
+    img = models.ImageField(upload_to='media')
+    bio = models.CharField(max_length=1000)
+
+
 
 class Article(models.Model):
     title = models.CharField(max_length=200)
@@ -32,11 +36,11 @@ class Article(models.Model):
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE, related_name='user_articles',to_field='username')
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE,related_name='tag_articles',to_field='name')
     date = models.DateField(auto_now_add=True,blank=False)
-    # user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE,to_field='user',related_name='user_posts',default=user)
+    user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE,to_field='user',related_name='user_posts',default=user)
+
 
     class Meta:
-        ordering = ('-date',)
-
+        ordering = '-date',
 
     def __str__(self):
         return f"{self.title} {self.title_img} {self.user.username} {self.tag}"
@@ -47,6 +51,9 @@ class Comment(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='user_comments',to_field='username')
     article = models.ForeignKey(Article,on_delete=models.CASCADE,related_name='article_comments')
     date = models.DateField(auto_now_add=True)
+
+    class Meta:
+        ordering = '-date',
 
     def __str__(self):
         return f"{self.desc} {self.user} {self.article}"

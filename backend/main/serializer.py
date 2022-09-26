@@ -18,7 +18,7 @@ class TagSerializer(serializers.ModelSerializer):
     tag_articles = ArticleSerializer(many=True,read_only=True)
     
     class Meta:
-        fields = ('name','tag_articles')
+        fields = 'name','tag_articles'
         lookup_field = 'name'
         extra_kwargs = {
             'url':{'lookup_field':'name'}
@@ -41,7 +41,7 @@ class SignupSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.CharField(required=False)
-    password = serializers.CharField(required=False,allow_null=True,allow_blank=True)
+    password = serializers.CharField(required=True)
 
 
 class SearchSerializer(serializers.Serializer):
@@ -56,11 +56,6 @@ class OnEditSerializer(serializers.Serializer):
     description = serializers.CharField()
 
 
-class UserProfileSerializer(serializers.Serializer):
-    user_posts = ArticleSerializer(many=True,read_only=True)
-    class Meta:
-        models = models.UserProfile
-        fields = ('user','user_posts',)
 
 
 class CustomUserSerializer(serializers.ModelSerializer):
@@ -75,3 +70,10 @@ class PasswordResetSerializer(serializers.Serializer):
 
 class PasswordChangeSerializer(serializers.Serializer):
     password = serializers.CharField(required=True)
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    user_posts = ArticleSerializer(many=True,read_only=True)
+    class Meta:
+        model = models.UserProfile
+        fields = 'user','bio','user_posts','img'
