@@ -57,7 +57,7 @@ const Signup = () => {
   const [error, setError] = useState("");
   useEffect(() => {
     axios
-      .post("http://127.0.0.1:8000/exists/", { username: username })
+      .post("https://backend.globeofarticles.com/exists/", { username: username })
       .then((res) => {
         setExist({
           ...exist,
@@ -92,7 +92,7 @@ const Signup = () => {
   let handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://127.0.0.1:8000/signup/", signup, {
+      .post("https://backend.globeofarticles.com/signup/", signup, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
