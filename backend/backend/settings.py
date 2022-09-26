@@ -36,7 +36,10 @@ ACCESS_CONTROL_ALLOW_CREDENTIALS = True
 ACCESS_CONTROL_ALLOW_METHODS = '*'
 ACCESS_CONTROL_ALLOW_HEADERS = '*'
 SECURE_SSL_REDIRECT = False
-CSRF_TRUSTED_ORIGINS = ['https://globeofarticles.com','https://www.globeofarticles.com']
+CSRF_TRUSTED_ORIGINS = [ 
+    "http://127.0.0.1:3000",'http://127.0.0.1:8000','http://localhost:3000',
+'https://globeofarticles.com','https://www.globeofarticles.com'
+]
 '''
 SESSION_COOKIE_SECURE = True
 
@@ -53,8 +56,6 @@ EMAIL_HOST_PASSWORD = os.environ['password']
 EMAIL_USE_TLS = True
 
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-
-CSRF_TRUSTED_ORIGINS = [ "http://127.0.0.1:3000",'http://127.0.0.1:8000','http://localhost:3000']
 
 
 # Application definition
