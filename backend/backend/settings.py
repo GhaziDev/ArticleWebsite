@@ -36,7 +36,7 @@ ACCESS_CONTROL_ALLOW_CREDENTIALS = True
 ACCESS_CONTROL_ALLOW_METHODS = '*'
 ACCESS_CONTROL_ALLOW_HEADERS = '*'
 SECURE_SSL_REDIRECT = False
-
+CSRF_TRUSTED_ORIGINS = ['https://globeofarticles.com','https://www.globeofarticles.com']
 '''
 SESSION_COOKIE_SECURE = True
 
