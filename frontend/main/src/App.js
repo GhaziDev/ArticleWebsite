@@ -8,6 +8,8 @@ import UserProfile from './components/userprofile.js';
 import './App.css'
 import PasswordResetAsk, { PasswordResetPage } from './components/reset.js';
 import 'draft-js/dist/Draft.css';
+import { EditProfile } from './components/userprofile.js';
+import Verify from './components/verify.js';
 
 
 const themeContext = createContext()
@@ -31,9 +33,12 @@ function App() {
         <Route path='signup' element={<Signup/>}></Route>
         <Route path='' element={<Articles theme={theme} setTheme={setTheme}/>}></Route>
         <Route path='article/:id' element = {<SpecificArticle />}></Route>
-        <Route path='userprofile/:username' element={<UserProfile theme={theme} />}></Route>
+        <Route path='userprofile/:user' element={<UserProfile theme={theme} />}></Route>
         <Route path='reset/' element={<PasswordResetAsk></PasswordResetAsk>}></Route>
         <Route path='reset-page/:token/:id' element={<PasswordResetPage/>}></Route>
+        <Route path='userprofile/:user/edit/' element={<EditProfile/>}></Route>
+        <Route path='verify/:token/:user' element={<Verify/>}></Route>
+        
     </Routes>
     </Router>
     </themeContext.Provider>

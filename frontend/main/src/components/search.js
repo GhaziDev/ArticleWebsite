@@ -44,7 +44,7 @@ function Search(){
     const {theme} = useContext(themeContext)
    
     // every 5 indexes of articleList is 1 page
-    let results = articleList.slice(articleList).filter((article)=>article?.title.toLowerCase().trim().includes(input.toLowerCase().trim()))
+    let results = articleList?.slice(articleList).filter((article)=>article?.title.toLowerCase().trim().includes(input.toLowerCase().trim()))
 
     let redirect = useNavigate()
     let handleInput = (e)=>{
@@ -54,12 +54,10 @@ function Search(){
 
     }
     let handleRedirect = (result)=>{
-        redirect(`/article/${result?.id}`)
+        redirect(`/article/${result?._id}`)
 
     }
-
-
-
+    
 
 
     return(

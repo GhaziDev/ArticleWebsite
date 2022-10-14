@@ -6,11 +6,19 @@ import { Dialog} from '@mui/material';
 import CsrfToken from './csrf.js';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { Editor, EditorState } from 'react-draft-wysiwyg'
+import { Editor } from 'react-draft-wysiwyg'
 import './react-draft-wysiwyg.css';
-import { convertToRaw } from 'draft-js';
+
+import { convertToRaw, AtomicBlockUtils,EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import {stateToHTML} from 'draft-js-export-html';
+import {MenuList,MenuItem,Menu,Fade,Button} from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+import Popper from '@mui/material/Popper';
+import { EditProfile } from './userprofile.js';
+import createResizeablePlugin from '@draft-js-plugins/resizeable';
+
+
 
 
 function TextFormat({format,setFormat,modifyText,setModifyText}){
@@ -151,7 +159,64 @@ function CharsLeft({ chars, handleCount}) {
     );
   }
 
+  function Profile(){
+    const {theme,setTheme} = useContext(themeContext)
+    const redirect = useNavigate()
+    const [current,setCurrent] = useState('')
+    let [img,setImage] = useState(null)
+    const [anchorEl, setAnchorEl] = useState(null);
+    const open = Boolean(anchorEl);
+    const handleClick = (event) => {
+      setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+      setAnchorEl(null);
+    };
 
+    const redirectLogout = ()=>{
+      axios.get('http://127.0.0.1:8000/logout/',{withCredentials:true}).then((res)=>{
+        redirect('/login')
+      })
+
+    }
+    useEffect(()=>{
+        axios.get('http://127.0.0.1:8000/current/',{withCredentials:true}).then((res)=>{
+            setCurrent(res.data)
+        })
+    },[])
+
+
+
+
+    return(
+      <div>
+      <Button
+        id="fade-button"
+        aria-controls={open ? 'fade-menu' : undefined}
+        aria-haspopup="true"
+        aria-expanded={open ? 'true' : undefined}
+        style={{backgroundColor:theme.setButtonColor}}
+        onClick={handleClick}>
+          <PersonIcon fontSize='large' style={{backgroundColor:theme.setButtonColor,color:'white'}}></PersonIcon>
+      </Button>
+        <Menu
+        id="fade-menu"
+
+        MenuListProps={{
+          'aria-labelledby': 'fade-button',
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        TransitionComponent={Fade}
+        >
+            <MenuItem><button className='l-div' style = {{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} onClick={(e)=>{redirect(`userprofile/${current}/`)}}>My Profile</button></MenuItem>
+            <MenuItem><button className='l-div' style = {{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} onClick={(e)=>{redirect(`/userprofile/${current}/edit/`)}}>Settings</button></MenuItem>
+            <MenuItem><button onClick={redirectLogout} type='submit' className='l-div' style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} >Logout </button></MenuItem>
+        </Menu>
+        </div>
+    )
+}
 
 function LoginOrLogout({auth,setAuth}){ //Login Or Logout component
     let redirect = useNavigate()
@@ -190,7 +255,8 @@ function LoginOrLogout({auth,setAuth}){ //Login Or Logout component
         return (
 
             <form method='get' onSubmit={(e)=>handleLogout(e)}>
-            <button  type='submit' className='l-div' style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} >Logout </button>
+            <Profile></Profile>
+
             </form>
         )
 
@@ -219,6 +285,9 @@ function DisplayDialogOrAuth() {
     const [editorState, setEditorState] = useState(() =>
     EditorState?.createEmpty(),
     )
+    const resizeablePlugin = createResizeablePlugin()
+    const plugins = [resizeablePlugin]
+
 
 
     let [article, setArticle] = useState({
@@ -274,6 +343,41 @@ function DisplayDialogOrAuth() {
       });
   };
 
+  function uploadImageCallback(file){
+    // long story short, every time we upload an image, we
+    // need to save it to the state so we can get it's data
+    // later when we decide what to do with it.
+    
+   // Make sure you have a uploadImages: [] as your default state
+
+    const imageObject = {
+      file: file,
+      localSrc: URL.createObjectURL(file),
+    }
+
+    
+    // We need to return a promise with the image src
+    // the img src we will use here will be what's needed
+    // to preview it in the browser. This will be different than what
+    // we will see in the index.md file we generate.
+    return new Promise(
+      (resolve, reject) => {
+        resolve({ data: { link: imageObject.localSrc } });
+      }
+    );
+  }
+
+  const insertImage = ( url) => {
+    const contentState = editorState.getCurrentContent();
+    const contentStateWithEntity = contentState.createEntity(
+        'IMAGE',
+        'IMMUTABLE',
+        { src: url },)
+const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+const newEditorState = EditorState.set( editorState, { currentContent: contentStateWithEntity });
+return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, '');
+};
+
   useEffect(() => {
     axios
       .get("http://127.0.0.1:8000/current/",{withCredentials:true})
@@ -323,6 +427,7 @@ function DisplayDialogOrAuth() {
         axios
           .get("http://127.0.0.1:8000/isauthenticated/", { withCredentials: true })
           .then((res) => {
+            setAuth(true)
           })
           .catch((e) => {
             console.log(e.response.data);
@@ -373,6 +478,7 @@ function DisplayDialogOrAuth() {
             <LoginOrLogout auth={auth} setAuth={setAuth} theme={{theme}}
             ></LoginOrLogout>
             </div>
+           
         
         </div>
           <Dialog PaperProps={{
@@ -386,7 +492,7 @@ function DisplayDialogOrAuth() {
               <CsrfToken />
               <div className='upper-side'>
               <div className="title-img">
-                <label required for="upload" className="imglbl" alt='Error'>
+                <label required htmlFor="upload" className="imglbl" alt='Error'>
                   Upload An Image
                 </label>
               <input
@@ -431,13 +537,13 @@ function DisplayDialogOrAuth() {
                     programming
                   </option>
                   <option value='science'  name="tag">
-                    another tag
+                    science
                   </option>
                 </select>
               </div>
               </div>
               <div className='editor-div'>
-                <Editor UploadEnabled wrapperClassName='editor'  onChange={(e)=>handleText(e)} editorClassName='texteditor'editorState={editorState} onEditorStateChange={setEditorState}></Editor>
+                <Editor  toolbar={{previewImage:true}}    ref={(element) => element} plugins={plugins} wrapperClassName='editor'  onChange={(e)=>handleText(e)} editorClassName='texteditor'editorState={editorState} onEditorStateChange={setEditorState}></Editor>
                 </div>
                 <div className='artcl-sub-div'>
               <button

@@ -8,6 +8,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,Abstrac
 
 
 class CustomUser(AbstractUser):
+    _id = models.UUIDField(default=uuid.uuid4,primary_key=True,unique=True)
     username = models.CharField(max_length=322,unique=True)
     email = models.EmailField(max_length=320,unique=True)
     token = models.UUIDField(default=uuid.uuid1,unique=True)
@@ -28,8 +29,8 @@ class UserProfile(models.Model):
     bio = models.CharField(max_length=1000)
 
 
-
 class Article(models.Model):
+    _id = models.UUIDField(default=uuid.uuid4,unique=True,primary_key=True)
     title = models.CharField(max_length=200)
     title_img = models.ImageField(upload_to='media')
     description = RichTextField()
@@ -46,7 +47,17 @@ class Article(models.Model):
         return f"{self.title} {self.title_img} {self.user.username} {self.tag}"
 
 
+class UploadedImagesToDescription(models.Model):
+    '''
+    Because the article description is basically a multipart data (can have images,text, etc...)
+    all images will be handled here
+    '''
+    article = models.ForeignKey(Article,related_name='articles_imgs',on_delete=models.CASCADE)
+    images = models.ImageField(upload_to='media')
+
+
 class Comment(models.Model):
+    _id = models.UUIDField(default=uuid.uuid4,unique=True,primary_key=True)
     desc = models.TextField()
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='user_comments',to_field='username')
     article = models.ForeignKey(Article,on_delete=models.CASCADE,related_name='article_comments')

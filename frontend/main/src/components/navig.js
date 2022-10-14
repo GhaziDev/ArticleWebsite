@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import {useState,useContext} from 'react';
-import {useNavigate} from 'react-router-dom';
+import {useNavigate,Link} from 'react-router-dom';
 import { cyanDark} from '@radix-ui/colors';
 import {themeContext} from '../App.js'
 import Search from './search.js'
@@ -8,6 +8,10 @@ import DisplayDialogOrAuth from './displayarticles.js';
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Rules from './rules.js';
+
+
+
+
 
 function ThemeSwitch(){
     const {theme,setTheme} = useContext(themeContext)
@@ -62,9 +66,9 @@ function ThemeSwitch(){
     }
 
     return(
-    <label class="switch"  >
+    <label className="switch"  >
     <input type="checkbox" defaultChecked={checked==='true'?true:false} onChange={(e)=>handleChange(e)} name='theme'/>
-    <span class="slider" style={{backgroundColor:theme.setButtonColor}}></span>
+    <span className="slider" style={{backgroundColor:theme.setButtonColor}}></span>
     </label>
     )
 
@@ -74,7 +78,7 @@ function ThemeSwitch(){
 
 function Navigation(){
     let {theme} = useContext(themeContext)
-    let redirect = useNavigate('/')
+    let redirect = useNavigate('')
     return(
         <div className='nav-div' >
             <div className='nav-div-left'>
@@ -86,6 +90,7 @@ function Navigation(){
             <Search></Search>
            
             <DisplayDialogOrAuth ></DisplayDialogOrAuth>
+
 
         </div>
     )

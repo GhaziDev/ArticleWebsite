@@ -40,6 +40,7 @@ urlpatterns = [
      path('csrf/',views.GetCSRFToken.as_view(),name='csrf'),
      path('isauthenticated/',views.CheckAuthenticated.as_view(),name='authenticated'),
      path('exists/',views.CheckUserExist.as_view(),name='exists'),
+     path('password-valid/',views.CheckPasswordValidation.as_view(),name='valid'),
      path('current/',views.CurrentUser.as_view(),name='current'),
      path('accounts/', include('django.contrib.auth.urls')),
      path('verify/<uuid:token>/<str:user>/',views.VerifyUser.as_view(),name='verify'),

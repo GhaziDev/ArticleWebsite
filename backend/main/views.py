@@ -29,9 +29,10 @@ from django.http import Http404
 from django.urls import reverse
 import uuid
 
+
 class CurrentUser(views.APIView):
     def get(self,request):
-        return Response(request.user.username,status=200)
+        return  Response(request.user.username,status=200)
 
 
 class CheckAuthenticated(views.APIView):
@@ -54,8 +55,6 @@ class ArticleView(viewsets.ModelViewSet):
         authentication_classes = [SessionAuthentication]
         permissions_classes = [IsAuthenticated]
         article = serializer.ArticleSerializer(data=request.data)
-        print(article.is_valid())
-        print(article.errors)
         if article.is_valid():
             title = article.data['title']
             description = article.data['description']
@@ -64,9 +63,9 @@ class ArticleView(viewsets.ModelViewSet):
             title_img = request.FILES['title_img']
             if not 20<=len(title)<=60:
                 return Response("Title should be between 20-60 characters!",status=400)
-            user_profile = models.UserProfile.objects.get(id=request.user.id)
+            user_profile = models.UserProfile.objects.get(user=request.user.username)
             new_article = models.Article.objects.create(title=title,title_img=title_img,description=description,user=request.user,tag=tag,date=date,user_profile=user_profile)
-            return Response(new_article.id)
+            return Response(new_article._id)
         if article.errors.get('title_img'):
            return Response('Upload an image of type : png,jpeg,jpg,ico,gif,webp',status=400)
         return Response(article.data['title_img'])
@@ -98,6 +97,7 @@ class SignupView(viewsets.ModelViewSet):
         queryset = models.CustomUser.objects.all()
         return queryset
     
+    @method_decorator(ensure_csrf_cookie,csrf_protect)
     def create(self,request):
         data = serializer.SignupSerializer(data=request.data)
         if data.is_valid():
@@ -105,8 +105,12 @@ class SignupView(viewsets.ModelViewSet):
             email = data.data['email']
             password = data.data['password']
            
-            if models.CustomUser.objects.filter(email=email):
+            if models.CustomUser.objects.filter(email=email).exists():
                 return Response("Email already exists in the database",status=400)  
+            
+            if models.CustomUser.objects.filter(username=username).exists():
+                return Response("Username already exist.",status=400)
+        
             try:
 
                 validate_password(password)
@@ -116,12 +120,13 @@ class SignupView(viewsets.ModelViewSet):
             user = models.CustomUser.objects.create_user(username=username,email=email,password=password)
             user.is_active = False
             user.save()
-            send_mail(subject='Email Confirmation',message=f'Click on this link to verify your email : http://127.0.0.1:8000/verify/{user.token}/{user}',from_email=None, recipient_list=[email])
+            send_mail(subject='Email Confirmation',message=f'Click on this link to verify your email : https://www.globeofarticles.com/verify/{user.token}/{user}',from_email=None, recipient_list=[email])
             return Response("Account Created.",status=200)
         return Response("Fail")
 
 class CheckUserExist(views.APIView):
     serializer_class = serializer.CheckUserSerializer
+
     def post(self,request):
         data = serializer.CheckUserSerializer(data=request.data)
         valid = ASCIIUsernameValidator() # validating username using a custom validator by django.
@@ -130,13 +135,26 @@ class CheckUserExist(views.APIView):
                 valid(data.data['username'])
             except ValidationError as e:
                 return Response(e,status=400)
-            if models.CustomUser.objects.filter(username=data.data['username']):
+            if models.CustomUser.objects.filter(username=data.data['username']).exists():
                 return Response('Username already exists.',status=400)
             if len(data.data['username'])<6:
                 return Response('Username must be between 6-30 characters.',status=400)
             else:
                 return Response("Valid Username",status=200)
         return Response("Username field is empty",status=400)
+
+class CheckPasswordValidation(views.APIView):
+    serializer_class = serializer.CheckPasswordSerializer
+    def post(self,request):
+        data = serializer.CheckPasswordSerializer(data=request.data)
+        if data.is_valid():
+            try:
+                validate_password(data.data["password"])
+            except ValidationError as e:
+                return Response(e,status=400)
+            return Response("password is valid",status=200)
+        return Response("password validation failed",status=400)
+
 
 
 class CommentView(viewsets.ModelViewSet):
@@ -150,7 +168,7 @@ class CommentView(viewsets.ModelViewSet):
         if data.is_valid():
             desc = data.data['desc']
             article = data.data['article']
-            article = models.Article.objects.get(id=article)
+            article = models.Article.objects.get(_id=article)
             user = request.user
             models.Comment.objects.create(desc=desc,article=article,user=user)
             comments_of_article = list(article.article_comments.all().values())
@@ -201,7 +219,8 @@ class GetCSRFToken(views.APIView):
     
     @method_decorator(ensure_csrf_cookie)
     def get(self, request, format=None):
-        return Response("Success")
+        return JsonResponse({'csrftoken':get_token(request)})
+
 
 
 
@@ -218,12 +237,9 @@ class VerifyUser(views.APIView):
     def get(self,request,token,user):
         user = models.CustomUser.objects.get(email=user)
         user.is_active = True
-        profile = models.UserProfile.objects.create(user=user,bio='A Developer and Content Creator :)',img='C:/Users/ghazi/Desktop/images.jfif')
+        profile = models.UserProfile.objects.create(user=user,bio='No Bio Here',img='C:/Users/ghazi/Desktop/images.jfif')
         user.save()
         profile.save()
-        
-        print(user.is_active)
-
         return Response("Verified!")
 
 
@@ -239,20 +255,28 @@ class CheckVerified(views.APIView):
 
 class UserProfileView(viewsets.ModelViewSet):
     serializer_class = serializer.UserProfileSerializer
+    parser_classes = [MultiPartParser,FormParser,JSONParser]
+    lookup_field = 'user'
     def get_queryset(self): # fetching profiles
         return models.UserProfile.objects.all()
     
-    def put(self,request,id): # creating profile
+    def update(self,request,user): # creating profile
         permission_classes = [IsAuthenticated,]
         data = serializer.UserProfileSerializer(data=request.data)
-        print(data.is_valid())
-        print(data.errors())
         if data.is_valid():
-            img = data.data['img']
+            username = data.data['user']
+            img = request.FILES['img']
             bio = data.data['bio']
-            models.UserProfile.objects.filter(id=id).update(bio=bio,img=img)
+            pfp = models.UserProfile.objects.get(user=username)
+            pfp.img = img
+            pfp.bio = bio
+            pfp.save()
             return Response("Profile updated!",status=200)
+        if data.errors.get('img'):
+            return Response('Upload an image of type : png,jpeg,jpg,ico,gif,webp',status=400)
+
         return Response("fail to create a profile",status=400)
+
 
 
 
@@ -262,13 +286,9 @@ class PasswordResetView(views.APIView):
     serializer_class = serializer.PasswordResetSerializer
     def post(self,request):
         data = serializer.PasswordResetSerializer(data=request.data)
-
-        print(data.is_valid())
-        print(data.data)
-        print(data.errors)
         if data.is_valid():
             user = models.CustomUser.objects.get(email=data.data['email'])
-            send_mail('Password Reset', f'please reset your password here : 127.0.0.1:3000/reset-page/{user.token}/{user.pk}',from_email=None, recipient_list=[data.data['email']])
+            send_mail('Password Reset', f'please reset your password here : https:/www.globeofarticles.com/reset-page/{user.token}/{user.pk}',from_email=None, recipient_list=[data.data['email']])
             return Response(user.token,status=200)
     
         
@@ -283,7 +303,7 @@ class PasswordChangeView(views.APIView):
                 validate_password(password)
                 user = models.CustomUser.objects.filter(id=id)
                 user1 =  models.CustomUser.objects.get(id=id)
-                user.update(password=make_password(password))
+                user.update(password=password)
                 user1.token = uuid.uuid1()
                 user1.save()
                 return Response("Password has been reset!",status=200)

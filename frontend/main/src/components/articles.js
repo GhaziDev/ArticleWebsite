@@ -24,31 +24,30 @@ let ListAllArticles = ({ articles,articleList,theme}) => {
 
  
   if (articles.length !== 0) {
-    console.log(articles);
     return articles.map((article) => {
       return (
         <div
-          className="articles"
+          className="articles" key='0'
           style={{ backgroundColor: theme.setButtonColor, borderColor: bc}}
         >
-          <Link
+          <Link key={article._id.toString()}
             to={{
-              pathname: `/article/${article.id}/`,
+              pathname: `/article/${article._id}/`,
             }}
           >
-            <img src={article.title_img} className="image" />
-            <h4 className="title" style={{color:theme.setColor}} >
+            <img key={article.title_img.toString()} src={article.title_img} className="image" />
+            <h4 key={article.title} className="title" style={{color:theme.setColor}} >
               {article.title}
             </h4>
-            <h4 className="user"  style={{color:theme.setColor}}>
+            <h4 key={article.user} className="user"  style={{color:theme.setColor}}>
               {" "}
-              <FontAwesomeIcon icon="fa-solid fa-user" /> {article.user}
+              <FontAwesomeIcon key={article.user} icon="fa-solid fa-user" /> {article.user}
             </h4>
-            <h4 className="date"  style={{color:theme.setColor}}>
-              <FontAwesomeIcon icon="fa-solid fa-calendar" /> {article.date}
+            <h4 key={article.date.toString()} className="date"  style={{color:theme.setColor}}>
+              <FontAwesomeIcon  key={article.date.toString()} icon="fa-solid fa-calendar" /> {article.date}
             </h4>
-            <button className="tag-sec" disabled>
-              <h4 style={{ color: tagColor }}>{article.tag}</h4>
+            <button key={article.tag} className="tag-sec" disabled>
+              <h4 key={article.tag} style={{ color: tagColor }}>{article.tag}</h4>
             </button>
           </Link>
         </div>
@@ -57,28 +56,28 @@ let ListAllArticles = ({ articles,articleList,theme}) => {
   } else {
     return articleList.map((article) => {
       return (
-        <div
-          className="articles"
+        <div key={article._id.toString()+"1"}
+          className="articles" 
           style={{ backgroundColor: theme.setButtonColor, borderColor: bc, color: theme.setColor}}
         >
           <Link
             to={{
-              pathname: `/article/${article.id}/`,
-            }}
+              pathname: `/article/${article._id}/`,
+            }} key={article._id.toString()}
           >
-            <img src={article.title_img} className="image" />
-            <h4 className="title"  style={{color:theme.setColor}}>
+            <img  key={article.title_img.toString()} src={article.title_img} className="image" />
+            <h4 key={article.title} className="title"  style={{color:theme.setColor}}>
               {article.title}
             </h4>
-            <h4 className="user" style={{color:theme.setColor}} >
+            <h4 key={article.user} className="user" style={{color:theme.setColor}} >
               {" "}
-              <FontAwesomeIcon icon="fa-solid fa-user" /> {article.user}
+              <FontAwesomeIcon key={article.user} icon="fa-solid fa-user" /> {article.user}
             </h4>
-            <h4 className="date" style={{ color: theme.setColor }}>
-              <FontAwesomeIcon icon="fa-solid fa-calendar" /> {article.date}
+            <h4 key= {article.date.toString()} className="date" style={{ color: theme.setColor }}>
+              <FontAwesomeIcon key={article.date.toString()} icon="fa-solid fa-calendar" /> {article.date}
             </h4>
-            <button className="tag-sec" disabled>
-              <h4 style={{ color: tagColor }}>{article.tag}</h4>
+            <button key={article.tag.toString()} className="tag-sec" disabled>
+              <h4 key={article.tag.toString()} style={{ color: tagColor }}>{article.tag}</h4>
             </button>
           </Link>
         </div>
@@ -128,12 +127,6 @@ const Articles = () => {
 
   return (
     <div style={{ backgroundColor: theme.setBg, color: theme.setTextColor}} className="main">
-      <head>
-        <script
-          src="https://kit.fontawesome.com/fa2d825a51.js"
-          crossorigin="anonymous"
-        ></script>
-      </head>
       <articleContext.Provider value={articleList}>
         
       <Navigation   ></Navigation>
@@ -145,11 +138,11 @@ const Articles = () => {
           onChange={(e) => handleTagChange(e)}
         >
           <option>Sort By...</option>
-          <option name="name" className="programming">
+          <option name="name" value='programming' className="programming">
             programming
           </option>
-          <option name="name" className="programming">
-            another tag
+          <option value='science' name="name" className="programming">
+            science
           </option>
         </select>
       </div>

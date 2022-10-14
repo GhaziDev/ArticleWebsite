@@ -3,9 +3,22 @@ import {useState,useEffect} from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import CsrfToken from "./csrf";
 import Cookies from "js-cookie";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBorderNone, faHome } from "@fortawesome/free-solid-svg-icons";
+
+function Popup({isSent}){
+    if(isSent){
+    return(
+        <div style={{backgroundColor:'limegreen'}}>An Email has been sent!</div>
+    )
+    }
+    return null
+}
 
 function PasswordResetAsk(){
     let [email,setEmail] = useState({'email':''})
+    let [isSent,setIsSent] = useState(false)
+    let redirect = useNavigate
     let handleChange = (e)=>{
         setEmail(
             {
@@ -17,6 +30,10 @@ function PasswordResetAsk(){
     let submitChange = (e)=>{
         e.preventDefault()
         axios.post('http://127.0.0.1:8000/reset/',email,{headers:{'X-CSRFTOKEN':Cookies.get('csrftoken')}}).then((res)=>{
+            setIsSent(true)
+            setEmail({'email':''})
+           
+
         }).catch((e)=>{
             console.log(e.response.data)
         })
@@ -25,11 +42,13 @@ function PasswordResetAsk(){
     return(
         <form method='post' onSubmit={(e)=>submitChange(e)}>
         <div className='reset-page-div'>
-            
+        <button  className='top-left'  style={{backgroundColor:'white'}} onClick={()=>redirect('/')}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
+
             <h1>Reset Password Page</h1>
             <label>Email</label>
             <input className="email-inp" name='email'  value={email.email} onChange={(e)=>handleChange(e)}></input>
             <button type='submit'>Send reset link</button>
+            <Popup isSent={isSent}></Popup>
             
         </div>
         </form>
@@ -49,6 +68,8 @@ function PasswordResetPage(){
     let [password,setPassword] = useState('')
     let [confirm,setConfirm] = useState('')
     let [found,setFound] = useState({'found':true,val:0})
+    let redirect = useNavigate()
+
     let handleChange = (e)=>{
         setPassword(
             e.target.value
@@ -73,7 +94,9 @@ function PasswordResetPage(){
     
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post(`http://127.0.0.1:8000/reset/${token}/${id}/`,{"password":password},{headers:{'X-CSRFTOKEN':Cookies.get('csrftoken')}}).catch((e)=>{
+        axios.post(`http://127.0.0.1:8000/reset/${token}/${id}/`,{"password":password},{headers:{'X-CSRFTOKEN':Cookies.get('csrftoken')}}).then((res)=>{
+            redirect('/')
+        }).catch((e)=>{
         })
     }
 
@@ -87,6 +110,7 @@ function PasswordResetPage(){
     return(
         <form method='post' onSubmit={(e)=>handleSubmit(e)}>
         <div className='pass_change'>
+        <button  className='top-left'  style={{backgroundColor:'white'}} onClick={()=>redirect('/')}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
             <label>Password : </label>
             <input type='password' required value={password} onChange={(e)=>handleChange(e)}></input>
             <label>Confirm Password </label>

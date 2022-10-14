@@ -3,6 +3,8 @@ import {React,useState,useEffect} from 'react';
 import {useNavigate,Link} from 'react-router-dom';
 import Cookies from 'js-cookie';
 import CsrfToken from './csrf.js';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -45,6 +47,7 @@ const Login = ()=>{
     let [errorText,setErrorText] = useState('')
     let [isError,setIsError] = useState(false);
     let [isAuth,setIsAuth] = useState(false);
+    let redirect = useNavigate()
 
     let handleChange = (e)=>{
         setLogin(
@@ -97,6 +100,7 @@ const Login = ()=>{
 
     return(
         <div className='login-page' id='loginpage'>
+             <button  className='top-left'  style={{backgroundColor:'white'}} onClick={()=>redirect('/')}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
             <IsAuthenticated errorText={errorText} errored={isError} handleChange={handleChange} email={email} password={password} handleSubmit={handleSubmit} auth={isAuth}></IsAuthenticated>
         </div>
     )

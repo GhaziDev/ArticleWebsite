@@ -3,6 +3,14 @@ import Cookies from "js-cookie";
 import { React, useState, useEffect } from "react";
 import { Dialog } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
+import CsrfToken from "./csrf";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+	Checkbox
+} from "@mui/material";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { faHome } from "@fortawesome/free-solid-svg-icons";
 
 function VerfiyAcc({isUp}){
     if(isUp)
@@ -30,11 +38,14 @@ function WrongUserPass({ error }) {
 }
 
 const Signup = () => {
+
   const [signup, setSignup] = useState({
     username: "",
     email: "",
     password: "",
   });
+
+
   const [exist, setExist] = useState({
     display: "none",
     color: "red",
@@ -42,30 +53,78 @@ const Signup = () => {
     alignItems: "center",
     textAlign: "center",
   });
-  const [pass, setPass] = useState({
-    display: "none",
-    color: "red",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center",
-  });
-  const [innerHtml, setInnerHtml] = useState("");
+
+  const [innerHtml, setInnerHtml] = useState({"username":"","password":""});
   const [isUp,setIsUp] = useState(false)
-  const [disabled,isDisabled] = useState(false)
+  const [disabled,setDisabled] = useState(false)
   const { username, email, password } = signup;
-  const redirect = useNavigate();
   const [error, setError] = useState("");
+  const [showOrHidePassword,setShowOrHidePassword] = useState({'type':'password'})
+  const {type} = showOrHidePassword
+  const redirect = useNavigate();
+
+  const handleToggle = (e)=>{
+    if(e.target.checked){
+      setShowOrHidePassword({
+        type:'text'
+      }
+      )
+    }
+    else{
+      setShowOrHidePassword(
+        {
+          type:'password'
+        }
+      )
+    }
+  }
+  useEffect(()=>{
+    axios.post('http://127.0.0.1:8000/password-valid/',{password:password},{headers:{'X-CSRFToken':Cookies.get('csrf')}}).then((res)=>{
+      setInnerHtml(
+        {
+          ...innerHtml,
+          password:""
+        }
+      )
+    }).catch((e)=>{
+      if (password.trim().length === 0) {
+        setExist({
+          ...exist,
+          display: "none",
+        });
+      } 
+      else {
+        setExist({
+          ...exist,
+          display: "flex",
+          color: "red",
+        });
+        setInnerHtml({
+          ...innerHtml,
+          password:e.response.data
+        });
+      }
+      setDisabled(true)
+    })
+  },[password])
+
   useEffect(() => {
     axios
-      .post("https://backend.globeofarticles.com/exists/", { username: username })
+      .post("http://127.0.0.1:8000/exists/", { username: username })
       .then((res) => {
         setExist({
           ...exist,
           display: "flex",
           color: "yellowgreen",
         });
-        setInnerHtml(res.data);
+        setInnerHtml(({
+          ...innerHtml,
+          username:res.data
+        }
+        ));
+        setDisabled(false)
       })
+
       .catch((e) => {
         if (username.trim().length === 0) {
           setExist({
@@ -78,8 +137,12 @@ const Signup = () => {
             display: "flex",
             color: "red",
           });
-          setInnerHtml(e.response.data);
+          setInnerHtml({
+            ...innerHtml,
+            username:e.response.data
+          });
         }
+        setDisabled(true)
       });
   }, [username]);
 
@@ -89,35 +152,58 @@ const Signup = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(()=>{
+    axios.get('http://127.0.0.1:8000/csrf/').then((res)=>{
+      Cookies.set('csrftoken',res.data.csrftoken)
+    })
+  },[])
   let handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://backend.globeofarticles.com/signup/", signup, {
+      .post("http://127.0.0.1:8000/signup/", signup, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
       .then((res) => {
-        isDisabled(true)
+        setDisabled(true)
         setIsUp(true)
+
         setTimeout(()=>{setIsUp(false)
-        redirect('/')},5000)
+        redirect('/')},3000)
         
 
       })
       .catch((e) => {
+        console.log(e.response.data)
         let err = e.response.data
         setError(err);
       });
   };
 
+  function listPasswordErrors(){
+    if(innerHtml.password){
+    return(
+      innerHtml.password.map((index)=>{
+        return(
+          <div>{index}</div>
+        )
+      })
+    )
+  }
+  return null
+}
+
   return (
     <div className="signup-page">
+       <button  className='top-left'  style={{backgroundColor:'white'}} onClick={()=>redirect('/')}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
       <form
         method="post"
         onSubmit={(e) => handleSubmit(e)}
         autoComplete="off"
         autoCorrect="off"
       >
+        <CsrfToken></CsrfToken>
         <div className="signup-form">
           <h1>Signup Page</h1>
           <input
@@ -131,7 +217,7 @@ const Signup = () => {
             placeholder="Username"
             value={username}
           ></input>
-          <div style={exist}>{innerHtml}</div>
+          <div style={exist}>{innerHtml.username}</div>
           <input
             required
             type="email"
@@ -143,16 +229,18 @@ const Signup = () => {
           ></input>
           <input
             required
-            type="password"
+            type={type}
             name="password"
             className="password-inp"
             onChange={(e) => handleChange(e)}
             placeholder="Password"
             value={password}
           ></input>
+          <Checkbox className='hide-show' type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon/>} checkedIcon={<VisibilityOffIcon/>} />
+          <div style={{color:'red'}}>{listPasswordErrors()}</div>
           <VerfiyAcc isUp={isUp}></VerfiyAcc>
           <WrongUserPass error={error}></WrongUserPass>
-          <button type="submit" className="signupsbmt" disabled={disabled}>
+          <button type="submit" className="signupsbmt" disabled={disabled} >
             Signup
           </button>
           <Link to="/login">Already have an account?</Link>

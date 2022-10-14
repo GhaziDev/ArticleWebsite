@@ -10,11 +10,19 @@ import {themeContext} from '../App.js'
 import { Dialog, TextField } from '@mui/material';
 import {ThemeSwitch} from './navig.js'
 import parse, { domToReact } from 'html-react-parser';
+import { Editor } from 'draft-js';
 import convert from 'htmr';
+import { EditorState } from 'draft-js';
+import "./react-draft-wysiwyg.css";
+import draftToHtml from 'draftjs-to-html';
+import { convertToRaw } from 'draft-js';
 
 
 const EditArticle = ({user,article,theme,description,id,setArticle,redirect})=>{
     let [open,setOpen] = useState(false)
+    const [editorState, setEditorState] = useState(() =>
+    EditorState?.createEmpty(),
+    )
     let handleEdit = (e)=>{
         e.preventDefault()
         axios.put(`http://127.0.0.1:8000/articles/${id}/`,article,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
@@ -31,35 +39,36 @@ const EditArticle = ({user,article,theme,description,id,setArticle,redirect})=>{
     }
 
     let handleDescriptionChange = (e)=>{
+        let html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
+        console.log(html)
         setArticle(
-            {
-                ...article,description:e.target.value
-            }
+          {
+            ...article,
+            'description':html
+          }
         )
+        
     }
 
     if(user===article.user){ //comparing the current user id to the owner user id (owner of post)
 
         return(
-        <div className='edit-div'>
+        <div className='a'>
+           
+         <head><meta charset="utf-8" /></head>
         <button className='edit-btn' onClick={()=>setOpen(true)} style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}>Edit</button>
-        <Dialog  open={open} onClose={()=>setOpen(false)}>
+
+        <Dialog  open={open} onClose={()=>setOpen(false)} fullWidth={true} maxWidth='lg' className='dialog'>
             <button onClick={()=>setOpen(false)} style={{backgroundColor:'red',color:'white'}} className='edit-btn'>Close</button>
-            <form width={100} method='put' onSubmit={(e)=>handleEdit(e)}>
-            <TextField
-        multiline={true}
-        inputProps={{minLength:4000,style:{backgroundColor:theme.setButtonColor,color:theme.setTextColor,width:'600px',height:'800px'}}}
-        maxRows={7}
-          required
-          fullWidth={true} maxWidth='lg' 
-          name="description"
-          value={description}
-          onChange={(e) => handleDescriptionChange(e)}
-          placeholder="Write a description"
-        ></TextField>
+            <div class='dialog-content'>
+            <form  method='put' onSubmit={(e)=>handleEdit(e)}className='dialog-form'>
+                <div className='editor-div'>
+            <Editor UploadEnabled wrapperClassName='editor'  onChange={(e)=>handleDescriptionChange(e)} editorClassName='texteditor'editorState={editorState} onEditorStateChange={setEditorState}></Editor>
+            </div>
         <button type='submit' className='edit-btn' style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}>Submit Change</button>
                 
                 </form>      
+                </div>
 
         </Dialog>
     </div>
@@ -69,6 +78,7 @@ const EditArticle = ({user,article,theme,description,id,setArticle,redirect})=>{
 }
 
 const DeleteArticle = ({user,article,id,redirect})=>{
+    const {theme} = useContext(themeContext)
     let [open,setOpen] = useState(false)
     let handleDelete= (e)=>{
         e.preventDefault()
@@ -81,16 +91,15 @@ const DeleteArticle = ({user,article,id,redirect})=>{
 
     if(user===article.user){
         return(
-            <div className='delete-div'>
+            <div className='delete-div' >
                 <button className='delete-btn' onClick={()=>setOpen(true)} >Delete</button>
-                <Dialog open={open} onClose ={()=>setOpen(false)}>
+                <Dialog open={open} onClose ={()=>setOpen(false)} style={{backgroundColor:theme.setBg}}>
         
-                <form method='delete' onSubmit={(e)=>handleDelete(e)}>
+                <form method='delete' onSubmit={(e)=>handleDelete(e)} style={{display:'flex',justifyContent:'center',flexFlow:'column wrap',alignItems:'center',backgroundColor:theme.setBg,color:theme.setTextColor}}>
                     Are you sure you want to delete this article?
-                    <button className='confirm-div' type='submit'>Yes</button>
+                    <button className='delete-btn' type='submit'>Delete</button>
                 </form>
 
-                <button  className='cancel-div'  onClick={()=>setOpen(false)}>Cancel</button>
 
                 </Dialog>
 
@@ -116,6 +125,10 @@ const SpecificArticle = ()=>{
     
     let [allowed,setAllowed] = useState(false)
     let {theme} = useContext(themeContext)
+    let [open,setOpen] = useState(false)
+    const [editorState, setEditorState] = useState(() =>
+    EditorState?.createEmpty(),
+    )
 
 
      useEffect(()=>{
@@ -198,21 +211,20 @@ const SpecificArticle = ()=>{
             <div>
              {commentList.map((comment)=>{
                 return(
-                    <div className='cmntsec'>
+                    <div className='cmntsec' key={comment._id.toString()}>
 
                       
-                        <div className='cmnt-user'>
-                        <FontAwesomeIcon icon={faUser}/> 
-                         {comment.user}    </div>    <div className='cmnt-date'>
+                        <div className='cmnt-user' key={comment.user.toString()}>
+                        <FontAwesomeIcon icon={faUser} key={comment.user.toString()}/> 
+                         {comment.user}    </div>    <div className='cmnt-date' key={comment.date.toString()}>
                         {comment.date}
                         </div>
 
 
-                        <div className = 'descmnt'>
+                        <div className = 'descmnt' key={comment.desc}>
                         {comment.desc}
                         </div>
                        
-                      <p></p>
                     </div>
                 )
             })}
@@ -252,19 +264,18 @@ const SpecificArticle = ()=>{
                     {convert(article.description)}
             </p>
             <div className='article-user'>
-                <FontAwesomeIcon icon={faUser}></FontAwesomeIcon>
+                <FontAwesomeIcon size='lg' icon={faUser}></FontAwesomeIcon>
                 <Link to={{
                     pathname:`/userprofile/${article.user}/`
-                    }}>{article.user}</Link>
+                    }}  style={{textDecoration:'none',color:theme.setColor}}>{article.user}</Link>
+
             </div>
             <div className='article-tag'>
-                <FontAwesomeIcon icon={faTag}></FontAwesomeIcon>
-                <Link to={{
-                    pathname:`/tag/${article.tag}/`
-                }}>{article.tag}</Link>
+                <FontAwesomeIcon size='lg' icon={faTag}></FontAwesomeIcon>
+                {article.tag}
             </div>
             <div className='article-date'>
-                <FontAwesomeIcon icon={faCalendar}></FontAwesomeIcon>
+                <FontAwesomeIcon size='lg' icon={faCalendar}></FontAwesomeIcon>
                 {article.date}
             </div>
             <div className='twobtns'>

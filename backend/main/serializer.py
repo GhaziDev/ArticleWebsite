@@ -8,9 +8,8 @@ import base64
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-
     class Meta:
-        fields = 'id','title','title_img','description','tag','user','date'
+        fields = '_id','title','title_img','description','tag','user','date'
         model = models.Article
 
 
@@ -51,6 +50,9 @@ class SearchSerializer(serializers.Serializer):
 class CheckUserSerializer(serializers.Serializer):
     username = serializers.CharField(required=False)
 
+class CheckPasswordSerializer(serializers.Serializer):
+    password = serializers.CharField(required=False)
+
 
 class OnEditSerializer(serializers.Serializer):
     description = serializers.CharField()
@@ -74,6 +76,7 @@ class PasswordChangeSerializer(serializers.Serializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     user_posts = ArticleSerializer(many=True,read_only=True)
+    user = serializers.CharField()
     class Meta:
         model = models.UserProfile
         fields = 'user','bio','user_posts','img'
