@@ -153,8 +153,9 @@ const Signup = () => {
     });
   };
 
+
   useEffect(()=>{
-    axios.get('http://127.0.0.1:8000/csrf/').then((res)=>{
+    axios.get('https://backend.globeofarticles.com/csrf/').then((res)=>{
       console.log(res.data)
       Cookies.set('csrftoken',res.data.csrftoken)
     })
@@ -163,7 +164,7 @@ const Signup = () => {
   let handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://127.0.0.1:8000/signup/", signup, {
+      .post("http://backend.globeofarticles.com/signup/", signup, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
