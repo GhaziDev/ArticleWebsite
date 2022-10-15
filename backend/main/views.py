@@ -217,9 +217,12 @@ class GetCSRFToken(views.APIView):
     permission_classes = [AllowAny, ]
 
     
-    # @method_decorator(ensure_csrf_cookie)
+    @method_decorator(ensure_csrf_cookie)
     def get(self, request, format=None):
-        return JsonResponse({'csrftoken':get_token(request)})
+        token = get_token(request)
+        resp = Response()
+        resp.set_cookie('csrftoken',token)
+        return JsonResponse({'csrftoken':token})
 
 
 
