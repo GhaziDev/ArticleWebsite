@@ -60,6 +60,7 @@ const Signup = () => {
   const { username, email, password } = signup;
   const [error, setError] = useState("");
   const [showOrHidePassword,setShowOrHidePassword] = useState({'type':'password'})
+  const [style,setStyle] = useState({color:'green'})
   const {type} = showOrHidePassword
   const redirect = useNavigate();
 
@@ -112,6 +113,7 @@ const Signup = () => {
     axios
       .post("https://backend.globeofarticles.com/exists/", { username: username })
       .then((res) => {
+        setStyle({color:'yellowgreen'})
         setExist({
           ...exist,
           display: "flex",
@@ -132,6 +134,7 @@ const Signup = () => {
             display: "none",
           });
         } else {
+          setStyle({color:'red'})
           setExist({
             ...exist,
             display: "flex",
@@ -163,11 +166,13 @@ const Signup = () => {
       .then((res) => {
         setDisabled(true)
         setIsUp(true)
+        setTimeout(()=>{
+          redirect('/')
+        },1500)
         
 
       })
       .catch((e) => {
-        console.log(e.response.data)
         let err = e.response.data
         setError(err);
       });
@@ -209,7 +214,7 @@ const Signup = () => {
             placeholder="Username"
             value={username}
           ></input>
-          <div style={exist}>{innerHtml.username}</div>
+          <div style={style}>{innerHtml.username}</div>
           <input
             required
             type="email"

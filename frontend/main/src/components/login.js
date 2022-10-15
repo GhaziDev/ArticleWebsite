@@ -60,7 +60,7 @@ const Login = ()=>{
     }
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post('http://127.0.0.1:8000/login/',login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
+        axios.post('https://backend.globeofarticles.com/login/',login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
             (res)=>{
 
                     navigate('/',{replace:true})
