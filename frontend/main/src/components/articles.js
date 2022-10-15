@@ -105,13 +105,13 @@ const Articles = () => {
   };
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:8000/articles/").then((res) => {
+    axios.get("https://backend.globeofarticles.com/articles/").then((res) => {
       setArticleList(res.data);
     });
   }, []);
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/csrf/", {
+      .get("https://backend.globeofarticles.com/csrf/", {
         headers: { Authorization: null },
         withCredentials: true,
       })

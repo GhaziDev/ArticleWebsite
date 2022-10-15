@@ -22,7 +22,7 @@ export function EditProfile(){
   const {user} = useParams()
   const redirect = useNavigate('/')
   useEffect(()=>{
-    axios.get(`http://127.0.0.1:8000/userprofile/${user}/`).then((res)=>{
+    axios.get(`https://backend.globeofarticles.com/userprofile/${user}/`).then((res)=>{
         setProfileInfo({
           bio:res.data.bio,
           img:res.data.img
@@ -44,7 +44,7 @@ export function EditProfile(){
     formData.append('user',user)
     formData.append('bio',bio)
     formData.append('img',img)
-    axios.put(`http://127.0.0.1:8000/userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+    axios.put(`https://backend.globeofarticles.com/userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
       redirect(`/userprofile/${user}`)
     }).catch((e)=>{
     })
@@ -84,7 +84,6 @@ function UserProfile(){
     const listUserArticles = (selector)=>{
         const bc = theme === cyanDark.cyan1 ? cyanDark.cyan6 : "white"
         const tagColor = theme === cyanDark.cyan1 ? cyanDark.cyan11 : cyanDark.cyan12
-        console.log(user_posts)
         let articles = user_posts.filter((post)=>post.tag==selector)
         if(articles.length===0){
           articles = user_posts
@@ -125,11 +124,8 @@ function UserProfile(){
 
 
     useEffect(()=>{
-      axios.get('http://127.0.0.1:8000/current/',{withCredentials:true}).then((res)=>{
-        console.log(res.data)
+      axios.get('https://backend.globeofarticles.com/current/',{withCredentials:true}).then((res)=>{
         if(res.data===username){
-          console.log(res.data)
-          console.log(username)
           setIsHidden(false)
         }
         else{
@@ -141,7 +137,7 @@ function UserProfile(){
 
 
     useEffect(()=>{
-      axios.get(`http://127.0.0.1:8000/userprofile/${user}/`).then((res)=>{
+      axios.get(`https://backend.globeofarticles.com/userprofile/${user}/`).then((res)=>{
           setUserInfo({
             username:res.data.user,
             user_posts:[
@@ -165,7 +161,7 @@ function UserProfile(){
       let formData = new FormData()
       formData.append('img',img)
       formData.append('bio',bio)
-      axios.put(`http://127.0.0.1:8000/userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+      axios.put(`https://backend.globeofarticles.com/userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
 
       })
     }

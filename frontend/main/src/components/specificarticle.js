@@ -40,7 +40,6 @@ const EditArticle = ({user,article,theme,description,id,setArticle,redirect})=>{
 
     let handleDescriptionChange = (e)=>{
         let html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-        console.log(html)
         setArticle(
           {
             ...article,

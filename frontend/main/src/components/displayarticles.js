@@ -21,107 +21,6 @@ import createResizeablePlugin from '@draft-js-plugins/resizeable';
 
 
 
-function TextFormat({format,setFormat,modifyText,setModifyText}){
-  //default font weight is 400
-  //bold font weight is 700
-  let {underline,italic,bold} = format
-  let handleChange = (e)=>{
-
-    if(e.target.value==='bold'){
-      setFormat({
-        ...format,
-        'bold':!bold
-      })
-      if(e.target.checked){
-        console.log("this is bold")
-        setModifyText(
-          {
-          ...modifyText,
-          fontWeight:700
-          }
-          
-        )
-      }
-      else{
-        console.log("this is not bold")
-        setModifyText(
-          {
-          ...modifyText,
-          fontWeight:400
-          }
-          
-        )
-      }
-      }
-    if(e.target.value==='italic'){
-      setFormat({
-        ...format,
-        'italic':!italic
-      })
-      if(e.target.checked){
-        setModifyText(
-          {
-          ...modifyText,
-          fontStyle:'italic'
-          }
-          
-        )
-      }
-      else{
-        setModifyText(
-          {
-          ...modifyText,
-          fontStyle:'none'
-          }
-          
-        )
-      }
-
-    }
-    if(e.target.value==='underline'){
-      setFormat({
-        ...format,
-        "underline":!underline
-      })
-      if(e.target.checked){
-        setModifyText(
-          {
-          ...modifyText,
-          textDecoration:"underline"
-          }
-          
-        )
-
-      }
-      else{
-        setModifyText(
-          {
-          ...modifyText,
-          textDecoration:'none'
-          }
-          
-        )
-      }
-    }
-  }
-
-  return(
-    <div className='format' style={{backgroundColor:'white'}}>
-      <input type='checkbox' name='bold'  checked ={bold} value ='bold' onChange={(e)=>handleChange(e)}>
-      </input>
-      <input type='checkbox' name='italic'  checked ={italic} value = 'italic' onChange={(e)=>handleChange(e)}>
-      </input>
-      <input type='checkbox' name='underline'  checked = {underline} value = 'underline' onChange={(e)=>handleChange(e)}>
-      </input>
-    </div>
-  )
-
-
-
- 
-}
-
-
 function InvalidImage({error}){
   if(error){
     return(
@@ -174,13 +73,13 @@ function CharsLeft({ chars, handleCount}) {
     };
 
     const redirectLogout = ()=>{
-      axios.get('http://127.0.0.1:8000/logout/',{withCredentials:true}).then((res)=>{
+      axios.get('https://backend.globeofarticles.com/logout/',{withCredentials:true}).then((res)=>{
         redirect('/login')
       })
 
     }
     useEffect(()=>{
-        axios.get('http://127.0.0.1:8000/current/',{withCredentials:true}).then((res)=>{
+        axios.get('https://backend.globeofarticles.com/current/',{withCredentials:true}).then((res)=>{
             setCurrent(res.data)
         })
     },[])
@@ -222,7 +121,7 @@ function LoginOrLogout({auth,setAuth}){ //Login Or Logout component
     let redirect = useNavigate()
     let {theme}= useContext(themeContext)
     useEffect(()=>{
-        axios.get('http://127.0.0.1:8000/isauthenticated/',{withCredentials:true},{timeout:2000}).then((res)=>{
+        axios.get('https://backend.globeofarticles.com/isauthenticated/',{withCredentials:true},{timeout:2000}).then((res)=>{
             setAuth(true)
         }).catch((e)=>{
             console.log(e.response.data)
@@ -243,7 +142,7 @@ function LoginOrLogout({auth,setAuth}){ //Login Or Logout component
     let handleLogout= (e)=>{
         e.preventDefault()
 
-        axios.get('http://127.0.0.1:8000/logout/',{withCredentials:true},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.get('https://backend.globeofarticles.com/logout/',{withCredentials:true},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             
             redirect('/login')
         }).catch((err)=>{
@@ -304,7 +203,6 @@ function DisplayDialogOrAuth() {
 
     let handleText = (e)=>{
       let html = draftToHtml(convertToRaw(editorState.getCurrentContent()));
-      console.log(html)
       setArticle(
         {
           ...article,
@@ -328,7 +226,7 @@ function DisplayDialogOrAuth() {
     formData.append("description", description);
     formData.append("date", date);
     axios
-      .post("http://127.0.0.1:8000/articles/", formData, {
+      .post("https://backend.globeofarticles.com/articles/", formData, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
@@ -380,7 +278,7 @@ return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, '');
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/current/",{withCredentials:true})
+      .get("https://backend.globeofarticles.com/current/",{withCredentials:true})
       .then((res) => {
         setArticle({
           ...article,
@@ -418,14 +316,14 @@ return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, '');
     };
   
     useEffect(()=>{
-      axios.get('http://127.0.0.1:8000/verified/',{withCredentials:true}).then((res)=>{
+      axios.get('https://backend.globeofarticles.com/verified/',{withCredentials:true}).then((res)=>{
         setVerified(res.data)
       })
     },[isVerified])
 
     useEffect(() => {
         axios
-          .get("http://127.0.0.1:8000/isauthenticated/", { withCredentials: true })
+          .get("https://backend.globeofarticles.com/isauthenticated/", { withCredentials: true })
           .then((res) => {
             setAuth(true)
           })

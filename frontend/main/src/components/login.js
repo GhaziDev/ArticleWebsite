@@ -60,7 +60,7 @@ const Login = ()=>{
     }
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post('http://127.0.0.1:8000/login/',login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
+        axios.post('https://backend.globeofarticles.com/login/',login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
             (res)=>{
 
                     navigate('/',{replace:true})
@@ -77,14 +77,14 @@ const Login = ()=>{
     }
 // useRef on a div
     useEffect(() => {
-        axios.get('http://127.0.0.1:8000/csrf/', {
+        axios.get('https://backend.globeofarticles.com/csrf/', {
                 headers: { 'Authorization': null },
                 withCredentials: true,
             }
         )
     }, []);
     useEffect(()=>{
-        axios.get('http://127.0.0.1:8000/isauthenticated/',{withCredentials:true}).then((res)=>{
+        axios.get('https://backend.globeofarticles.com/isauthenticated/',{withCredentials:true}).then((res)=>{
             setIsAuth(true)
         
 
