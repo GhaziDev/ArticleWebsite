@@ -28,7 +28,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['139.99.169.115','globeofarticles','127.0.0.1','localhost','backend.globeofarticles.com','globeofarticles.com','www.globeofarticles.com','https://globeofarticles.com']
+ALLOWED_HOSTS = ['139.99.169.115','globeofarticles','127.0.0.1','localhost','backend.globeofarticles.com','globeofarticles.com','www.globeofarticles.com','https://globeofarticles.com','https://backend.globeofarticles.com']
 ACCESS_CONTROL_ALLOW_ORIGIN = '*'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -38,7 +38,7 @@ ACCESS_CONTROL_ALLOW_HEADERS = '*'
 SECURE_SSL_REDIRECT = False
 CSRF_TRUSTED_ORIGINS = [ 
     "http://127.0.0.1:3000",'http://127.0.0.1:8000','http://localhost:3000',
-'https://globeofarticles.com','https://www.globeofarticles.com'
+'https://globeofarticles.com','https://www.globeofarticles.com','https://backend.globeofarticles.com',
 ]
 '''
 SESSION_COOKIE_SECURE = True

@@ -76,13 +76,6 @@ const Login = ()=>{
 
     }
 // useRef on a div
-    useEffect(() => {
-        axios.get('https://backend.globeofarticles.com/csrf/', {
-                headers: { 'Authorization': null },
-                withCredentials: true,
-            }
-        )
-    }, []);
     useEffect(()=>{
         axios.get('https://backend.globeofarticles.com/isauthenticated/',{withCredentials:true}).then((res)=>{
             setIsAuth(true)

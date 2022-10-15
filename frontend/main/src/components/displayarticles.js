@@ -120,6 +120,8 @@ function CharsLeft({ chars, handleCount}) {
 function LoginOrLogout({auth,setAuth}){ //Login Or Logout component
     let redirect = useNavigate()
     let {theme}= useContext(themeContext)
+
+
     useEffect(()=>{
         axios.get('https://backend.globeofarticles.com/isauthenticated/',{withCredentials:true},{timeout:2000}).then((res)=>{
             setAuth(true)

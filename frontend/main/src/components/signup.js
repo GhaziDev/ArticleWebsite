@@ -155,6 +155,7 @@ const Signup = () => {
 
   useEffect(()=>{
     axios.get('https://backend.globeofarticles.com/csrf/').then((res)=>{
+      console.log(res.data)
       Cookies.set('csrftoken',res.data.csrftoken)
     })
   },[])
@@ -240,7 +241,7 @@ const Signup = () => {
           <div style={{color:'red'}}>{listPasswordErrors()}</div>
           <VerfiyAcc isUp={isUp}></VerfiyAcc>
           <WrongUserPass error={error}></WrongUserPass>
-          <button type="submit" className="signupsbmt" disabled={disabled} >
+          <button type="submit" className="signupsbmt"  >
             Signup
           </button>
           <Link to="/login">Already have an account?</Link>
