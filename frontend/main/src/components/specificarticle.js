@@ -25,7 +25,7 @@ const EditArticle = ({user,article,theme,description,id,setArticle,redirect})=>{
     )
     let handleEdit = (e)=>{
         e.preventDefault()
-        axios.put(`http://127.0.0.1:8000/articles/${id}/`,article,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.put(`https://backend.globeofarticles.com/articles/${id}/`,article,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             setArticle({
                 ...article,description:res.data
 
@@ -81,7 +81,7 @@ const DeleteArticle = ({user,article,id,redirect})=>{
     let [open,setOpen] = useState(false)
     let handleDelete= (e)=>{
         e.preventDefault()
-        axios.delete(`http://127.0.0.1:8000/articles/${id}/`,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.delete(`https://backend.globeofarticles.com/articles/${id}/`,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             redirect('/')
         }).catch((e)=>{
             console.log(e.response.data)
@@ -131,7 +131,7 @@ const SpecificArticle = ()=>{
 
 
      useEffect(()=>{
-        axios.get('http://127.0.0.1:8000/current/',{withCredentials:true}).then((res)=>{
+        axios.get('https://backend.globeofarticles.com/current/',{withCredentials:true}).then((res)=>{
             setComment(
                 {...comment
                 ,user:res.data
@@ -144,7 +144,7 @@ const SpecificArticle = ()=>{
 
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post('http://127.0.0.1:8000/comments/',comment,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.post('https://backend.globeofarticles.com/comments/',comment,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             setUpdated(updated+1)
             setComment({
                 ...comment,
@@ -166,10 +166,10 @@ const SpecificArticle = ()=>{
     }
     
     useEffect(()=>{
-        axios.get(`http://127.0.0.1:8000/articles/${id}/`).then((res)=>{
+        axios.get(`https://backend.globeofarticles.com/articles/${id}/`).then((res)=>{
             setArticle(res.data)
             
-            axios.get(`http://127.0.0.1:8000/comments/`).then((res)=>{
+            axios.get(`https://backend.globeofarticles.com/comments/`).then((res)=>{
                 setCommentList(
                      res.data.filter((comment)=>{return id==comment.article})
                 )
@@ -190,7 +190,7 @@ const SpecificArticle = ()=>{
         },[updated])
     
         useEffect(()=>{
-            axios.get('http://127.0.0.1:8000/isauthenticated/',{withCredentials:true}).then((res)=>{
+            axios.get('https://backend.globeofarticles.com/isauthenticated/',{withCredentials:true}).then((res)=>{
                 setAllowed(true)
 
         }).catch((e)=>{

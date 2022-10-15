@@ -153,14 +153,6 @@ const Signup = () => {
     });
   };
 
-
-  useEffect(()=>{
-    axios.get('https://backend.globeofarticles.com/csrf/').then((res)=>{
-      console.log(res.data)
-      Cookies.set('csrftoken',res.data.csrftoken)
-    })
-  },[])
-
   let handleSubmit = (e) => {
     e.preventDefault();
     axios
@@ -171,9 +163,6 @@ const Signup = () => {
       .then((res) => {
         setDisabled(true)
         setIsUp(true)
-
-        setTimeout(()=>{setIsUp(false)
-        redirect('/')},3000)
         
 
       })

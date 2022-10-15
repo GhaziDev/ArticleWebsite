@@ -87,7 +87,6 @@ class TagView(viewsets.ModelViewSet):
     queryset = models.Tag.objects.all()
 
 
-@method_decorator(csrf_protect,name='dispatch')
 class SignupView(viewsets.ModelViewSet):
     serializer_class = serializer.SignupSerializer
 
@@ -163,6 +162,7 @@ class CommentView(viewsets.ModelViewSet):
         comments = models.Comment.objects.all()
 
         return comments
+    @method_decorator(ensure_csrf_cookie,csrf_protect)
     def create(self,request):
         data = serializer.CommentSerializer(data=request.data)
         if data.is_valid():
@@ -179,6 +179,8 @@ class CommentView(viewsets.ModelViewSet):
 class LoginView(views.APIView):
     permission_classes = [AllowAny,]
     serializer_class = serializer.LoginSerializer
+
+    @method_decorator(csrf_protect,ensure_csrf_cookie)
 
     def post(self,request):
         data = serializer.LoginSerializer(data=request.data)
@@ -219,10 +221,7 @@ class GetCSRFToken(views.APIView):
     
     @method_decorator(ensure_csrf_cookie)
     def get(self, request, format=None):
-        token = get_token(request)
-        resp = Response()
-        resp.set_cookie('csrftoken',token)
-        return JsonResponse({'csrftoken':token})
+        return JsonResponse({'csrftoken':get_token(request)})
 
 
 
@@ -262,7 +261,8 @@ class UserProfileView(viewsets.ModelViewSet):
     lookup_field = 'user'
     def get_queryset(self): # fetching profiles
         return models.UserProfile.objects.all()
-    
+
+    @method_decorator(ensure_csrf_cookie,csrf_protect)
     def update(self,request,user): # creating profile
         permission_classes = [IsAuthenticated,]
         data = serializer.UserProfileSerializer(data=request.data)
@@ -287,6 +287,7 @@ class UserProfileView(viewsets.ModelViewSet):
     
 class PasswordResetView(views.APIView):
     serializer_class = serializer.PasswordResetSerializer
+    @method_decorator(ensure_csrf_cookie,csrf_protect)
     def post(self,request):
         data = serializer.PasswordResetSerializer(data=request.data)
         if data.is_valid():
@@ -298,6 +299,8 @@ class PasswordResetView(views.APIView):
 
 class PasswordChangeView(views.APIView):
     serializer_class = serializer.PasswordChangeSerializer
+
+    @method_decorator(ensure_csrf_cookie,csrf_protect)
     def post(self,request,token,id):
         data = serializer.PasswordChangeSerializer(data=request.data)
         if data.is_valid():
