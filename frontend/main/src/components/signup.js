@@ -164,7 +164,7 @@ const Signup = () => {
   let handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://backend.globeofarticles.com/signup/", signup, {
+      .post("https://backend.globeofarticles.com/signup/", signup, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
