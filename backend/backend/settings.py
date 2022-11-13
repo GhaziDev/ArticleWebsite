@@ -45,6 +45,13 @@ CSRF_TRUSTED_ORIGINS = [
 'https://globeofarticles.com','https://www.globeofarticles.com','https://backend.globeofarticles.com',
 'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com','globeofarticles.com','https://globeofarticles.com'
 ]
+
+CUSTOM_HEADERS = (
+    'Access-Control-Allow-Origin',
+    'Token',
+    'User-Type'
+)
+CORS_ALLOW_HEADERS = default_headers + CUSTOM_HEADERS
 '''
 SESSION_COOKIE_SECURE = True
 
