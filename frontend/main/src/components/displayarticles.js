@@ -81,6 +81,7 @@ function DisplayDialogOrLogin(){
         redirect(`/article/${res.data}`)
       })
       .catch((e) => {
+        console.log(e.response.data)
         setError(e.response.data)
       
 
