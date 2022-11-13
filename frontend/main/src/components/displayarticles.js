@@ -73,8 +73,7 @@ function DisplayDialogOrLogin(){
     formData.append("tag", tag);
     formData.append("description", description);
     formData.append("date", date);
-    axios
-      .post("https://backend.globeofarticles.com/articles/", formData, {
+    axios.post("https://backend.globeofarticles.com/articles/", formData, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
@@ -241,9 +240,14 @@ function DisplayDialogOrLogin(){
 function InvalidImage({error}){
   if(error){
     return(
-      <div className='imgerror' style={{color:'red'}}>
-        {error}
+      error.map((err)=>{
+        return(
+          <div className='imgerror' style={{color:'red'}}>
+        {err}
       </div>
+        )
+      })
+      
     )
   }
   return null
@@ -458,6 +462,7 @@ function DisplayDialogOrAuth() {
         redirect(`/article/${res.data}`)
       })
       .catch((e) => {
+
         setError(e.response.data)
       
 
