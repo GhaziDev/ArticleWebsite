@@ -50,7 +50,8 @@ SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_PATH = '/'
 '''
-CSRF_COOKIE_SAMESITE = 'Strict'  
+CSRF_COOKIE_SAMESITE = 'Secure'
+  
 
 
 
