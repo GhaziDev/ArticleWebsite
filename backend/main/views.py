@@ -53,7 +53,7 @@ class ArticleView(viewsets.ModelViewSet):
         queryset = models.Article.objects.all()
         return queryset
     
-    @method_decorator(ensure_csrf_cookie,csrf_protect)
+    @method_decorator(ensure_csrf_cookie)
     def create(self,request):
         authentication_classes = [SessionAuthentication]
         permissions_classes = [IsAuthenticated]
@@ -100,7 +100,7 @@ class SignupView(viewsets.ModelViewSet):
         queryset = models.CustomUser.objects.all()
         return queryset
     
-    @method_decorator(ensure_csrf_cookie,csrf_protect)
+    @method_decorator(ensure_csrf_cookie)
     def create(self,request):
         data = serializer.SignupSerializer(data=request.data)
         if data.is_valid():
@@ -175,7 +175,7 @@ class CommentView(viewsets.ModelViewSet):
             return Response(comment,status=200)
         return Response('could not validate data',status=400)
 
-    @method_decorator(ensure_csrf_cookie,csrf_protect)
+    @method_decorator(ensure_csrf_cookie)
     def create(self,request):
         data = serializer.CommentSerializer(data=request.data)
         if data.is_valid():
@@ -276,7 +276,7 @@ class UserProfileView(viewsets.ModelViewSet):
     def get_queryset(self): # fetching profiles
         return models.UserProfile.objects.all()
 
-    @method_decorator(ensure_csrf_cookie,csrf_protect)
+    @method_decorator(ensure_csrf_cookie)
     def update(self,request,user): # creating profile
         permission_classes = [IsAuthenticated,]
         data = serializer.UserProfileSerializer(data=request.data)
@@ -309,7 +309,7 @@ class UserProfileView(viewsets.ModelViewSet):
     
 class PasswordResetView(views.APIView):
     serializer_class = serializer.PasswordResetSerializer
-    @method_decorator(ensure_csrf_cookie,csrf_protect)
+    @method_decorator(ensure_csrf_cookie)
     def post(self,request):
         data = serializer.PasswordResetSerializer(data=request.data)
         if data.is_valid():
@@ -326,7 +326,7 @@ class PasswordResetView(views.APIView):
 class PasswordChangeView(views.APIView):
     serializer_class = serializer.PasswordChangeSerializer
 
-    @method_decorator(ensure_csrf_cookie,csrf_protect)
+    @method_decorator(ensure_csrf_cookie)
     def post(self,request,token):
         data = serializer.PasswordChangeSerializer(data=request.data)
         if data.is_valid():
