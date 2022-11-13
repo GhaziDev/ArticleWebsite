@@ -27,7 +27,7 @@ const EditArticle = ({user,article,theme,description,id,setArticle,redirect})=>{
     )
     let handleEdit = (e)=>{
         e.preventDefault()
-        axios.put(`https://www.backend.globeofarticles.com/articles/${id}/`,article,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.put(`https://backend.globeofarticles.com/articles/${id}/`,article,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             setArticle({
                 ...article,description:res.data
 
@@ -83,7 +83,7 @@ const DeleteArticle = ({user,article,id,redirect})=>{
     let [open,setOpen] = useState(false)
     let handleDelete= (e)=>{
         e.preventDefault()
-        axios.delete(`https://www.backend.globeofarticles.com/articles/${id}/`,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.delete(`https://backend.globeofarticles.com/articles/${id}/`,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             redirect('/')
         }).catch((e)=>{
             console.log(e.response.data)
@@ -133,7 +133,7 @@ const SpecificArticle = ()=>{
 
 
      useEffect(()=>{
-        axios.get('https://www.backend.globeofarticles.com/current/',{withCredentials:true}).then((res)=>{
+        axios.get('https://backend.globeofarticles.com/current/',{withCredentials:true}).then((res)=>{
             setComment(
                 {...comment
                 ,user:res.data.user
@@ -148,7 +148,7 @@ const SpecificArticle = ()=>{
 
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post('https://www.backend.globeofarticles.com/comments/',comment,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.post('https://backend.globeofarticles.com/comments/',comment,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             setUpdated(updated+1)
             setComment({
                 ...comment,
@@ -172,11 +172,11 @@ const SpecificArticle = ()=>{
     }
     
     useEffect(()=>{
-        axios.get(`https://www.backend.globeofarticles.com/articles/${id}/`).then((res)=>{
+        axios.get(`https://backend.globeofarticles.com/articles/${id}/`).then((res)=>{
             setArticle(res.data)
             console.log(res.data)
             
-            axios.get(`https://www.backend.globeofarticles.com/comments_of_article/${id}/`).then((res)=>{
+            axios.get(`https://backend.globeofarticles.com/comments_of_article/${id}/`).then((res)=>{
                 console.log(res.data)
         
                 setCommentList(
@@ -198,7 +198,7 @@ const SpecificArticle = ()=>{
         },[updated])
     
         useEffect(()=>{
-            axios.get('https://www.backend.globeofarticles.com/isauthenticated/',{withCredentials:true}).then((res)=>{
+            axios.get('https://backend.globeofarticles.com/isauthenticated/',{withCredentials:true}).then((res)=>{
                 setAllowed(true)
 
         }).catch((e)=>{

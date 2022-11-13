@@ -32,7 +32,7 @@ function PasswordResetAsk(){
 
     let submitChange = (e)=>{
         e.preventDefault()
-        axios.post('https://www.backend.globeofarticles.com/reset/',email,{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.post('https://backend.globeofarticles.com/reset/',email,{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             setIsSent(true)
             setEmail({'email':''})
            
@@ -93,7 +93,7 @@ function PasswordResetPage(){
 
 
     useEffect(()=>{
-        axios.get(`https://www.backend.globeofarticles.com/reset/${token}/`).then((e)=>{
+        axios.get(`https://backend.globeofarticles.com/reset/${token}/`).then((e)=>{
             setFound({'found':true,val:1})
             found.val = 1
             console.log(found.val)
@@ -104,7 +104,7 @@ function PasswordResetPage(){
     
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post(`https://www.backend.globeofarticles.com/reset/${token}/`,{"password":password},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.post(`https://backend.globeofarticles.com/reset/${token}/`,{"password":password},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             redirect('/')
         }).catch((e)=>{
             console.log(e.response.data)

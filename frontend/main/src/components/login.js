@@ -63,7 +63,7 @@ const Login = ()=>{
     }
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post('https://www.backend.globeofarticles.com/login/',login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
+        axios.post('https://backend.globeofarticles.com/login/',login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
             (res)=>{
 
                     navigate('/',{replace:true})
@@ -81,7 +81,7 @@ const Login = ()=>{
     }
 // useRef on a div
     useEffect(()=>{
-        axios.get('https://www.backend.globeofarticles.com/isauthenticated/',{withCredentials:true}).then((res)=>{
+        axios.get('https://backend.globeofarticles.com/isauthenticated/',{withCredentials:true}).then((res)=>{
             setIsAuth(true)
         
 
