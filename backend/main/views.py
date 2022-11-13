@@ -68,7 +68,6 @@ class ArticleView(viewsets.ModelViewSet):
                 return Response("Title should be between 20-60 characters!",status=400)
             user_profile = models.UserProfile.objects.get(user=request.user.username)
             new_article = models.Article.objects.create(title=title,title_img=title_img,description=description,user=request.user,tag=tag,date=date,user_profile=user_profile)
-            print(new_article)
             return Response(new_article._id)
         if article.errors.get('title_img'):
            return Response('Upload an image of type : png,jpeg,jpg,ico,gif,webp',status=400)
