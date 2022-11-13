@@ -508,7 +508,7 @@ return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, '');
       .then((res) => {
         setArticle({
           ...article,
-          user: res.data,
+          user: res.data.user,
         });
       });
   },[]);
