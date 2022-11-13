@@ -570,6 +570,7 @@ return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, '');
 
       <div className="article-div">
         <head><meta charset="utf-8" /></head>
+        <CsrfToken></CsrfToken>
             <button
               id="article-btn"
               onClick={() => handleOpen()}
