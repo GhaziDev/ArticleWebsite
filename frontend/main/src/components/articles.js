@@ -90,7 +90,7 @@ const Articles = () => {
  
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/csrf/", {
+      .get("https://www.backend.globeofarticles.com/csrf/", {
         headers: { Authorization: null },
         withCredentials: true,
       })

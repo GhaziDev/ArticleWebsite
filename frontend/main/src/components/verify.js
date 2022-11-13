@@ -8,7 +8,7 @@ function Verify(){
     const user = useParams();
     const redirect = useNavigate()
     useEffect(() => {
-        axios.get(`http://127.0.0.1:8000/verify/${token.token}/${token.user}/`).then((res)=>{
+        axios.get(`https://www.backend.globeofarticles.com/verify/${token.token}/${token.user}/`).then((res)=>{
             setMessage(res.data)
             redirect('/')
 

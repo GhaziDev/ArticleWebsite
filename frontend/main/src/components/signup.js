@@ -91,7 +91,7 @@ const Signup = () => {
   useEffect(()=>{
     const Data = 
     setTimeout(()=>{
-    axios.post('http://127.0.0.1:8000/password-valid/',{password:password},{headers:{'X-CSRFToken':Cookies.get('csrf')}}).then((res)=>{
+    axios.post('https://www.backend.globeofarticles.com/password-valid/',{password:password},{headers:{'X-CSRFToken':Cookies.get('csrf')}}).then((res)=>{
       setInnerHtml(
         {
           ...innerHtml,
@@ -128,7 +128,7 @@ const Signup = () => {
   useEffect(() => {
     const usernameData = setTimeout(()=>{
     axios
-      .post("http://127.0.0.1:8000/exists/", { username: username })
+      .post("https://www.backend.globeofarticles.com/exists/", { username: username })
       .then((res) => {
         setStyle({color:'yellowgreen'})
         setExist({
@@ -178,7 +178,7 @@ const Signup = () => {
   let handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://127.0.0.1:8000/signup/", signup, {
+      .post("https://www.backend.globeofarticles.com/signup/", signup, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })

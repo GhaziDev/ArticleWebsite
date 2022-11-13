@@ -70,7 +70,7 @@ function Filter({isHiddenInput,setArticleList,user}){
 
     useEffect(()=>{
       const filterData = setTimeout(()=>{
-        axios.post(`http://127.0.0.1:8000/filter/`,filter).then((res)=>{
+        axios.post(`https://www.backend.globeofarticles.com/filter/`,filter).then((res)=>{
           setArticleList(res.data)
         })
       },600) //debouncing/ limit rating

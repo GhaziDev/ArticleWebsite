@@ -74,7 +74,7 @@ function DisplayDialogOrLogin(){
     formData.append("description", description);
     formData.append("date", date);
     axios
-      .post("http://127.0.0.1:8000/articles/", formData, {
+      .post("https://www.backend.globeofarticles.com/articles/", formData, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
@@ -92,7 +92,7 @@ function DisplayDialogOrLogin(){
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/current/",{withCredentials:true})
+      .get("https://www.backend.globeofarticles.com/current/",{withCredentials:true})
       .then((res) => {
         setArticle({
           ...article,
@@ -137,7 +137,7 @@ function DisplayDialogOrLogin(){
 
     useEffect(() => {
         axios
-          .get("http://127.0.0.1:8000/isauthenticated/", { withCredentials: true })
+          .get("https://www.backend.globeofarticles.com/isauthenticated/", { withCredentials: true })
           .then((res) => {
             setAuth(true)
           })
@@ -295,7 +295,7 @@ function CharsLeft({ chars, handleCount}) {
 
     }
     useEffect(()=>{
-        axios.get('http://127.0.0.1:8000/current/',{withCredentials:true}).then((res)=>{
+        axios.get('https://www.backend.globeofarticles.com/current/',{withCredentials:true}).then((res)=>{
             setCurrent(res.data)
             console.log(res.data)
           
@@ -343,7 +343,7 @@ function LoginOrLogout(){ //Login Or Logout component
 
 
     useEffect(()=>{
-        axios.get('http://127.0.0.1:8000/isauthenticated/',{withCredentials:true},{timeout:2000}).then((res)=>{
+        axios.get('https://www.backend.globeofarticles.com/isauthenticated/',{withCredentials:true},{timeout:2000}).then((res)=>{
             setAuth(true)
             return ()=>{
               setAuth(auth)
@@ -502,7 +502,7 @@ return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, '');
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/current/",{withCredentials:true})
+      .get("https://www.backend.globeofarticles.com/current/",{withCredentials:true})
       .then((res) => {
         setArticle({
           ...article,
@@ -547,7 +547,7 @@ return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, '');
 
     useEffect(() => {
         axios
-          .get("http://127.0.0.1:8000/isauthenticated/", { withCredentials: true })
+          .get("https://www.backend.globeofarticles.com/isauthenticated/", { withCredentials: true })
           .then((res) => {
             setAuth(true)
           })

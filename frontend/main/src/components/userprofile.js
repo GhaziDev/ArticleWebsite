@@ -22,7 +22,7 @@ export function EditProfile({username}){
   const {user} = useParams()
   const redirect = useNavigate('/')
   useEffect(()=>{
-    axios.get(`http://127.0.0.1:8000/userprofile/${username}/`).then((res)=>{
+    axios.get(`https://www.backend.globeofarticles.com/userprofile/${username}/`).then((res)=>{
         setProfileInfo({
           bio:res.data.bio,
           img:res.data.img
@@ -47,7 +47,7 @@ export function EditProfile({username}){
       formData.append('img',img)
 
     }
-    axios.put(`http://127.0.0.1:8000/userprofile/${username}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+    axios.put(`https://www.backend.globeofarticles.com/userprofile/${username}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
       redirect(`/userprofile/${username}`)
     }).catch((e)=>{
     })
@@ -92,7 +92,7 @@ function UserProfile(){
     let [selection,setSelection] = useState('')
     let [articleList,setArticleList] = useState([])
     useEffect(()=>{
-      axios.get('http://127.0.0.1:8000/current/',{withCredentials:true}).then((res)=>{
+      axios.get('https://www.backend.globeofarticles.com/current/',{withCredentials:true}).then((res)=>{
         if(res.data.user===username){
           setIsHidden(false)
         }
@@ -105,7 +105,7 @@ function UserProfile(){
 
 
     useEffect(()=>{
-      axios.get(`http://127.0.0.1:8000/userprofile/${user}/`).then((res)=>{
+      axios.get(`https://www.backend.globeofarticles.com/userprofile/${user}/`).then((res)=>{
           setUserInfo({
             username:res.data.user,
             user_posts:[
@@ -130,7 +130,7 @@ function UserProfile(){
       let formData = new FormData()
       formData.append('img',img)
       formData.append('bio',bio)
-      axios.put(`http://127.0.0.1:8000/userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+      axios.put(`https://www.backend.globeofarticles.com/userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
 
       })
     }
