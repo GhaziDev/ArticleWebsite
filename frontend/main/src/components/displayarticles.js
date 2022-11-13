@@ -11,14 +11,9 @@ import './react-draft-wysiwyg.css';
 
 import { convertToRaw, AtomicBlockUtils,EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import {stateToHTML} from 'draft-js-export-html';
-import {MenuList,MenuItem,Menu,Fade,Button} from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
-import Popper from '@mui/material/Popper';
+import {MenuItem,Menu,Fade,Button} from '@mui/material';
 import { EditProfile } from './userprofile.js';
-import createResizeablePlugin from '@draft-js-plugins/resizeable';
-import LoginIcon  from '@mui/icons-material/Login'
-import CreateIcon from '@mui/icons-material/Create';
+
 
 
 
@@ -149,6 +144,7 @@ function DisplayDialogOrLogin(){
     return(
       <div className='create-article-wrapper'>
       <div className='create-article-div' style={{backgroundColor:theme.setButtonColor}}>
+      <CsrfToken />
       <input className='create-article-input' onClick={auth?(e)=>setOpen(true):(e)=>redirect('/login')} placeholder='Create an Article' />
       <Dialog PaperProps={{
         style:{

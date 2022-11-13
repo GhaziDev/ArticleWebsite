@@ -31,6 +31,7 @@ import uuid
 import json
 from django.conf import settings
 
+
 class CurrentUser(views.APIView):
     def get(self,request):
         if request.user.is_authenticated:
@@ -58,7 +59,10 @@ class ArticleView(viewsets.ModelViewSet):
         authentication_classes = [SessionAuthentication]
         permissions_classes = [IsAuthenticated]
         article = serializer.ArticleSerializer(data=request.data)
+        print(settings.CSRF_USE_SESSIONS)
+        print(settings.CSRF_COOKIE_HTTPONLY)
         if article.is_valid():
+        
             title = article.data['title']
             description = article.data['description']
             tag = models.Tag.objects.get(name=article.data['tag'])
