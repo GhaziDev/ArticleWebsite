@@ -55,7 +55,6 @@ class ArticleView(viewsets.ModelViewSet):
     
     @method_decorator(ensure_csrf_cookie)
     def create(self,request):
-        authentication_classes = [SessionAuthentication]
         permissions_classes = [IsAuthenticated]
         article = serializer.ArticleSerializer(data=request.data)
         if article.is_valid():
