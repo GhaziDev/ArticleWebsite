@@ -20,7 +20,8 @@ function App() {
     setBg:localStorage.getItem('theme'),
     setButtonColor:localStorage.getItem('buttonColor'),
     setColor:localStorage.getItem('color'),
-    setTextColor:localStorage.getItem('textColor')
+    setTextColor:localStorage.getItem('textColor'),
+    setIcon:localStorage.getItem('icon')
 }
 
 )
@@ -35,7 +36,7 @@ function App() {
         <Route path='article/:id' element = {<SpecificArticle />}></Route>
         <Route path='userprofile/:user' element={<UserProfile theme={theme} />}></Route>
         <Route path='reset/' element={<PasswordResetAsk></PasswordResetAsk>}></Route>
-        <Route path='reset-page/:token/:id' element={<PasswordResetPage/>}></Route>
+        <Route path='reset-page/:token/' element={<PasswordResetPage/>}></Route>
         <Route path='userprofile/:user/edit/' element={<EditProfile/>}></Route>
         <Route path='verify/:token/:user' element={<Verify/>}></Route>
         

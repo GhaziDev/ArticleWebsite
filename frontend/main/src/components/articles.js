@@ -8,6 +8,14 @@ import Navigation from "./navig.js";
 import { cyanDark} from "@radix-ui/colors";
 import Footer from "./footer.js";
 import {themeContext} from '../App.js'
+import Search from './search.js'
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import {Dialog} from '@mui/material';
+import Button from '../styling/button';
+import {Filter,ListAllArticles} from './filtertag';
+import {DisplayDialogOrLogin} from "./displayarticles.js";
+import ReactPaginate from 'react-paginate';
+import ReactDOM from 'react-dom';
 
 library.add(fas);
 
@@ -17,74 +25,52 @@ library.add(fas);
 const articleContext = createContext()
 const articleVals = createContext()
 
-let ListAllArticles = ({ articles,articleList,theme}) => {
- 
-  const bc = theme === cyanDark.cyan1 ? cyanDark.cyan6 : "white"
-  const tagColor = theme === cyanDark.cyan1 ? cyanDark.cyan11 : cyanDark.cyan12
+function PaginatedItems({ itemsPerPage,articleList,theme}) { //managing items by paginating them.
+  // Here we use item offsets; we could also use page offsets
+  // following the API or data you're working with.
+  const [itemOffset, setItemOffset] = useState(0);
+  const [selectedPage,setSelectedPage] = useState();
 
- 
-  if (articles.length !== 0) {
-    return articles.map((article) => {
-      return (
-        <div
-          className="articles" key='0'
-          style={{ backgroundColor: theme.setButtonColor, borderColor: bc}}
-        >
-          <Link key={article._id.toString()}
-            to={{
-              pathname: `/article/${article._id}/`,
-            }}
-          >
-            <img key={article.title_img.toString()} src={article.title_img} className="image" />
-            <h4 key={article.title} className="title" style={{color:theme.setColor}} >
-              {article.title}
-            </h4>
-            <h4 key={article.user} className="user"  style={{color:theme.setColor}}>
-              {" "}
-              <FontAwesomeIcon key={article.user} icon="fa-solid fa-user" /> {article.user}
-            </h4>
-            <h4 key={article.date.toString()} className="date"  style={{color:theme.setColor}}>
-              <FontAwesomeIcon  key={article.date.toString()} icon="fa-solid fa-calendar" /> {article.date}
-            </h4>
-            <button key={article.tag} className="tag-sec" disabled>
-              <h4 key={article.tag} style={{ color: tagColor }}>{article.tag}</h4>
-            </button>
-          </Link>
-        </div>
-      );
-    });
-  } else {
-    return articleList.map((article) => {
-      return (
-        <div key={article._id.toString()+"1"}
-          className="articles" 
-          style={{ backgroundColor: theme.setButtonColor, borderColor: bc, color: theme.setColor}}
-        >
-          <Link
-            to={{
-              pathname: `/article/${article._id}/`,
-            }} key={article._id.toString()}
-          >
-            <img  key={article.title_img.toString()} src={article.title_img} className="image" />
-            <h4 key={article.title} className="title"  style={{color:theme.setColor}}>
-              {article.title}
-            </h4>
-            <h4 key={article.user} className="user" style={{color:theme.setColor}} >
-              {" "}
-              <FontAwesomeIcon key={article.user} icon="fa-solid fa-user" /> {article.user}
-            </h4>
-            <h4 key= {article.date.toString()} className="date" style={{ color: theme.setColor }}>
-              <FontAwesomeIcon key={article.date.toString()} icon="fa-solid fa-calendar" /> {article.date}
-            </h4>
-            <button key={article.tag.toString()} className="tag-sec" disabled>
-              <h4 key={article.tag.toString()} style={{ color: tagColor }}>{article.tag}</h4>
-            </button>
-          </Link>
-        </div>
-      );
-    });
-  }
-};
+  // Simulate fetching items from another resources.
+  // (This could be items from props; or items loaded in a local state
+  // from an API endpoint with useEffect and useState)
+  const endOffset = itemOffset + itemsPerPage;
+  const currentItems = articleList.slice(itemOffset, endOffset);
+  const pageCount = Math.ceil(articleList.length / itemsPerPage);
+
+  // Invoke when user click to request another page.
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % articleList.length;
+    setItemOffset(newOffset);
+  };
+  return(
+    <>
+    <ListAllArticles articles={currentItems} theme={theme} />
+    <div className="paginator">
+    <ReactPaginate
+      breakLabel="..."
+      nextLabel="next >"
+      onPageChange={(e)=>handlePageClick(e)}
+      pageRangeDisplayed={5}
+      pageCount={pageCount}
+      pageClassName="page-item"
+      pageLinkClassName="page-link"
+      previousClassName="page-item"
+      previousLinkClassName="page-link"
+      nextClassName="page-item"
+      nextLinkClassName="page-link"
+      breakClassName="page-item"
+      breakLinkClassName="page-link"
+      containerClassName="pagination"
+      activeClassName="active"
+      previousLabel="< previous"
+      renderOnZeroPageCount={null}
+      marginPagesDisplayed={2}
+    />
+    </div>
+  </>
+  )
+}
 
 
 
@@ -92,26 +78,19 @@ let ListAllArticles = ({ articles,articleList,theme}) => {
 const Articles = () => {
 
   let [articleList, setArticleList] = useState([]);
+  let {theme} = useContext(themeContext)
+
+
+  //map all the tags button, and make a condition based on filtering/searching the input.
+
+
+
+
   
-  let [tagn, setTag] = useState("");
-  let {theme,setTheme} = useContext(themeContext)
  
-  const articles = articleList.filter((article) => article.tag === tagn);
-
-
-
-  let handleTagChange = (e) => {
-    setTag(e.target.value);
-  };
-
-  useEffect(() => {
-    axios.get("https://backend.globeofarticles.com/articles/").then((res) => {
-      setArticleList(res.data);
-    });
-  }, []);
   useEffect(() => {
     axios
-      .get("https://backend.globeofarticles.com/csrf/", {
+      .get("http://127.0.0.1:8000/csrf/", {
         headers: { Authorization: null },
         withCredentials: true,
       })
@@ -123,43 +102,30 @@ const Articles = () => {
   
 
 
-
-
   return (
     <div style={{ backgroundColor: theme.setBg, color: theme.setTextColor}} className="main">
       <articleContext.Provider value={articleList}>
-        
       <Navigation   ></Navigation>
 
+      <div className='main-containers-div'>
+      <DisplayDialogOrLogin></DisplayDialogOrLogin>
+   
+        <Filter setArticleList={setArticleList}  isHiddenInput={false} user={''}/>
+        </div>
 
-       <div className="sortby">
-        <select
-          style={{ backgroundColor: theme.setButtonColor, color: theme.setColor}}
-          onChange={(e) => handleTagChange(e)}
-        >
-          <option>Sort By...</option>
-          <option name="name" value='programming' className="programming">
-            programming
-          </option>
-          <option value='science' name="name" className="programming">
-            science
-          </option>
-        </select>
+<div className="parent-grid" >
+  <PaginatedItems articleList={articleList} theme={theme} itemsPerPage={4}/>
+
       </div>
-      <div className="parent-grid">
-        
-        <ListAllArticles
-          articleList={articleList}
-          articles={articles}
-          theme={theme}
-  
-        />
-      </div>
+     
       </articleContext.Provider>
+      <div className='footer-container'>
       <Footer ></Footer>
+      </div>
     </div>
   );
 };
+
 
 export default Articles;
 export {articleContext,articleVals,ListAllArticles}

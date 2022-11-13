@@ -4,6 +4,9 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {themeContext} from '../App.js'
 import {articleContext} from './articles'
+import SearchBar from '../styling/searchbar.js';
+import CloseIcon from '@mui/icons-material/Close';
+
 
 
 function ListSearchResults({input,results,handleRedirect}){
@@ -42,6 +45,7 @@ function Search(){
     let [input,setInput] = useState('')
     let articleList = useContext(articleContext)
     const {theme} = useContext(themeContext)
+    const [expand,setExpand] = useState({width:1,hideBtn:false,height:'0px',active:false})
    
     // every 5 indexes of articleList is 1 page
     let results = articleList?.slice(articleList).filter((article)=>article?.title.toLowerCase().trim().includes(input.toLowerCase().trim()))
@@ -57,17 +61,19 @@ function Search(){
         redirect(`/article/${result?._id}`)
 
     }
+
+    let handleSearchBarWidth = (e,set)=>{
+        setExpand({width:'0px',hideBtn:set,active:set})
+    }
     
 
 
     return(
         <div className='searchp-div'>
-        <FontAwesomeIcon className='srch-icon' icon={faSearch}></FontAwesomeIcon>
-        <div className='search-div' >
-            <input  placeholder='Search for a title...' value={input}  style={{backgroundColor:theme.setBg,color:theme.setTextColor}} className='inpinp' onChange={(e)=>handleInput(e)}/>
-            <ListSearchResults handleRedirect={handleRedirect}  results={results} input={input} ></ListSearchResults>
             
-        </div>
+            <SearchBar placeholder='Search for a title...' active={expand.active}  value={input}   style={{backgroundColor:'white',color:'black',borderColor:'white'}} className='inpinp' onChange={(e)=>handleInput(e)}></SearchBar>
+            <div className='results-div'><ListSearchResults handleRedirect={handleRedirect}  results={results} input={input} ></ListSearchResults></div>
+            
         </div>
     )
 

@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import uuid
 from ckeditor.fields import RichTextField
 from main import validators
+from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,AbstractUser,UserManager
 
 
@@ -25,8 +26,13 @@ class Tag(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE,to_field='username',related_name='user_profile')
-    img = models.ImageField(upload_to='media')
+    img = models.ImageField(upload_to='media',blank=True,null=True)
     bio = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return f"{self.user.username} {self.img} {self.bio}"
+
+
 
 
 class Article(models.Model):
@@ -40,21 +46,21 @@ class Article(models.Model):
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE,to_field='user',related_name='user_posts',default=user)
 
 
+
     class Meta:
         ordering = '-date',
 
     def __str__(self):
-        return f"{self.title} {self.title_img} {self.user.username} {self.tag}"
+        return f"{self.title} {self.title_img.url} {self.user.username} {self.tag}"
 
-
+'''
 class UploadedImagesToDescription(models.Model):
-    '''
     Because the article description is basically a multipart data (can have images,text, etc...)
     all images will be handled here
-    '''
     article = models.ForeignKey(Article,related_name='articles_imgs',on_delete=models.CASCADE)
     images = models.ImageField(upload_to='media')
 
+'''
 
 class Comment(models.Model):
     _id = models.UUIDField(default=uuid.uuid4,unique=True,primary_key=True)
@@ -62,12 +68,13 @@ class Comment(models.Model):
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='user_comments',to_field='username')
     article = models.ForeignKey(Article,on_delete=models.CASCADE,related_name='article_comments')
     date = models.DateField(auto_now_add=True)
+    is_author = models.BooleanField(default=False)
 
     class Meta:
         ordering = '-date',
 
     def __str__(self):
-        return f"{self.desc} {self.user} {self.article}"
+        return f"{self.desc} {self.user} {self.article} {self.user.user_profile.img.url}"
     class Meta:
         ordering = ('-date',)
         

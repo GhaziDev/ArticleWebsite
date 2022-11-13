@@ -46,7 +46,9 @@ urlpatterns = [
      path('verify/<uuid:token>/<str:user>/',views.VerifyUser.as_view(),name='verify'),
      path('verified/',views.CheckVerified.as_view(),name='verified'),
      path('reset/',views.PasswordResetView.as_view(),name='reset'),
-     path('reset/<uuid:token>/<int:id>/',views.PasswordChangeView.as_view(),name='reset')
+     path('reset/<uuid:token>/',views.PasswordChangeView.as_view(),name='reset'),
+     path('filter/',views.FilterArticlesView.as_view(),name='filter'),
+     path('comments_of_article/<uuid:id>/',views.RetrieveComments.as_view(),name=''),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

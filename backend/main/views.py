@@ -15,7 +15,7 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_protect
 from django.middleware.csrf import get_token
-from django.utils import timezone
+from django.utils import timezone, dateformat
 from django.middleware.csrf import CsrfViewMiddleware
 from django.core import serializers
 from django.contrib.postgres.search import SearchVector
@@ -28,11 +28,14 @@ from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.urls import reverse
 import uuid
-
+import json
+from django.conf import settings
 
 class CurrentUser(views.APIView):
     def get(self,request):
-        return  Response(request.user.username,status=200)
+        if request.user.is_authenticated:
+            return  Response(serializer.UserProfileSerializer(models.UserProfile.objects.get(user=request.user.username)).data,status=200)
+        return Response('not_authenticated', status=401)
 
 
 class CheckAuthenticated(views.APIView):
@@ -59,12 +62,13 @@ class ArticleView(viewsets.ModelViewSet):
             title = article.data['title']
             description = article.data['description']
             tag = models.Tag.objects.get(name=article.data['tag'])
-            date = timezone.now()
+            date = dateformat.format(timezone.now(),settings.DATE_INPUT_FORMATS)
             title_img = request.FILES['title_img']
             if not 20<=len(title)<=60:
                 return Response("Title should be between 20-60 characters!",status=400)
             user_profile = models.UserProfile.objects.get(user=request.user.username)
             new_article = models.Article.objects.create(title=title,title_img=title_img,description=description,user=request.user,tag=tag,date=date,user_profile=user_profile)
+            print(new_article)
             return Response(new_article._id)
         if article.errors.get('title_img'):
            return Response('Upload an image of type : png,jpeg,jpg,ico,gif,webp',status=400)
@@ -159,9 +163,18 @@ class CheckPasswordValidation(views.APIView):
 class CommentView(viewsets.ModelViewSet):
     serializer_class = serializer.CommentSerializer
     def get_queryset(self):
-        comments = models.Comment.objects.all()
+        queryset = models.Comment.objects.all()
 
-        return comments
+        return queryset
+    def get(self,request):
+        data = serializer.CommentSerializer(data=request.data)
+     
+        if data.is_valid():
+            article = data.data['id']
+            comments = models.Comment.objects.filter(article=article)
+            return Response(comment,status=200)
+        return Response('could not validate data',status=400)
+
     @method_decorator(ensure_csrf_cookie,csrf_protect)
     def create(self,request):
         data = serializer.CommentSerializer(data=request.data)
@@ -170,7 +183,8 @@ class CommentView(viewsets.ModelViewSet):
             article = data.data['article']
             article = models.Article.objects.get(_id=article)
             user = request.user
-            models.Comment.objects.create(desc=desc,article=article,user=user)
+            cmnt = models.Comment.objects.create(desc=desc,article=article,user=user,is_author=user==True if user == article.user else False)
+            cmnt.save()
             comments_of_article = list(article.article_comments.all().values())
             return JsonResponse(comments_of_article,safe=False)
         return Response("Comment fail on creation.")     
@@ -179,9 +193,9 @@ class CommentView(viewsets.ModelViewSet):
 class LoginView(views.APIView):
     permission_classes = [AllowAny,]
     serializer_class = serializer.LoginSerializer
+    authentication_classes = [SessionAuthentication]
 
-    @method_decorator(csrf_protect,ensure_csrf_cookie)
-
+    @method_decorator(ensure_csrf_cookie)
     def post(self,request):
         data = serializer.LoginSerializer(data=request.data)
         if data.is_valid():
@@ -267,16 +281,24 @@ class UserProfileView(viewsets.ModelViewSet):
         permission_classes = [IsAuthenticated,]
         data = serializer.UserProfileSerializer(data=request.data)
         if data.is_valid():
-            username = data.data['user']
-            img = request.FILES['img']
-            bio = data.data['bio']
-            pfp = models.UserProfile.objects.get(user=username)
-            pfp.img = img
-            pfp.bio = bio
-            pfp.save()
+            if not request.FILES.get('img',''):
+                username = data.data['user']
+                bio = data.data['bio']
+                pfp = models.UserProfile.objects.get(user=username)
+                pfp.bio = bio
+                pfp.save()
+            else:
+                username = data.data['user']
+                img = request.FILES['img']
+                bio = data.data['bio']
+                pfp = models.UserProfile.objects.get(user=username)
+                pfp.img = img
+                pfp.bio = bio
+                pfp.save()
             return Response("Profile updated!",status=200)
         if data.errors.get('img'):
             return Response('Upload an image of type : png,jpeg,jpg,ico,gif,webp',status=400)
+  
 
         return Response("fail to create a profile",status=400)
 
@@ -291,8 +313,12 @@ class PasswordResetView(views.APIView):
     def post(self,request):
         data = serializer.PasswordResetSerializer(data=request.data)
         if data.is_valid():
-            user = models.CustomUser.objects.get(email=data.data['email'])
-            send_mail('Password Reset', f'please reset your password here : https:/www.globeofarticles.com/reset-page/{user.token}/{user.pk}',from_email=None, recipient_list=[data.data['email']])
+            try:
+                user = models.CustomUser.objects.get(email=data.data['email'])
+            except:
+                return Response("This email does not exist in our database",status=400)
+
+            send_mail('Password Reset', f'please reset your password here : https:/www.globeofarticles.com/reset-page/{user.token}',from_email=None, recipient_list=[data.data['email']])
             return Response(user.token,status=200)
     
         
@@ -301,14 +327,14 @@ class PasswordChangeView(views.APIView):
     serializer_class = serializer.PasswordChangeSerializer
 
     @method_decorator(ensure_csrf_cookie,csrf_protect)
-    def post(self,request,token,id):
+    def post(self,request,token):
         data = serializer.PasswordChangeSerializer(data=request.data)
         if data.is_valid():
             password = data.data['password']
             try:
                 validate_password(password)
-                user = models.CustomUser.objects.filter(id=id)
-                user1 =  models.CustomUser.objects.get(id=id)
+                user = models.CustomUser.objects.filter(token=token)
+                user1 =  models.CustomUser.objects.get(token=token)
                 user.update(password=password)
                 user1.token = uuid.uuid1()
                 user1.save()
@@ -319,17 +345,52 @@ class PasswordChangeView(views.APIView):
 
             
         return Response("Password reset failed",status=400)
-    def get(self,request,token,id):
+    def get(self,request,token):
         try:
             get_object_or_404(models.CustomUser,token = token)
-            get_object_or_404(models.CustomUser,id=id)
             return Response("user is found",status=200)
         except:
             return Response("user is not found",status=404)
     
 
+class FilterArticlesView(views.APIView):
+    serializer_class = serializer.ArticleFilterSerializer
+    def post(self,request):
+        data = serializer.ArticleFilterSerializer(data=request.data)
+        if data.is_valid():
+            article = models.Article.objects.all()
+            if data.data['tag'] == ['All']:
+                pass
+            elif data.data['tag']!=['All']:
+                article = models.Article.objects.filter(tag__in=data.data['tag'])
+            if article.filter(user__username__icontains=data.data['user']):
+                article =article.filter(user__username__icontains=data.data['user'])
+            
+            else:
+                return Response([])
+          
+            
+            
+            if article.filter(title__icontains=data.data['title']):
+                    article = article.filter(title__icontains=data.data['title'])
+            
+            else:
+                return Response([])
+          
+            article = serializer.ArticleSerializer(article,many=True)
+               
+            return Response(article.data,status=200)
+        return Response(list(models.Article.objects.all().values()))
 
 
 def random_token():
     # generate a random token
     return get_random_string(length=12)
+
+
+class RetrieveComments(views.APIView):
+    serializer_class = serializer.CommentSerializer
+
+    def get(self,request,id):
+        comments = serializer.CommentSerializer(models.Comment.objects.filter(article=id),many=True)
+        return Response(comments.data,status=200)

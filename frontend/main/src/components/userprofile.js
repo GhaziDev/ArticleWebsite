@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState,useEffect,useContext,createContext } from "react";
 import { useParams,Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {ListAllArticles} from './articles'
 import {themeContext} from '../App.js';
 import {cyanDark} from '@radix-ui/colors';
 import Footer from './footer.js'
@@ -10,19 +9,20 @@ import Navigation from "./navig";
 import Cookies from "js-cookie";
 import {Dialog} from '@mui/material'
 import {faHome} from "@fortawesome/free-solid-svg-icons";
+import {Filter,ListAllArticles} from './filtertag';
 
 
-export function EditProfile(){
+export function EditProfile({username}){
   const [profileInfo,setProfileInfo] = useState({'img':'','bio':''})
   const articleContext = createContext()
-
+  const [open,setOpen] = useState(false)
   const {bio,img} = profileInfo
 
   const {theme} = useContext(themeContext) //consuming the context
   const {user} = useParams()
   const redirect = useNavigate('/')
   useEffect(()=>{
-    axios.get(`https://backend.globeofarticles.com/userprofile/${user}/`).then((res)=>{
+    axios.get(`http://127.0.0.1:8000/userprofile/${username}/`).then((res)=>{
         setProfileInfo({
           bio:res.data.bio,
           img:res.data.img
@@ -41,27 +41,36 @@ export function EditProfile(){
    const submitChange = (e)=>{
     e.preventDefault()
     let formData= new FormData()
-    formData.append('user',user)
+    formData.append('user',username)
     formData.append('bio',bio)
-    formData.append('img',img)
-    axios.put(`https://backend.globeofarticles.com/userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
-      redirect(`/userprofile/${user}`)
+    if(!(typeof img=="string")){
+      formData.append('img',img)
+
+    }
+    axios.put(`http://127.0.0.1:8000/userprofile/${username}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+      redirect(`/userprofile/${username}`)
     }).catch((e)=>{
     })
    }
 
   return(
-    <div className='edit-profile-div' style={{backgroundColor:theme.setBg,color:theme.setColor}}>
-             <button  className='top-left'  style={{backgroundColor:'white'}} onClick={()=>redirect('/')}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
-
-        <form method='put'  onSubmit={(e)=>submitChange(e)}>
-          BIO:
-          <input  className='bio-inp' name='bio' value={bio} onChange={(e)=>handleChange(e,e.target.value)} style={{backgroundColor:theme.setBg}}></input>
-          Profile Picture:
-          <img src={img} style={{width:'300px',height:'300px'}}></img>
+    <div>
+    <button onClick={(e)=>setOpen(true)} style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} className='l-div'>
+    <Dialog open={open} onClose={(e)=>setOpen(false)} width='xl' >
+    <div className='edit-profile-div' style={{backgroundColor:theme.setBg,color:theme.setTextColor,}}>
+      <h1 style={{textAlign:'center'}}>Edit Your Profile</h1>
+        <form method='put'  onSubmit={(e)=>submitChange(e)} style={{backgroundColor:theme.setBg,color:theme.setColor,}}>
+          BIO
+          <input  className='bio-inp' name='bio' value={bio} onChange={(e)=>handleChange(e,e.target.value)} style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}></input>
+          Profile Picture
+          <img src={img} className='edit-img'></img>
           <input type='file' name='img'  onChange={(e)=>handleChange(e,e.target.files[0])} ></input>
           <button type='submit' style={{backgroundColor:theme.setButtonColor,color:theme.setColor}}>Submit changes</button>
         </form>
+    </div>
+    </Dialog>
+    Settings
+    </button>
     </div>
   )
 
@@ -76,56 +85,15 @@ function UserProfile(){
     const articleContext = createContext()
     const {theme} = useContext(themeContext) //consuming the context
     let {user} = useParams()
-    let [userInfo,setUserInfo] = useState({'username':'','user_posts':[],'img':null,bio:''})
+    let [userInfo,setUserInfo] = useState({'user':'','user_posts':[],'img':null,bio:''})
     let [isHidden,setIsHidden] = useState(false)
+
     let {username,user_posts,bio,img} = userInfo
     let [selection,setSelection] = useState('')
-
-    const listUserArticles = (selector)=>{
-        const bc = theme === cyanDark.cyan1 ? cyanDark.cyan6 : "white"
-        const tagColor = theme === cyanDark.cyan1 ? cyanDark.cyan11 : cyanDark.cyan12
-        let articles = user_posts.filter((post)=>post.tag==selector)
-        if(articles.length===0){
-          articles = user_posts
-        }
-        return(
-        articles.map((post)=>{
-            return(
-                    <div
-                      className="user-artcls"
-                      style={{ backgroundColor: theme.setButtonColor, borderColor: bc, color: theme.setColor}}
-                    >
-                      <Link
-                        to={{
-                          pathname: `/article/${post.id}/`,
-                        }}
-                      >
-                        <img src={post.title_img}  alt='img' className="image" />
-                        <h4 className="title"  style={{color:theme.setColor}}>
-                          {post.title}
-                        </h4>
-                        <h4 className="user" style={{color:theme.setColor}} >
-                          {" "}
-                          <FontAwesomeIcon icon="fa-solid fa-user" /> {post.user}
-                        </h4>
-                        <h4 className="date" style={{ color: theme.setColor }}>
-                          <FontAwesomeIcon icon="fa-solid fa-calendar" /> {post.date}
-                        </h4>
-                        <button className="tag-sec" disabled>
-                          <h4 style={{ color: tagColor }}>{post.tag}</h4>
-                        </button>
-                      </Link>
-                    </div>
-            )
-
-        })
-        )
-    }
-
-
+    let [articleList,setArticleList] = useState([])
     useEffect(()=>{
-      axios.get('https://backend.globeofarticles.com/current/',{withCredentials:true}).then((res)=>{
-        if(res.data===username){
+      axios.get('http://127.0.0.1:8000/current/',{withCredentials:true}).then((res)=>{
+        if(res.data.user===username){
           setIsHidden(false)
         }
         else{
@@ -137,7 +105,7 @@ function UserProfile(){
 
 
     useEffect(()=>{
-      axios.get(`https://backend.globeofarticles.com/userprofile/${user}/`).then((res)=>{
+      axios.get(`http://127.0.0.1:8000/userprofile/${user}/`).then((res)=>{
           setUserInfo({
             username:res.data.user,
             user_posts:[
@@ -146,6 +114,7 @@ function UserProfile(){
             bio:res.data.bio,
             img:res.data.img
           })
+
 
       }).catch((e)=>{
       })
@@ -161,7 +130,7 @@ function UserProfile(){
       let formData = new FormData()
       formData.append('img',img)
       formData.append('bio',bio)
-      axios.put(`https://backend.globeofarticles.com/userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+      axios.put(`http://127.0.0.1:8000/userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
 
       })
     }
@@ -171,6 +140,7 @@ function UserProfile(){
           <articleContext.Provider value={user_posts}>
           <Navigation></Navigation>
           </articleContext.Provider>
+          <div className='userinfo-div-wrapper'>
           <div className='userinfo-div' style={{backgroundColor:theme.setButtonColor}}>
             <form method='post' onSubmit={(e)=>handleSubmit(e)}>
             <div className='img-div'>
@@ -179,20 +149,26 @@ function UserProfile(){
             <h1 >{user}</h1>
             <h3>{bio}</h3>
             </form>
-             </div>
-             
-            <div className='user-post-section-div'>
-              <select  className='tag-sel' onChange={(e)=>handleChange(e)} style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} >
-                <option default value='choose an option'>choose a tag option...</option>
-                <option value='programming'>programming</option>
-                <option value='science'>science</option>
-              </select>
-              <div className='user-articles'>
-                {listUserArticles(selection)}
-                </div>
-            </div>
-            <Footer></Footer>
 
+             </div>
+
+             </div>
+
+             <div className='main' style={{ backgroundColor: theme.setBg, color: theme.setTextColor}}>
+             <Filter isHiddenInput={true} setArticleList={setArticleList} user={user}></Filter>
+             <div className="parent-grid" >
+        <ListAllArticles
+          articles={articleList}
+          theme={theme}
+  
+        />
+
+      </div>
+
+      <div className='footer-container'>
+      <Footer ></Footer>
+      </div>
+      </div>
             
         </div>
     )

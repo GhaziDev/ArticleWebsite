@@ -39,6 +39,7 @@ SECURE_SSL_REDIRECT = False
 CSRF_TRUSTED_ORIGINS = [ 
     "http://127.0.0.1:3000",'http://127.0.0.1:8000','http://localhost:3000',
 'https://globeofarticles.com','https://www.globeofarticles.com','https://backend.globeofarticles.com',
+'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com',
 ]
 '''
 SESSION_COOKIE_SECURE = True
@@ -172,10 +173,10 @@ LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
-USE_I18N = True
+USE_I18N = False
 
 USE_TZ = True
-
+USE_L10N = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
@@ -193,7 +194,6 @@ MEDIA_ROOT  = os.path.join(BASE_DIR, 'media')
 
 
 CKEDITOR_UPLOAD_PATH = "/media"
-
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')  
 
@@ -219,3 +219,5 @@ REST_FRAMEWORK = {
 }
 
 AUTH_USER_MODEL = 'main.CustomUser'
+
+TIME_FORMAT = ['%d.%B.%Y']

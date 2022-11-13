@@ -1,6 +1,7 @@
 import { Dialog } from "@mui/material";
 import { themeContext } from "../App.js";
 import { useContext, useState} from "react";
+import GavelIcon from '@mui/icons-material/Gavel';
 
 const Rules = () => {
   let { theme } = useContext(themeContext);
@@ -15,7 +16,7 @@ const Rules = () => {
           color: theme.setTextColor,
         }}
       >
-        Rules
+        <GavelIcon></GavelIcon>
       </button>
       <Dialog  open={open} onClose={() =>setOpen(false)} className="drules">
         <div

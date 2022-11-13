@@ -18,6 +18,8 @@ import draftToHtml from 'draftjs-to-html';
 import { convertToRaw } from 'draft-js';
 
 
+
+
 const EditArticle = ({user,article,theme,description,id,setArticle,redirect})=>{
     let [open,setOpen] = useState(false)
     const [editorState, setEditorState] = useState(() =>
@@ -25,7 +27,7 @@ const EditArticle = ({user,article,theme,description,id,setArticle,redirect})=>{
     )
     let handleEdit = (e)=>{
         e.preventDefault()
-        axios.put(`https://backend.globeofarticles.com/articles/${id}/`,article,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.put(`http://127.0.0.1:8000/articles/${id}/`,article,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             setArticle({
                 ...article,description:res.data
 
@@ -54,7 +56,7 @@ const EditArticle = ({user,article,theme,description,id,setArticle,redirect})=>{
         return(
         <div className='a'>
            
-         <head><meta charset="utf-8" /></head>
+         <head><meta charSet="utf-8" /></head>
         <button className='edit-btn' onClick={()=>setOpen(true)} style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}>Edit</button>
 
         <Dialog  open={open} onClose={()=>setOpen(false)} fullWidth={true} maxWidth='lg' className='dialog'>
@@ -81,7 +83,7 @@ const DeleteArticle = ({user,article,id,redirect})=>{
     let [open,setOpen] = useState(false)
     let handleDelete= (e)=>{
         e.preventDefault()
-        axios.delete(`https://backend.globeofarticles.com/articles/${id}/`,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.delete(`http://127.0.0.1:8000/articles/${id}/`,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             redirect('/')
         }).catch((e)=>{
             console.log(e.response.data)
@@ -112,10 +114,10 @@ const DeleteArticle = ({user,article,id,redirect})=>{
 
 
 const SpecificArticle = ()=>{
-    const [article,setArticle] = useState({'title':'','title_img':'','description':'','user':'','tag':'','date':''})
+    const [article,setArticle] = useState({'title':'','title_img':'','description':'','user':'','tag':'','date':'','userprofile':''})
     const {description} = article
     const [commentList,setCommentList] = useState([])
-    const [comment,setComment] = useState({article:0,user:'',desc:'',date: new Date()})
+    const [comment,setComment] = useState({article_id:0,user_id:'',desc:'',date: new Date(),is_author:false})
     const {desc,date} = comment
     const [updated,setUpdated] = useState(0)
     const [user_,setUser] = useState('')
@@ -131,20 +133,22 @@ const SpecificArticle = ()=>{
 
 
      useEffect(()=>{
-        axios.get('https://backend.globeofarticles.com/current/',{withCredentials:true}).then((res)=>{
+        axios.get('http://127.0.0.1:8000/current/',{withCredentials:true}).then((res)=>{
             setComment(
                 {...comment
-                ,user:res.data
+                ,user:res.data.user
         })
            setUser(
-            res.data
+            {'user':res.data.user,
+            'pfp':res.data.img
+            }
            )
         })
      },[])
 
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post('https://backend.globeofarticles.com/comments/',comment,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.post('http://127.0.0.1:8000/comments/',comment,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             setUpdated(updated+1)
             setComment({
                 ...comment,
@@ -160,20 +164,24 @@ const SpecificArticle = ()=>{
             {
             ...comment,
             article:id,
-            [e.target.name]:e.target.value
+            [e.target.name]:e.target.value,
+            author:comment.user===user_.user, // herehhhhhhhhhhhhhhh
+
             }
         )
     }
     
     useEffect(()=>{
-        axios.get(`https://backend.globeofarticles.com/articles/${id}/`).then((res)=>{
+        axios.get(`http://127.0.0.1:8000/articles/${id}/`).then((res)=>{
             setArticle(res.data)
+            console.log(res.data)
             
-            axios.get(`https://backend.globeofarticles.com/comments/`).then((res)=>{
+            axios.get(`http://127.0.0.1:8000/comments_of_article/${id}/`).then((res)=>{
+                console.log(res.data)
+        
                 setCommentList(
-                     res.data.filter((comment)=>{return id==comment.article})
+                     res.data
                 )
-
 
 
             })
@@ -190,7 +198,7 @@ const SpecificArticle = ()=>{
         },[updated])
     
         useEffect(()=>{
-            axios.get('https://backend.globeofarticles.com/isauthenticated/',{withCredentials:true}).then((res)=>{
+            axios.get('http://127.0.0.1:8000/isauthenticated/',{withCredentials:true}).then((res)=>{
                 setAllowed(true)
 
         }).catch((e)=>{
@@ -207,18 +215,19 @@ const SpecificArticle = ()=>{
     const getComments = ()=>{
         if(allowed){
         return(
-            <div>
+            <div className='cmnt-div'>
+
              {commentList.map((comment)=>{
                 return(
                     <div className='cmntsec' key={comment._id.toString()}>
-
-                      
-                        <div className='cmnt-user' key={comment.user.toString()}>
-                        <FontAwesomeIcon icon={faUser} key={comment.user.toString()}/> 
+                        <div className='cmntinfo' >
+    
+                        <div className='cmnt-user' key={comment.user} style={{color:theme.setTextColor}}>
+                        <img src={user_.pfp} className='profile-img' />
                          {comment.user}    </div>    <div className='cmnt-date' key={comment.date.toString()}>
-                        {comment.date}
+                         {comment.date}
                         </div>
-
+                        </div>
 
                         <div className = 'descmnt' key={comment.desc}>
                         {comment.desc}
@@ -241,9 +250,7 @@ const SpecificArticle = ()=>{
             return(
                  <div className='nav-div'>
             <button className='l-div' style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} onClick={()=>handleRedirectLogin()}>Login</button>
-            <div className='breaker'>
             <button onClick = {()=>handleRedirectSignUp()} style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} className='l-div'>Signup</button>
-            </div>
             </div>
             )
         }
@@ -256,30 +263,40 @@ const SpecificArticle = ()=>{
             </div>
 
         <div className='article-title'>
-            <h1>{article.title}</h1>
-            <img alt='timg' className='article-img' src={article.title_img}/>
+       
+            <div className='left-article-side'>
+            <div className='top-left-side'>
+        <div className='article-tag'>
+                <span style={{backgroundColor:theme.setButtonColor,borderRadius:'4px',textAlign:'center'}}>{article.tag}</span>
             </div>
+            <div className='article-date'>
+                {article.date}
+            </div>
+            </div>
+            <h1 style={{color:theme.setColor}}>{article.title}</h1>
+            <div className='article-user'>
+            <Link to={{
+                    pathname:`/userprofile/${article.user}/`
+                    }}  style={{display:'flex',alignItems:'flex-start',textDecoration:'none',color:'#00e5fe',gap:'12px'}}>
+                <img  className='profile-img' src={article.user_profile}/>
+                {article.user}</Link>
+
+            </div>
+            </div>
+            <img alt='timg'  className='article-img' src={article.title_img}/>
+           
+            </div>
+            <div className='article-desc-div'>
             <p className='article-desc' >
                     {convert(article.description)}
             </p>
-            <div className='article-user'>
-                <FontAwesomeIcon size='lg' icon={faUser}></FontAwesomeIcon>
-                <Link to={{
-                    pathname:`/userprofile/${article.user}/`
-                    }}  style={{textDecoration:'none',color:theme.setColor}}>{article.user}</Link>
-
             </div>
-            <div className='article-tag'>
-                <FontAwesomeIcon size='lg' icon={faTag}></FontAwesomeIcon>
-                {article.tag}
-            </div>
-            <div className='article-date'>
-                <FontAwesomeIcon size='lg' icon={faCalendar}></FontAwesomeIcon>
-                {article.date}
-            </div>
+            <div className='end-of-article-div'>
+           
             <div className='twobtns'>
             <EditArticle redirect={redirect} setArticle={setArticle} user={user_} article={article} id={id} description = {description} theme={theme}></EditArticle>
-            <DeleteArticle  user={user_} article={article} id={id} redirect={redirect}></DeleteArticle>
+            <DeleteArticle  user={user_.user} article={article} id={id} redirect={redirect}></DeleteArticle>
+            </div>
             </div>
             <div className='comment-section' id='cmnt' >
                 <h1>Comment Section</h1>

@@ -8,8 +8,10 @@ import base64
 
 
 class ArticleSerializer(serializers.ModelSerializer):
+    _id = serializers.UUIDField(read_only=True)
+    user_profile = serializers.ReadOnlyField(source='user_profile.img.url')
     class Meta:
-        fields = '_id','title','title_img','description','tag','user','date'
+        fields = '_id','title','title_img','description','tag','user','date','user_profile'
         model = models.Article
 
 
@@ -76,7 +78,18 @@ class PasswordChangeSerializer(serializers.Serializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     user_posts = ArticleSerializer(many=True,read_only=True)
-    user = serializers.CharField()
+    user = serializers.CharField(source='user.username')
+    img = serializers.FileField(required=False,allow_null=True)
+    # sometimes a user just want to edit the bio alone without uploading a new image.
+
+
+
     class Meta:
         model = models.UserProfile
         fields = 'user','bio','user_posts','img'
+
+
+class ArticleFilterSerializer(serializers.Serializer):
+    tag = serializers.ListField(required=False)
+    user = serializers.CharField(required=False,allow_blank=True)
+    title = serializers.CharField(required=False,allow_blank=True)
