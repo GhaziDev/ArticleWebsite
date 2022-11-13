@@ -39,12 +39,13 @@ CORS_ALLOW_CREDENTIALS = True
 ACCESS_CONTROL_ALLOW_CREDENTIALS = True
 ACCESS_CONTROL_ALLOW_METHODS = '*'
 ACCESS_CONTROL_ALLOW_HEADERS = '*'
-SECURE_SSL_REDIRECT = False
 CSRF_TRUSTED_ORIGINS = [ 
     "http://127.0.0.1:3000",'http://127.0.0.1:8000','http://localhost:3000',
 'https://globeofarticles.com','https://www.globeofarticles.com','https://backend.globeofarticles.com',
 'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com'
 ]
+
+SECURE_HSTS_SECONDS = 60
 
 CUSTOM_HEADERS = (
     'Access-Control-Allow-Origin',
