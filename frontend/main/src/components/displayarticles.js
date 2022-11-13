@@ -241,15 +241,11 @@ function DisplayDialogOrLogin(){
 function InvalidImage({error}){
   if(error){
     return(
-      error.map((err)=>{
-        return(
           <div className='imgerror' style={{color:'red'}}>
-        {err}
+        {error}
       </div>
         )
-      })
       
-    )
   }
   return null
 }
