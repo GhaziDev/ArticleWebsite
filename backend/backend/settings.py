@@ -62,8 +62,9 @@ SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_PATH = '/'
 '''
-CSRF_COOKIE_SAMESITE = 'secure'
-SESSION_COOKIE_DOMAIN = 'globeofarticles.com'
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_DOMAIN = '.globeofarticles.com'
 
 
 
