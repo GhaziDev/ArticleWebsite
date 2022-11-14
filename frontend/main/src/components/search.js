@@ -6,6 +6,7 @@ import {themeContext} from '../App.js'
 import {articleContext} from './articles'
 import SearchBar from '../styling/searchbar.js';
 import CloseIcon from '@mui/icons-material/Close';
+import HOST from '../config.js';
 
 
 

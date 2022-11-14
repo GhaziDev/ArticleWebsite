@@ -16,11 +16,12 @@ import {Filter,ListAllArticles} from './filtertag';
 import {DisplayDialogOrLogin} from "./displayarticles.js";
 import ReactPaginate from 'react-paginate';
 import ReactDOM from 'react-dom';
+import HOST from '../config.js';
 
 library.add(fas);
 
 
-
+const host = HOST
 
 const articleContext = createContext()
 const articleVals = createContext()
@@ -90,7 +91,7 @@ const Articles = () => {
  
   useEffect(() => {
     axios
-      .get("https://backend.globeofarticles.com/csrf/", {
+      .get(`${host}csrf/`, {
         headers: { Authorization: null },
         withCredentials: true,
       })

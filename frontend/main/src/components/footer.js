@@ -5,6 +5,10 @@ import { themeContext } from '../App.js';
 import {useState,useContext} from 'react'
 import AboutUs from './About.js';
 import {Dialog} from '@mui/material'
+import HOST from '../config.js';
+
+
+
 
 
 //add links to each section in the footer, and add social media buttons.

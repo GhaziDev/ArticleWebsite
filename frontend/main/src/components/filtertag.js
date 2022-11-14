@@ -5,6 +5,9 @@ import {themeContext} from '../App.js'
 import Button from '../styling/button';
 import { Dialog } from '@mui/material';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import HOST from '../config.js'
+
+console.log(HOST)
 
 
 function ListAllArticles({ articles,theme}){
@@ -70,7 +73,7 @@ function Filter({isHiddenInput,setArticleList,user}){
 
     useEffect(()=>{
       const filterData = setTimeout(()=>{
-        axios.post(`https://backend.globeofarticles.com/filter/`,filter).then((res)=>{
+        axios.post(`${HOST}filter/`,filter).then((res)=>{
           setArticleList(res.data)
         })
       },600) //debouncing/ limit rating

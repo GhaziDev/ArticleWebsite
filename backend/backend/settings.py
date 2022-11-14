@@ -20,17 +20,26 @@ CORS_ALLOW_HEADERS = list(default_headers) + [
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECURE_SSL_REDIRECT = True
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+DEV_MODE = True
 SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+if DEV_MODE:
+    SECURE_SSL_REDIRECT = False
+    CSRF_COOKIE_SECURE = False
+    SESSION_COOKIE_SECURE = False
+    
+else:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 60
 
 ALLOWED_HOSTS = ['139.99.169.115','globeofarticles','127.0.0.1','localhost','backend.globeofarticles.com','globeofarticles.com','www.globeofarticles.com','https://globeofarticles.com','https://www.globeofarticles.com/','https://backend.globeofarticles.com']
 ACCESS_CONTROL_ALLOW_ORIGIN = '*'
@@ -45,20 +54,16 @@ CSRF_TRUSTED_ORIGINS = [
 'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com'
 ]
 
-SECURE_HSTS_SECONDS = 60
 
-CUSTOM_HEADERS = (
-    'Access-Control-Allow-Origin',
-    'Token',
-    'User-Type'
-)
-CORS_ALLOW_HEADERS = default_headers + CUSTOM_HEADERS
+
+
 '''
 SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_PATH = '/'
 '''
 CSRF_COOKIE_SAMESITE = 'none'
+SESSION_COOKIE_DOMAIN = 'globeofarticles.com'
 
 
 

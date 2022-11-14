@@ -7,6 +7,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome } from '@fortawesome/free-solid-svg-icons';
 import {themeContext} from '../App'; 
 import {ThemeSwitch} from './navig'
+import HOST from '../config.js';
+
+
 
 
 
@@ -63,7 +66,7 @@ const Login = ()=>{
     }
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post('https://backend.globeofarticles.com/login/',login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
+        axios.post(`${HOST}login/`,login,{withCredentials:true,headers: {'X-CSRFToken':Cookies.get('csrftoken')}}).then(
             (res)=>{
 
                     navigate('/',{replace:true})
@@ -81,7 +84,7 @@ const Login = ()=>{
     }
 // useRef on a div
     useEffect(()=>{
-        axios.get('https://backend.globeofarticles.com/isauthenticated/',{withCredentials:true}).then((res)=>{
+        axios.get(`${HOST}isauthenticated/`,{withCredentials:true}).then((res)=>{
             setIsAuth(true)
         
 

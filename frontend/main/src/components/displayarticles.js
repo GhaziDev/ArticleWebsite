@@ -11,9 +11,17 @@ import './react-draft-wysiwyg.css';
 
 import { convertToRaw, AtomicBlockUtils,EditorState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
-import {MenuItem,Menu,Fade,Button} from '@mui/material';
+import {stateToHTML} from 'draft-js-export-html';
+import {MenuList,MenuItem,Menu,Fade,Button} from '@mui/material';
+import PersonIcon from '@mui/icons-material/Person';
+import Popper from '@mui/material/Popper';
 import { EditProfile } from './userprofile.js';
+import createResizeablePlugin from '@draft-js-plugins/resizeable';
+import LoginIcon  from '@mui/icons-material/Login'
+import CreateIcon from '@mui/icons-material/Create';
+import HOST from '../config.js'
 
+const host = HOST
 
 
 
@@ -68,7 +76,7 @@ function DisplayDialogOrLogin(){
     formData.append("tag", tag);
     formData.append("description", description);
     formData.append("date", date);
-    axios.post("https://backend.globeofarticles.com/articles/", formData, {
+    axios.post(`${host}articles/`, formData, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
@@ -87,7 +95,7 @@ function DisplayDialogOrLogin(){
 
   useEffect(() => {
     axios
-      .get("https://backend.globeofarticles.com/current/",{withCredentials:true})
+      .get(`${host}current/`,{withCredentials:true})
       .then((res) => {
         setArticle({
           ...article,
@@ -125,14 +133,14 @@ function DisplayDialogOrLogin(){
     };
   
     useEffect(()=>{
-      axios.get('https://backend.globeofarticles.com/verified/',{withCredentials:true}).then((res)=>{
+      axios.get(`${host}verified/`,{withCredentials:true}).then((res)=>{
         setVerified(res.data)
       })
     },[isVerified])
 
     useEffect(() => {
         axios
-          .get("https://backend.globeofarticles.com/isauthenticated/", { withCredentials: true })
+          .get(`${host}isauthenticated/`, { withCredentials: true })
           .then((res) => {
             setAuth(true)
           })
@@ -144,7 +152,6 @@ function DisplayDialogOrLogin(){
     return(
       <div className='create-article-wrapper'>
       <div className='create-article-div' style={{backgroundColor:theme.setButtonColor}}>
-      <CsrfToken />
       <input className='create-article-input' onClick={auth?(e)=>setOpen(true):(e)=>redirect('/login')} placeholder='Create an Article' />
       <Dialog PaperProps={{
         style:{
@@ -286,13 +293,13 @@ function CharsLeft({ chars, handleCount}) {
     };
 
     const redirectLogout = ()=>{
-      axios.get('https://backend.globeofarticles.com/logout/',{withCredentials:true}).then((res)=>{
+      axios.get(`${host}logout/`,{withCredentials:true}).then((res)=>{
         redirect('/login')
       })
 
     }
     useEffect(()=>{
-        axios.get('https://backend.globeofarticles.com/current/',{withCredentials:true}).then((res)=>{
+        axios.get(`${host}current/`,{withCredentials:true}).then((res)=>{
             setCurrent(res.data)
             console.log(res.data)
           
@@ -340,7 +347,7 @@ function LoginOrLogout(){ //Login Or Logout component
 
 
     useEffect(()=>{
-        axios.get('https://backend.globeofarticles.com/isauthenticated/',{withCredentials:true},{timeout:2000}).then((res)=>{
+        axios.get('${host}isauthenticated/',{withCredentials:true},{timeout:2000}).then((res)=>{
             setAuth(true)
             return ()=>{
               setAuth(auth)
@@ -364,7 +371,7 @@ function LoginOrLogout(){ //Login Or Logout component
     let handleLogout= (e)=>{
         e.preventDefault()
 
-        axios.get('https://backend.globeofarticles.com/logout/',{withCredentials:true},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.get('${host}logout/',{withCredentials:true},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             
             redirect('/login')
         }).catch((err)=>{
@@ -447,7 +454,7 @@ function DisplayDialogOrAuth() {
     formData.append("description", description);
     formData.append("date", date);
     axios
-      .post("https://backend.globeofarticles.com/articles/", formData, {
+      .post(`${host}articles/`, formData, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
@@ -500,7 +507,7 @@ return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, '');
 
   useEffect(() => {
     axios
-      .get("https://backend.globeofarticles.com/current/",{withCredentials:true})
+      .get(`${host}current/`,{withCredentials:true})
       .then((res) => {
         setArticle({
           ...article,
@@ -538,14 +545,14 @@ return AtomicBlockUtils.insertAtomicBlock(newEditorState, entityKey, '');
     };
   
     useEffect(()=>{
-      axios.get('https://backend.globeofarticles.com/verified/',{withCredentials:true}).then((res)=>{
+      axios.get(`${host}verified/`,{withCredentials:true}).then((res)=>{
         setVerified(res.data)
       })
     },[isVerified])
 
     useEffect(() => {
         axios
-          .get("https://backend.globeofarticles.com/isauthenticated/", { withCredentials: true })
+          .get(`${host}isauthenticated/`, { withCredentials: true })
           .then((res) => {
             setAuth(true)
           })

@@ -59,8 +59,6 @@ class ArticleView(viewsets.ModelViewSet):
         authentication_classes = [SessionAuthentication]
         permissions_classes = [IsAuthenticated]
         article = serializer.ArticleSerializer(data=request.data)
-        print(settings.CSRF_USE_SESSIONS)
-        print(settings.CSRF_COOKIE_HTTPONLY)
         if article.is_valid():
         
             title = article.data['title']

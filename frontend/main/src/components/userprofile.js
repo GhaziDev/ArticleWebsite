@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 import {Dialog} from '@mui/material'
 import {faHome} from "@fortawesome/free-solid-svg-icons";
 import {Filter,ListAllArticles} from './filtertag';
-
+import HOST from "../config.js";
 
 export function EditProfile({username}){
   const [profileInfo,setProfileInfo] = useState({'img':'','bio':''})
@@ -22,7 +22,7 @@ export function EditProfile({username}){
   const {user} = useParams()
   const redirect = useNavigate('/')
   useEffect(()=>{
-    axios.get(`https://backend.globeofarticles.com/userprofile/${username}/`).then((res)=>{
+    axios.get(`${HOST}userprofile/${username}/`).then((res)=>{
         setProfileInfo({
           bio:res.data.bio,
           img:res.data.img
@@ -47,7 +47,7 @@ export function EditProfile({username}){
       formData.append('img',img)
 
     }
-    axios.put(`https://backend.globeofarticles.com/userprofile/${username}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+    axios.put(`${HOST}userprofile/${username}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
       redirect(`/userprofile/${username}`)
     }).catch((e)=>{
     })
@@ -92,7 +92,7 @@ function UserProfile(){
     let [selection,setSelection] = useState('')
     let [articleList,setArticleList] = useState([])
     useEffect(()=>{
-      axios.get('https://backend.globeofarticles.com/current/',{withCredentials:true}).then((res)=>{
+      axios.get(`${HOST}current/`,{withCredentials:true}).then((res)=>{
         if(res.data.user===username){
           setIsHidden(false)
         }
@@ -105,7 +105,7 @@ function UserProfile(){
 
 
     useEffect(()=>{
-      axios.get(`https://backend.globeofarticles.com/userprofile/${user}/`).then((res)=>{
+      axios.get(`${HOST}userprofile/${user}/`).then((res)=>{
           setUserInfo({
             username:res.data.user,
             user_posts:[
@@ -130,7 +130,7 @@ function UserProfile(){
       let formData = new FormData()
       formData.append('img',img)
       formData.append('bio',bio)
-      axios.put(`https://backend.globeofarticles.com/userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+      axios.put(`${HOST}userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
 
       })
     }

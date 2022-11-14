@@ -1,6 +1,7 @@
 import { useEffect,useState } from "react";
 import {useParams,useNavigate} from 'react-router-dom';
 import axios from 'axios'
+import HOST from "../config";
 
 function Verify(){
     const [message, setMessage] = useState("");
@@ -8,7 +9,7 @@ function Verify(){
     const user = useParams();
     const redirect = useNavigate()
     useEffect(() => {
-        axios.get(`https://backend.globeofarticles.com/verify/${token.token}/${token.user}/`).then((res)=>{
+        axios.get(`${HOST}verify/${token.token}/${token.user}/`).then((res)=>{
             setMessage(res.data)
             redirect('/')
 

@@ -6,8 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import CsrfToken from "./csrf";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ThemeSwitch } from "./navig";
-import debounce from 'lodash.debounce'
-
+import HOST from "../config";
 
 import {
 	Checkbox
@@ -91,7 +90,7 @@ const Signup = () => {
   useEffect(()=>{
     const Data = 
     setTimeout(()=>{
-    axios.post('https://backend.globeofarticles.com/password-valid/',{password:password},{headers:{'X-CSRFToken':Cookies.get('csrf')}}).then((res)=>{
+    axios.post(`${HOST}password-valid/`,{password:password},{headers:{'X-CSRFToken':Cookies.get('csrf')}}).then((res)=>{
       setInnerHtml(
         {
           ...innerHtml,
@@ -128,7 +127,7 @@ const Signup = () => {
   useEffect(() => {
     const usernameData = setTimeout(()=>{
     axios
-      .post("https://backend.globeofarticles.com/exists/", { username: username })
+      .post(`${HOST}exists/`, { username: username })
       .then((res) => {
         setStyle({color:'yellowgreen'})
         setExist({
@@ -178,7 +177,7 @@ const Signup = () => {
   let handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("https://backend.globeofarticles.com/signup/", signup, {
+      .post(`${HOST}signup/`, signup, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
