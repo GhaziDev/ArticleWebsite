@@ -228,6 +228,7 @@ const SpecificArticle = ()=>{
                          {comment.user}    </div>    <div className='cmnt-date' key={comment.date.toString()}>
                          {comment.date}
                         </div>
+                        <div className='isauthor' style={{display:comment.is_author?'block':'none'}}>Author</div>
                         </div>
 
                         <div className = 'descmnt' key={comment.desc}>
@@ -255,11 +256,12 @@ const SpecificArticle = ()=>{
             </div>
             )
         }
+
     }
     return(
         <div className='spec-article' style={{backgroundColor:theme.setBg,color:theme.setColor}}>
             <div className='navi'>
-            <button style = {{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} className='l-div'  onClick={()=>redirect('/')}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
+            <div  className='l-div' style={{color:theme.setColor}}  onClick={()=>redirect('/')}>Home</div>
                 <ThemeSwitch ></ThemeSwitch>
             </div>
 
@@ -270,7 +272,7 @@ const SpecificArticle = ()=>{
         <div className='article-tag'>
                 <span style={{backgroundColor:theme.setButtonColor,borderRadius:'4px',textAlign:'center'}}>{article.tag}</span>
             </div>
-            <div className='article-date'>
+            <div className='article-date' style={{color:theme.setBg==='#E1E2E1'?'#5A5A5A':'#D3D3D3'}}>
                 {article.date}
             </div>
             </div>
@@ -278,7 +280,7 @@ const SpecificArticle = ()=>{
             <div className='article-user'>
             <Link to={{
                     pathname:`/userprofile/${article.user}/`
-                    }}  style={{display:'flex',alignItems:'flex-start',textDecoration:'none',color:'#00e5fe',gap:'12px'}}>
+                    }}  style={{display:'flex',alignItems:'flex-start',textDecoration:'none',color:theme.setBg==='#E1E2E1'?'#2622fb':'#00e5fe',gap:'12px'}}>
                 <img  className='profile-img' src={article.user_profile}/>
                 {article.user}</Link>
 

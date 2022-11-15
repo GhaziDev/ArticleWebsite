@@ -21,7 +21,7 @@ function App() {
     setButtonColor:localStorage.getItem('buttonColor'),
     setColor:localStorage.getItem('color'),
     setTextColor:localStorage.getItem('textColor'),
-    setIcon:localStorage.getItem('icon')
+    setIcon:localStorage.getItem('icon'),
 }
 
 )

@@ -8,16 +8,16 @@ const Rules = () => {
   let [open, setOpen] = useState(false);
   return (
     <div className="opendiv">
-      <button
+      <div
         className="openbtn"
         onClick={() => setOpen(true)}
         style={{
-          backgroundColor: theme.setButtonColor,
           color: theme.setTextColor,
         }}
       >
-        <GavelIcon></GavelIcon>
-      </button>
+        Rules
+      </div>
+      <span className='rules-span'></span>
       <Dialog  open={open} onClose={() =>setOpen(false)} className="drules">
         <div
           className="rules-div"

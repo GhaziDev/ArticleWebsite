@@ -17,6 +17,8 @@ import {DisplayDialogOrLogin} from "./displayarticles.js";
 import ReactPaginate from 'react-paginate';
 import ReactDOM from 'react-dom';
 import HOST from '../config.js';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 library.add(fas);
 
@@ -47,10 +49,10 @@ function PaginatedItems({ itemsPerPage,articleList,theme}) { //managing items by
   return(
     <>
     <ListAllArticles articles={currentItems} theme={theme} />
-    <div className="paginator">
+    <div className="paginator" >
     <ReactPaginate
       breakLabel="..."
-      nextLabel="next >"
+      nextLabel={<ArrowForwardIosIcon></ArrowForwardIosIcon>}
       onPageChange={(e)=>handlePageClick(e)}
       pageRangeDisplayed={5}
       pageCount={pageCount}
@@ -64,7 +66,7 @@ function PaginatedItems({ itemsPerPage,articleList,theme}) { //managing items by
       breakLinkClassName="page-link"
       containerClassName="pagination"
       activeClassName="active"
-      previousLabel="< previous"
+      previousLabel={<ArrowBackIosIcon></ArrowBackIosIcon>}
       renderOnZeroPageCount={null}
       marginPagesDisplayed={2}
     />

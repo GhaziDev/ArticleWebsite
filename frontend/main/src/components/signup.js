@@ -212,9 +212,10 @@ const Signup = () => {
   return (
     <div className="signup-page" style={{backgroundColor:theme.setBg}}>
       <div className='navig-side'>
-       <button  className='top-left'   onClick={()=>redirect('/')}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
+       <div  className='l-div' style={{color:theme.setColor}}   onClick={()=>redirect('/')}>Home</div>
        <ThemeSwitch/>
        </div>
+
 
        <div className='form-wrapper'>
       <form
@@ -249,7 +250,7 @@ const Signup = () => {
             value={email}
             style={{backgroundColor:theme.setBg,color:theme.setTextColor}}
           ></input>
-          <div></div>
+          <div style={{color:'red'}}>{error}</div>
           <input
             required
             type={type}

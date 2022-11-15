@@ -152,7 +152,7 @@ function DisplayDialogOrLogin(){
     return(
       <div className='create-article-wrapper'>
       <div className='create-article-div' style={{backgroundColor:theme.setButtonColor}}>
-      <input className='create-article-input' onClick={auth?(e)=>setOpen(true):(e)=>redirect('/login')} placeholder='Create an Article' />
+      <button className='create-article-input' onClick={auth?(e)=>setOpen(true):(e)=>redirect('/login')} placeholder='Create an Article' >Create An Article</button>
       <Dialog PaperProps={{
         style:{
             backgroundColor:theme.setBg,color:theme.setButtonColor}}}  fullWidth={true} maxWidth='lg' open={open} onClose={() => handleClose()} className="dialog">
@@ -347,7 +347,7 @@ function LoginOrLogout(){ //Login Or Logout component
 
 
     useEffect(()=>{
-        axios.get(`${host}isauthenticated/`,{withCredentials:true},{timeout:2000}).then((res)=>{
+        axios.get(`${host}isauthenticated/`,{withCredentials:true}).then((res)=>{
             setAuth(true)
             return ()=>{
               setAuth(auth)
@@ -397,8 +397,8 @@ function LoginOrLogout(){ //Login Or Logout component
     }
     return(
       <div className='right-div'>
-            <button className='l-div' style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} onClick={()=>handleRedirectLogin()}><LoginIcon></LoginIcon></button>
-            <button onClick = {()=>handleRedirectSignUp()} style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} className='l-div'>Signup</button>
+            <div className='l-div' style={{color:theme.setTextColor}} onClick={()=>handleRedirectLogin()}>Login</div>
+            <div onClick = {()=>handleRedirectSignUp()} style={{color:theme.setTextColor}} className='l-div'>Signup</div>
             </div>
         )
 

@@ -87,14 +87,12 @@ function Navigation(){
 
         <div className='nav-div' >
                <div className='nav-div-left'>
-            <button style = {{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} className='l-div'  onClick={()=>redirect('/')}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
+            <div style = {{color:theme.setTextColor}} className='l-div'  onClick={()=>redirect('/')}>Home</div>
             <Rules></Rules>
             <LoginOrLogout></LoginOrLogout>
             <ThemeSwitch ></ThemeSwitch>
 
             </div>
-         
-
 
         </div>
     )

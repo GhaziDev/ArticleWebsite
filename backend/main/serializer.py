@@ -41,8 +41,8 @@ class SignupSerializer(serializers.ModelSerializer):
 
 
 class LoginSerializer(serializers.Serializer):
-    email = serializers.CharField(required=False)
-    password = serializers.CharField(required=True)
+    email = serializers.CharField(required=False,allow_blank=True)
+    password = serializers.CharField(required=False,allow_blank=True)
 
 
 class SearchSerializer(serializers.Serializer):

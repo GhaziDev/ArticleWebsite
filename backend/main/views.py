@@ -199,6 +199,8 @@ class LoginView(views.APIView):
     @method_decorator(ensure_csrf_cookie)
     def post(self,request):
         data = serializer.LoginSerializer(data=request.data)
+        print(data.is_valid())
+        print(data.errors)
         if data.is_valid():
             email = data.data['email']
             password = data.data['password']

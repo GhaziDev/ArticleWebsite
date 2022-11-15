@@ -33,6 +33,7 @@ button{
 
 .opendiv{
   padding-left: 10px;
+ 
 
 }
 
@@ -40,17 +41,28 @@ button{
 
 
 .openbtn{
-  width:70px;
-  height:50px;
+  width:fit-content;
+  height:fit-content;
   border:none;
-  border-radius: 4px;
+  font-size: 18px;
+  cursor:pointer;
+  padding-bottom:9px;
+
 
 }
+
+.openbtn:hover{
+  border-bottom:2px solid;
+
+}
+
+
 
 .container-div{
   display:flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
+  height:200px;
 }
 .sort-container{
   display:flex;
@@ -205,13 +217,18 @@ input:checked + .slider:before {
 .l-div{
   padding-left:20px;
   padding-right:20px;
-  padding-top:15px;
-  padding-bottom:15px;
   border: none;
-  border-radius:4px;
-  font-size: 18px;
-  height:50px;
+  font-size:18px;
+  height:fit-content;
+  width:fit-content;
+  border-width:fit-content;
   margin-left:10px;
+  cursor:pointer;
+  padding-bottom:9px;
+}
+
+.l-div:hover{
+  border-bottom:2px solid;
 }
 
 .pfp-div{
@@ -887,25 +904,12 @@ input:checked + .slider:before {
   width:100%;
   flex-flow: row nowrap;
   cursor:pointer;
+  padding: 20;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
 }
 
-.paginator ul{
-  display:flex;
-  width:100%;
-  list-style-type:none;
-  
-}
-
-
-
-.paginator ul li{
-  width:100%;
-
-}
-
-.paginator ul li:checked{
-  border-bottom: 1px solid black;
-}
 
 .article-date{
   height:fit-content;
@@ -1063,7 +1067,7 @@ input:checked + .slider:before {
 }
 
 .comment-section h1{
-  padding-left:30px;
+  padding-left:50px;
   padding-top:40px;
 }
 
@@ -1129,9 +1133,7 @@ input:checked + .slider:before {
 .create-article-wrapper{
   display:flex;
   justify-content: center;
-  align-items: flex-end;
-  width:100%;
-  height:100%;
+
  
 }
 
@@ -1146,17 +1148,23 @@ input:checked + .slider:before {
   justify-content: center;
   align-items: center;
   border-radius:5px;
-  width:500px;
-  height:70px;
 }
 
 .create-article-input{
-  width:450px;
-  height:40px;
-  border-radius:6px;
+  width:160px;
+  height:60px;
+  font-size:16px;
+  font-weight: 500;
+  font-family:Verdana, Geneva, Tahoma, sans-serif;
+  border-radius:4px;
   outline:none;
-  border:1px black solid;
+  border:none;
 
+}
+
+.create-article-input:hover{
+  background-color: black;
+  color:white;
 }
 
 .edit-profile-div button{
@@ -1248,13 +1256,77 @@ input:checked + .slider:before {
 }
 
 
+.item {
+  align-items: center;
+  color: #FFF;
+  cursor: pointer;
+  display: flex;
+  font-size: 14px;
+  height: 40px;
+  justify-content: center;
+  width:10px;
+}
 
+.disabled-page {
+  color: #808e9b;
+}
+
+.active {
+  border: solid 1px #808e9b;
+  border-radius: 10px;
+  background-color: inherit;
+}
+
+.break-me {
+}
+
+.next {
+  border-left: solid 1px #808e9b;
+  font-size: 4px;
+  height: 60px;
+  position: absolute;
+  right: 0;
+  width: 150px;
+}
+
+.pagination {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  height: 60px;
+  justify-content: center;
+
+  list-style-type: none;
+  position: relative;
+  width: 1000px;
+}
+
+.paginator ul li{
+  padding-left:20px;
+  padding-right:20px;
+}
+
+.pagination-page {
+  font-weight: 700;
+}
+
+.previous {
+  border-right: solid 1px #808e9b;
+  font-size: 4px;
+  height: 60px;
+  left: 0;
+  position: absolute;
+  width: 150px;
+}
 
 .nav-div{
   display:flex;
   flex-flow: column wrap;
   gap:12px;
-  padding-bottom: 12px;
+  padding-top:15px;
+  padding-bottom:15px;
+  padding-left:50px;
+  padding-right:20px;
 }
 
 .nav-div-left{

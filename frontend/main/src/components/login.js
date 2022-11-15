@@ -90,7 +90,6 @@ const Login = ()=>{
 
 
         }).catch((e)=>{
-            setIsAuth(false)
             if (e.response){
                 if(e.response.status===401){
                     setIsAuth(false)
@@ -103,7 +102,7 @@ const Login = ()=>{
         <div className='login-page' id='loginpage' style={{backgroundColor:theme.setBg}}>
             <CsrfToken></CsrfToken>
             <div className='navig-side'>
-       <button  className='top-left'   onClick={()=>redirect('/')}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
+       <div  className='l-div'  style={{color:theme.setColor}}   onClick={()=>redirect('/')}>Home</div>
        <ThemeSwitch/>
        </div>
             <IsAuthenticated theme={theme} errorText={errorText} errored={isError} handleChange={handleChange} email={email} password={password} handleSubmit={handleSubmit} auth={isAuth}></IsAuthenticated>
