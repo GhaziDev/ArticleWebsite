@@ -21,6 +21,7 @@ function Popup({isSent}){
 function PasswordResetAsk(){
     let [email,setEmail] = useState({'email':''})
     let [isSent,setIsSent] = useState(false)
+    let [disabled,setDisabled] = useState(false)
     let redirect = useNavigate()
     let {theme} = useContext(themeContext)
     let handleChange = (e)=>{
@@ -36,6 +37,7 @@ function PasswordResetAsk(){
         axios.post(`${HOST}reset/`,email,{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             setIsSent(true)
             setEmail({'email':''})
+            setDisabled(true)
            
 
         }).catch((e)=>{
@@ -54,7 +56,7 @@ function PasswordResetAsk(){
 
             <h1>Reset Password Page</h1>
             <input className="email-inp" name='email'  value={email.email} onChange={(e)=>handleChange(e)} placeholder='insert your email here'></input>
-            <button  style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} className='reset-button' type='submit'>Send reset link</button>
+            <button  style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} disabled={disabled} className='reset-button' type='submit'>Send reset link</button>
             <Popup isSent={isSent}></Popup>
             
         </div>
