@@ -48,7 +48,7 @@ function PasswordResetAsk(){
         <div className='reset-page-div' >
         <CsrfToken></CsrfToken>
             <div className='navig-side'>
-       <button  className='top-left'   onClick={()=>redirect('/')}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
+       <div className='l-div' style={{color:theme.setColor}}  onClick={()=>redirect('/')}>Home</div>
        <ThemeSwitch/>
        </div>
 
@@ -66,7 +66,7 @@ function PassConfirmation({confirm,password}){
     if(confirm!==password){
         return <div style={{color:'red'}}>Password is not matching</div>
     }
-    return <button type='submit'>Reset</button>
+    return <button type='submit' className='ll-div'>Reset</button>
 }
 
 function PasswordResetPage(){
@@ -77,6 +77,7 @@ function PasswordResetPage(){
     let [found,setFound] = useState({'found':true,val:0})
     let [error,setError] = useState({})
     let redirect = useNavigate()
+    let {theme} = useContext(themeContext)
 
     let handleChange = (e)=>{
         setPassword(
@@ -115,8 +116,8 @@ function PasswordResetPage(){
     }
 
     let displayErrors = ()=>{
-        console.log(error)
-        if(typeof error== Array){
+        console.log(typeof error)
+        if(typeof error== "object" && error.length>0){
         return error.map((e)=>{
             return(
             <div className='error' style={{display:'block'}}>
@@ -138,14 +139,15 @@ function PasswordResetPage(){
         )
     }
     return(
-        <form method='post' onSubmit={(e)=>handleSubmit(e)}>
+        <form method='post' onSubmit={(e)=>handleSubmit(e)} style={{backgroundColor:theme.setBg}}>
         <div className='pass_change'>
-        <button  className='top-left'  style={{backgroundColor:'white'}} onClick={()=>redirect('/')}><FontAwesomeIcon icon={faHome}></FontAwesomeIcon></button>
-            <label>Password : </label>
-            <input type='password' required value={password} onChange={(e)=>handleChange(e)}></input>
-            <label>Confirm Password </label>
-            <input type='password' required value={confirm} onChange={(e)=>handleConfirmChange(e)}></input>
-            <div className='password-invalid' style={{display:error.length?'block':'none',color:'red'}}>{displayErrors()}</div>
+        <div className='l-div' style={{color:theme.setColor}}  onClick={()=>redirect('/')}>Home</div>
+       <ThemeSwitch/>
+            <label style={{color:theme.setColor}}>Password : </label>
+            <input style={{color:theme.setColor,backgroundColor:theme.setBg,borderBottomColor:theme.setColor}} type='password' required value={password} onChange={(e)=>handleChange(e)}></input>
+            <label style={{color:theme.setColor}}>Confirm Password </label>
+            <input style={{color:theme.setColor,backgroundColor:theme.setBg,borderBottomColor:theme.setColor}} type='password' required value={confirm} onChange={(e)=>handleConfirmChange(e)}></input>
+            <div  className='password-invalid' style={{display:error.length?'block':'none',color:'red'}}>{displayErrors()}</div>
             <PassConfirmation confirm={confirm} password={password}></PassConfirmation>
 
         </div>
