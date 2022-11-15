@@ -243,11 +243,10 @@ class GetCSRFToken(views.APIView):
 
 
 class LogoutView(views.APIView):
-    @method_decorator(ensure_csrf_cookie,csrf_protect)
+    @method_decorator(ensure_csrf_cookie)
     def get(self,request):
         logout(request)
         return Response("Logged out!")
-
 
 
 class VerifyUser(views.APIView):
