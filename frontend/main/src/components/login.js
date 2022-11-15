@@ -25,6 +25,15 @@ function WrongUserPass({errored,errorText}){
 
 
 function IsAuthenticated({auth,handleChange,handleSubmit,email,password,errored,errorText,theme}){
+    let [type,setType] = useState('password')
+    let handleToggle = (e)=>{
+        if(e.target.checked){
+            setType('text')
+        }
+        else{
+            setType('password')
+        }
+    }
         if(auth){
             return <div  id='loggedin' style={{color:theme.setColor}}>You are already logged in <Link to='/' style={{color:'lightsalmon'}}>Back to main page</Link></div>
         }
@@ -36,7 +45,7 @@ function IsAuthenticated({auth,handleChange,handleSubmit,email,password,errored,
                 <h1 style={{color:theme.setColor}}>Login Page</h1>
                 <input  type='email' className='email' name='email' onChange={(e)=>handleChange(e)} value={email} placeholder='Email' autoComplete='off' style={{backgroundColor:theme.setBg,color:theme.setTextColor}}></input>
 
-                <input type='password' className='password' name='password' onChange={(e)=>handleChange(e)} value={password} placeholder='Password' style={{backgroundColor:theme.setBg,color:theme.setTextColor}}></input>
+                <input type={type} className='password' name='password' onChange={(e)=>handleChange(e)} value={password} placeholder='Password' style={{backgroundColor:theme.setBg,color:theme.setTextColor}}></input>
                 <Checkbox className='hide-show' type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon style={{color:theme.setColor}}/>} checkedIcon={<VisibilityOffIcon/>} />
 
                 <button  type='submit' className='user-link'style={{backgroundColor:theme.setBg,color:theme.setTextColor}}>Login</button>
@@ -57,18 +66,11 @@ const Login = ()=>{
     let [errorText,setErrorText] = useState('')
     let [isError,setIsError] = useState(false);
     let [isAuth,setIsAuth] = useState(false);
-    let [type,setType] = useState('password')
+    
     let redirect = useNavigate()
     let {theme} = useContext(themeContext)
 
-    let handleToggle = (e)=>{
-        if(e.target.checked){
-            setType('text')
-        }
-        else{
-            setType('password')
-        }
-    }
+
     let handleChange = (e)=>{
         setLogin(
             {
