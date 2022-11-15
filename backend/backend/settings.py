@@ -65,6 +65,7 @@ CSRF_COOKIE_PATH = '/'
 CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_DOMAIN = '.globeofarticles.com'
+CSRF_COOKIE_DOMAIN = '.globeofarticles.com'
 
 
 
