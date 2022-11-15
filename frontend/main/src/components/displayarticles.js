@@ -336,6 +336,7 @@ function CharsLeft({ chars, handleCount}) {
             <MenuItem><button onClick={redirectLogout} type='submit' className='ll-div' style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} >Logout </button></MenuItem>
         </Menu>
         </span>
+
     )
 }
 

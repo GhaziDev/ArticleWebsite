@@ -55,7 +55,7 @@ export function EditProfile({username}){
 
   return(
     <div>
-    <button onClick={(e)=>setOpen(true)} style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} className='l-div'>
+    <button onClick={(e)=>setOpen(true)} style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} className='ll-div'>
     <Dialog open={open} onClose={(e)=>setOpen(false)} width='xl' >
     <div className='edit-profile-div' style={{backgroundColor:theme.setBg,color:theme.setTextColor,}}>
       <h1 style={{textAlign:'center'}}>Edit Your Profile</h1>
