@@ -371,7 +371,7 @@ function LoginOrLogout(){ //Login Or Logout component
     let handleLogout= (e)=>{
         e.preventDefault()
 
-        axios.get('${host}logout/',{withCredentials:true},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.get(`${host}logout/`,{withCredentials:true},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             
             redirect('/login')
         }).catch((err)=>{
