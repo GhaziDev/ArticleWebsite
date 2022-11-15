@@ -68,12 +68,12 @@ function PasswordResetAsk(){
     )
 }
 
-function PassConfirmation({confirm,password,submit}){
+function PassConfirmation({confirm,password,type}){
     if(confirm!==password){
         return <div style={{color:'red'}}>Password is not matching</div>
     }
     
-    return <form onSubmit={(e)=>submit(e)}> <button type='submit' className='ll-div'>Reset</button></form>
+    return <button type={type} className='ll-div'>Reset</button>
 }
 
 function PasswordResetPage(){
@@ -166,7 +166,7 @@ function PasswordResetPage(){
             <input style={{color:theme.setColor,backgroundColor:theme.setBg,borderBottomColor:theme.setColor}} type={type} required value={confirm} onChange={(e)=>handleConfirmChange(e)}></input>
             <Checkbox className='hide-show' type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon style={{color:theme.setColor}}/>} checkedIcon={<VisibilityOffIcon/>} />
             <div  className='password-invalid' style={{display:error.length?'block':'none',color:'red'}}>{displayErrors()}</div>
-            <PassConfirmation submit={handleSubmit} confirm={confirm} password={password}></PassConfirmation>
+            <PassConfirmation type={type} submit={handleSubmit} confirm={confirm} password={password}></PassConfirmation>
 
         </div>
         </form>
@@ -174,6 +174,9 @@ function PasswordResetPage(){
 
 
 }
+
+//focus into this page tomorrow.
+
 
 
 export default PasswordResetAsk;
