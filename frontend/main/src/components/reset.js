@@ -8,6 +8,9 @@ import { faBorderNone, faHome } from "@fortawesome/free-solid-svg-icons";
 import {ThemeSwitch} from './navig'
 import {themeContext} from '../App.js'
 import HOST from "../config";
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Checkbox } from "@mui/material";
 
 function Popup({isSent}){
     if(isSent){
@@ -22,6 +25,7 @@ function PasswordResetAsk(){
     let [email,setEmail] = useState({'email':''})
     let [isSent,setIsSent] = useState(false)
     let [disabled,setDisabled] = useState(false)
+
     let redirect = useNavigate()
     let {theme} = useContext(themeContext)
     let handleChange = (e)=>{
@@ -80,6 +84,7 @@ function PasswordResetPage(){
     let [error,setError] = useState({})
     let redirect = useNavigate()
     let {theme} = useContext(themeContext)
+    let [type,setType] = useState('password')
 
     let handleChange = (e)=>{
         setPassword(
@@ -91,6 +96,15 @@ function PasswordResetPage(){
             e.target.value
         )
 
+    }
+
+    let handleToggle = (e)=>{
+        if(e.target.checked){
+            setType('text')
+        }
+        else{
+            setType('password')
+        }
     }
 
     console.log(token)
@@ -148,7 +162,8 @@ function PasswordResetPage(){
             <label style={{color:theme.setColor}}>Password : </label>
             <input style={{color:theme.setColor,backgroundColor:theme.setBg,borderBottomColor:theme.setColor}} type='password' required value={password} onChange={(e)=>handleChange(e)}></input>
             <label style={{color:theme.setColor}}>Confirm Password </label>
-            <input style={{color:theme.setColor,backgroundColor:theme.setBg,borderBottomColor:theme.setColor}} type='password' required value={confirm} onChange={(e)=>handleConfirmChange(e)}></input>
+            <input style={{color:theme.setColor,backgroundColor:theme.setBg,borderBottomColor:theme.setColor}} type={type} required value={confirm} onChange={(e)=>handleConfirmChange(e)}></input>
+            <Checkbox className='hide-show' type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon style={{color:theme.setColor}}/>} checkedIcon={<VisibilityOffIcon/>} />
             <div  className='password-invalid' style={{display:error.length?'block':'none',color:'red'}}>{displayErrors()}</div>
             <PassConfirmation confirm={confirm} password={password}></PassConfirmation>
 
