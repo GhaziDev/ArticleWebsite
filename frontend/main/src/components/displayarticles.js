@@ -347,7 +347,7 @@ function LoginOrLogout(){ //Login Or Logout component
 
 
     useEffect(()=>{
-        axios.get('${host}isauthenticated/',{withCredentials:true},{timeout:2000}).then((res)=>{
+        axios.get(`${host}isauthenticated/`,{withCredentials:true},{timeout:2000}).then((res)=>{
             setAuth(true)
             return ()=>{
               setAuth(auth)
@@ -355,6 +355,7 @@ function LoginOrLogout(){ //Login Or Logout component
         }).catch((e)=>{
             console.log(e.response.data)
             setAuth(false)
+            console.log(auth)
         }
         )
 
@@ -372,10 +373,11 @@ function LoginOrLogout(){ //Login Or Logout component
         e.preventDefault()
 
         axios.get(`${host}logout/`,{withCredentials:true},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+          setAuth(false)
             setTimeout(()=>{
               redirect('/login')
             }
-            ,1000)
+            ,2000)
             
         }).catch((err)=>{
             console.log(err.response.data)

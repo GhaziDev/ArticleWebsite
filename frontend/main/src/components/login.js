@@ -90,6 +90,7 @@ const Login = ()=>{
 
 
         }).catch((e)=>{
+            setIsAuth(false)
             if (e.response){
                 if(e.response.status===401){
                     setIsAuth(false)
