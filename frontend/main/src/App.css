@@ -231,6 +231,22 @@ input:checked + .slider:before {
   border-bottom:2px solid;
 }
 
+
+.ll-div{
+  padding-left:20px;
+  padding-right:20px;
+  border: none;
+  font-size:18px;
+  border:none;
+  height:fit-content;
+  width:fit-content;
+  border-radius: 4px;
+  margin-left:10px;
+  cursor:pointer;
+  padding-bottom:9px;
+
+}
+
 .pfp-div{
   display:flex;
   border: none;

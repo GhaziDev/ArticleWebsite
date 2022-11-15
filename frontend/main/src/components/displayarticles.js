@@ -331,9 +331,9 @@ function CharsLeft({ chars, handleCount}) {
         onClose={handleClose}
         TransitionComponent={Fade}
         >
-            <MenuItem><button className='l-div' style = {{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} onClick={(e)=>{redirect(`/userprofile/${current.user}/`)}}>My Profile</button></MenuItem>
-            <MenuItem><EditProfile username={current.user} className='l-div' style = {{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}>Settings</EditProfile></MenuItem>
-            <MenuItem><button onClick={redirectLogout} type='submit' className='l-div' style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} >Logout </button></MenuItem>
+            <MenuItem><button className='ll-div' style = {{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} onClick={(e)=>{redirect(`/userprofile/${current.user}/`)}}>My Profile</button></MenuItem>
+            <MenuItem><EditProfile username={current.user} className='ll-div' style = {{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}>Settings</EditProfile></MenuItem>
+            <MenuItem><button onClick={redirectLogout} type='submit' className='ll-div' style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} >Logout </button></MenuItem>
         </Menu>
         </span>
     )
