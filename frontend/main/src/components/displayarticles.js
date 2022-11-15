@@ -336,13 +336,9 @@ function CharsLeft({ chars, handleCount}) {
             <MenuItem><button onClick={redirectLogout} type='submit' className='ll-div' style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} >Logout </button></MenuItem>
         </Menu>
         </span>
-<<<<<<< HEAD
-
-=======
-        
->>>>>>> debbcfbb6c4004038958ceef2782280c0864162d
     )
 }
+
 
 function LoginOrLogout(){ //Login Or Logout component
     let redirect = useNavigate()

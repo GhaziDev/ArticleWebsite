@@ -12,7 +12,7 @@ import HOST from "../config";
 function Popup({isSent}){
     if(isSent){
     return(
-        <div style={{Color:'limegreen'}}>An Email has been sent!</div>
+        <div style={{color:'limegreen'}}>An Email has been sent!</div>
     )
     }
     return null
@@ -115,7 +115,8 @@ function PasswordResetPage(){
     }
 
     let displayErrors = ()=>{
-        if(typeof error =='Array'){
+        console.log(error)
+        if(typeof error== Array){
         return error.map((e)=>{
             return(
             <div className='error' style={{display:'block'}}>
@@ -125,7 +126,7 @@ function PasswordResetPage(){
         })
     }
     else{
-        return <div className='error' style={{display:'block'}}>{error}</div>
+        return <div className='error' style={{display:'block'}}>{}</div>
     }
     }
 
