@@ -372,8 +372,11 @@ function LoginOrLogout(){ //Login Or Logout component
         e.preventDefault()
 
         axios.get(`${host}logout/`,{withCredentials:true},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+            setTimeout(()=>{
+              redirect('/login')
+            }
+            ,1000)
             
-            redirect('/login')
         }).catch((err)=>{
             console.log(err.response.data)
         })
