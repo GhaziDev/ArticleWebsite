@@ -38,10 +38,11 @@ function PasswordResetAsk(){
 
     let submitChange = (e)=>{
         e.preventDefault()
+        setDisabled(true)
         axios.post(`${HOST}reset/`,email,{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             setIsSent(true)
             setEmail({'email':''})
-            setDisabled(true)
+            setDisabled(false)
            
 
         }).catch((e)=>{
@@ -60,7 +61,7 @@ function PasswordResetAsk(){
 
             <h1>Reset Password Page</h1>
             <input className="email-inp" name='email'  value={email.email} onChange={(e)=>handleChange(e)} placeholder='insert your email here'></input>
-            <button  style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} disabled={disabled} className='reset-button' type='submit'>Send reset link</button>
+            <button  style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} disabled={disabled} className='reset-button' type='submit'>{disabled?<div class="lds-ring"><div></div><div></div><div></div><div></div></div>:'Send reset link'}</button>
             <Popup isSent={isSent}></Popup>
             
         </div>
@@ -108,14 +109,11 @@ function PasswordResetPage(){
         }
     }
 
-    console.log(token)
-
 
     useEffect(()=>{
         axios.get(`${HOST}reset/${token}/`).then((e)=>{
             setFound({'found':true,val:1})
             found.val = 1
-            console.log(found.val)
 
 
         })
@@ -124,7 +122,6 @@ function PasswordResetPage(){
     let handleSubmit = (e)=>{
         e.preventDefault()
         axios.post(`${HOST}reset/${token}/`,{"password":password},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
-            console.log(res.data)
             redirect('/')
         }).catch((e)=>{
             console.log(e.response.data)

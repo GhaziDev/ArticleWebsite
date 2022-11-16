@@ -69,7 +69,6 @@ const Signup = () => {
   const [style,setStyle] = useState({color:'green'})
   const {type} = showOrHidePassword
   const redirect = useNavigate();
-
   const handleToggle = (e)=>{
     if(e.target.checked){
       setShowOrHidePassword({
@@ -97,7 +96,6 @@ const Signup = () => {
           password:""
         }
       )
-      console.log(res.data)
     }).catch((e)=>{
       if (password.trim().length === 0) {
         setExist({
@@ -115,7 +113,6 @@ const Signup = () => {
             ...innerHtml,
             password:e.response.data
           });
-        setDisabled(true)
     
     }
   }
@@ -161,7 +158,6 @@ const Signup = () => {
             username:e.response.data
           });
         }
-        setDisabled(true)
       })}
     ,1000)
     return ()=>clearTimeout(usernameData)
@@ -175,6 +171,7 @@ const Signup = () => {
   };
 
   let handleSubmit = (e) => {
+    setDisabled(true)
     e.preventDefault();
     axios
       .post(`${HOST}signup/`, signup, {
@@ -265,7 +262,7 @@ const Signup = () => {
           <div style={{color:'red'}}>{listPasswordErrors()}</div>
           <VerfiyAcc isUp={isUp}></VerfiyAcc>
           <button type="submit" className="signupsbmt" disabled={disabled}  style={{backgroundColor:theme.setBg,color:theme.setColor}}>
-            Signup
+            {disabled?<div class="lds-ring"><div></div><div></div><div></div><div></div></div>:'Signup'}
           </button>
           <Link  style={{color:theme.setTextColor}} to="/login">Already have an account?</Link>
         </div>

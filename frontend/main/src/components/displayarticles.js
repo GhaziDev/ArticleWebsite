@@ -226,8 +226,7 @@ function DisplayDialogOrLogin(){
           style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}
           disabled={disabled}
         >
-
-          <span>Post</span>
+          <span>{disabled?<div class="lds-ring"><div></div><div></div><div></div><div></div></div>:'Post'}</span>
         </button>
         </div>
         <InvalidImage error={error}></InvalidImage>
