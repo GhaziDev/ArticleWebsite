@@ -166,7 +166,8 @@ function PasswordResetPage(){
             <input style={{color:theme.setColor,backgroundColor:theme.setBg,borderBottomColor:theme.setColor}} type={type} required value={confirm} onChange={(e)=>handleConfirmChange(e)}></input>
             <Checkbox className='hide-show' type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon style={{color:theme.setColor}}/>} checkedIcon={<VisibilityOffIcon/>} />
             <div  className='password-invalid' style={{display:error.length?'block':'none',color:'red'}}>{displayErrors()}</div>
-            <PassConfirmation type='submit' submit={handleSubmit} confirm={confirm} password={password}></PassConfirmation>
+            {password===confirm?<button type='submit' className='ll-div'>Reset</button>:<div style={{color:'red'}}>Password is not matching</div>}
+
 
         </div>
         </form>
