@@ -124,6 +124,7 @@ function PasswordResetPage(){
     let handleSubmit = (e)=>{
         e.preventDefault()
         axios.post(`${HOST}reset/${token}/`,{"password":password},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+            console.log(res.data)
             redirect('/')
         }).catch((e)=>{
             console.log(e.response.data)

@@ -335,9 +335,8 @@ class PasswordChangeView(views.APIView):
             password = data.data['password']
             try:
                 validate_password(password)
-                user = models.CustomUser.objects.filter(token=token)
                 user1 =  models.CustomUser.objects.get(token=token)
-                user.update(password=password)
+                user1.update(password=password)
                 user1.token = uuid.uuid1()
                 user1.save()
                 return Response("Password has been reset!",status=200)
