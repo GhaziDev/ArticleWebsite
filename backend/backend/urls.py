@@ -49,6 +49,7 @@ urlpatterns = [
      path('reset/<uuid:token>/',views.PasswordChangeView.as_view(),name='reset'),
      path('filter/',views.FilterArticlesView.as_view(),name='filter'),
      path('comments_of_article/<uuid:id>/',views.RetrieveComments.as_view(),name=''),
+     path('tags/',views.TagByName.as_view(),name='tag')
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

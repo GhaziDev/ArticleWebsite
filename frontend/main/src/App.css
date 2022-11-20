@@ -509,21 +509,21 @@ input:checked + .slider:before {
   padding: 10px 10px 10px 10px;
   border:1px solid;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 2px;
   width:150px;
+  text-align: center;
 
 }
 
 .img0{
   opacity:0;
   pointer-events: none;
+  height:0;
 }
 
 
 
 .tag-sel{
-  background-color: dodgerblue;
-  border-color:dodgerblue;
   height:40px;
 }
 
@@ -643,7 +643,7 @@ input:checked + .slider:before {
 .title-img{
   display:flex;
   flex-flow: column wrap;
-  justify-content: flex-start;
+  align-items: center;
 
 }
 
@@ -1251,13 +1251,16 @@ input:checked + .slider:before {
 .tag{
   display: flex;
   justify-content: flex-end;
-  height: fit-content;
 }
 
 .upper-side{
   display:flex;
-  justify-content: space-around;
-  flex-flow:row nowrap;
+  justify-content: center;
+  flex-flow:column wrap;
+  align-items: center;
+  padding-top:20px;
+  padding-bottom:20px;
+  gap:20px;
 }
 
 .texteditor{

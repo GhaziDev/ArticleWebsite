@@ -32,6 +32,10 @@ import json
 from django.conf import settings
 
 
+class TagByName(views.APIView):
+    def get(self,request):
+        return Response(models.Tag.objects.all().values_list('name',flat=True),status=200)
+
 class CurrentUser(views.APIView):
     def get(self,request):
         if request.user.is_authenticated:
@@ -59,6 +63,7 @@ class ArticleView(viewsets.ModelViewSet):
         authentication_classes = [SessionAuthentication]
         permissions_classes = [IsAuthenticated]
         article = serializer.ArticleSerializer(data=request.data)
+
         if article.is_valid():
         
             title = article.data['title']
@@ -68,6 +73,8 @@ class ArticleView(viewsets.ModelViewSet):
             title_img = request.FILES['title_img']
             if not 20<=len(title)<=60:
                 return Response("Title should be between 20-60 characters!",status=400)
+            if not request.user.is_authenticated:
+                return Response("user is not authenticated",status=401)
             user_profile = models.UserProfile.objects.get(user=request.user.username)
             new_article = models.Article.objects.create(title=title,title_img=title_img,description=description,user=request.user,tag=tag,date=date,user_profile=user_profile)
             return Response(new_article._id)

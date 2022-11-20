@@ -20,6 +20,7 @@ import createResizeablePlugin from '@draft-js-plugins/resizeable';
 import LoginIcon  from '@mui/icons-material/Login'
 import CreateIcon from '@mui/icons-material/Create';
 import HOST from '../config.js'
+import Tag from '../styling/tag.js'
 
 const host = HOST
 
@@ -30,13 +31,16 @@ function DisplayDialogOrLogin(){
     let [error,setError] = useState('')
     let [auth, setAuth] = useState(true);
     const {theme} = useContext(themeContext)
+    const [selected,setSelected] = useState(true)
     let [isVerified,setVerified] = useState(false)
+    let [tagList,setTagList] = useState([])
     const [editorState, setEditorState] = useState(() =>
     EditorState?.createEmpty(),
     )
     const resizeablePlugin = createResizeablePlugin()
     const plugins = [resizeablePlugin]
     const redirect = useNavigate()
+
 
 
 
@@ -62,6 +66,8 @@ function DisplayDialogOrLogin(){
       )
       
     } 
+  
+   
   let handleSubmit = (e) => {
     e.preventDefault();
     let formData = new FormData();
@@ -93,6 +99,14 @@ function DisplayDialogOrLogin(){
   };
 
 
+  useEffect(()=>{
+    axios.get(`${HOST}tags/`).then((res)=>{
+      setTagList([
+        ...tagList,
+        ...res.data])
+    })
+  },[])
+
   useEffect(() => {
     axios
       .get(`${host}current/`,{withCredentials:true})
@@ -105,6 +119,7 @@ function DisplayDialogOrLogin(){
   },[]);
     
     const [open, setOpen] = useState(false);
+    const [openTagDialog,setOpenTagDialog] = useState(false)
   
     let handleOpen = () => {
       setOpen(true);
@@ -118,14 +133,16 @@ function DisplayDialogOrLogin(){
           ...article,
           [key]: theContent,
         });
-        if(key==='tag' && (theContent==='Select A Tag' || theContent === '')){
+        if(key==='tag' && (theContent==='Choose A Tag' || theContent === '')){
             setDisabled(true)
     
     
         }
         else{
             setDisabled(false)
+            setSelected(theContent)
         }
+        console.log(theContent)
       }
   
     let handleCount = (e) => {
@@ -152,7 +169,7 @@ function DisplayDialogOrLogin(){
     return(
       <div className='create-article-wrapper'>
       <div className='create-article-div' style={{backgroundColor:theme.setButtonColor}}>
-      <button className='create-article-input' onClick={auth?(e)=>setOpen(true):(e)=>redirect('/login')} placeholder='Create an Article' >Create An Article</button>
+      <button className='create-article-input' onClick={/*auth?(e)=>setOpen(true):(e)=>redirect('/login')*/ (e)=>setOpen(true)} placeholder='Create an Article' >Create An Article</button>
       <Dialog PaperProps={{
         style:{
             backgroundColor:theme.setBg,color:theme.setButtonColor}}}  fullWidth={true} maxWidth='lg' open={open} onClose={() => handleClose()} className="dialog">
@@ -163,20 +180,6 @@ function DisplayDialogOrLogin(){
         </button>
         <CsrfToken />
         <div className='upper-side'>
-        <div className="title-img">
-          <label required htmlFor="upload" className="imglbl" alt='Error'>
-            Upload An Image
-          </label>
-        <input
-        className='img0'
-          id="upload"
-          required
-          type="file"
-          name="title_img"
-          accept="image/*"
-          onChange={(e) => handleChange(e.target.name, e.target.files[0])}
-        ></input>
-        </div>
         <div className='title-div'>
         <CharsLeft
           chars={title.length}
@@ -194,24 +197,42 @@ function DisplayDialogOrLogin(){
           placeholder="Insert your Title"
           style={{backgroundColor:theme.setBg,color:theme.setTextColor}}
         ></input>
+          </div>
+        <div className="title-img">
+          <label required htmlFor="upload" className="imglbl" alt='Error'>
+            Upload An Image
+          </label>
+        <input
+        className='img0'
+          id="upload"
+          required
+          type="file"
+          name="title_img"
+          accept="image/*"
+          onChange={(e) => handleChange(e.target.name, e.target.files[0])}
+        ></input>
         </div>
 
         <div className="tag">
-          <select
-            default="select a tag"
-            name="tag"
-            className="tag-sel"
-            required
-            onChange={(e) => handleChange(e.target.name, e.target.value)}
-          >
-            <option value='' default="select a tag">Select A tag</option>
-            <option value='programming' name="tag">
-              programming
-            </option>
-            <option value='science'  name="tag">
-              science
-            </option>
-          </select>
+          <button onClick={(e)=>setOpenTagDialog(true)}>Choose a Tag</button>
+          <Dialog open={openTagDialog} onClose={(e)=>setOpenTagDialog(false)} minWidth='xl'>
+          <div className='filter-dialog'>
+ 
+ <div className='filter-input'>
+            <button onClick={(e)=>setOpenTagDialog(false)}>x</button>
+            <div className='selection-btns'  >
+          {tagList.map((tag)=>{
+              return(
+                
+                <Tag name='tag' className='tag-btn'  selected={selected} value={tag}  onClick={(e)=>handleChange(e.target.name, e.target.value)} >{tag}</Tag>
+              )
+            })}
+            </div>
+
+            </div>
+            </div>
+          </Dialog>
+      
         </div>
         </div>
         <div className='editor-div'>
