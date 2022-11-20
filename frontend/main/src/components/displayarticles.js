@@ -216,6 +216,7 @@ function DisplayDialogOrLogin(){
         <div className="tag">
           <button onClick={(e)=>setOpenTagDialog(true)}>Choose a Tag</button>
           <Dialog open={openTagDialog} onClose={(e)=>setOpenTagDialog(false)} minWidth='xl'>
+            <form method='dialog'>
           <div className='filter-dialog'>
  
  <div className='filter-input'>
@@ -231,6 +232,7 @@ function DisplayDialogOrLogin(){
 
             </div>
             </div>
+            </form>
           </Dialog>
       
         </div>
