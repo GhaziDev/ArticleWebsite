@@ -525,7 +525,11 @@ input:checked + .slider:before {
 
 .tag-sel{
   height:40px;
+  width:150px;
+  padding:10px 10px 10px 10px;
 }
+
+
 
 
 
@@ -535,12 +539,7 @@ input:checked + .slider:before {
   bottom: 6px;
 }
 
-.tag-sel:focus{
-  background-color:#1F51FF;
-  border-color: #1F51FF;
 
-  
-}
 
 .login-form{
   display: flex;

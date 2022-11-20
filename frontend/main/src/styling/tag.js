@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const Tag = styled.button`
+const Tag = styled.div`
 background-color: white;
 color: ${(props)=>props.theme.setColor};
 border-color: ${(props)=>props.selected===props.value?'#4A80D5':'grey'};

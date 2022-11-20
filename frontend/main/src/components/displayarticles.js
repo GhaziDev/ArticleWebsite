@@ -20,7 +20,6 @@ import createResizeablePlugin from '@draft-js-plugins/resizeable';
 import LoginIcon  from '@mui/icons-material/Login'
 import CreateIcon from '@mui/icons-material/Create';
 import HOST from '../config.js'
-import Tag from '../styling/tag.js'
 
 const host = HOST
 
@@ -31,7 +30,6 @@ function DisplayDialogOrLogin(){
     let [error,setError] = useState('')
     let [auth, setAuth] = useState(true);
     const {theme} = useContext(themeContext)
-    const [selected,setSelected] = useState(true)
     let [isVerified,setVerified] = useState(false)
     let [tagList,setTagList] = useState([])
     const [editorState, setEditorState] = useState(() =>
@@ -40,7 +38,6 @@ function DisplayDialogOrLogin(){
     const resizeablePlugin = createResizeablePlugin()
     const plugins = [resizeablePlugin]
     const redirect = useNavigate()
-
 
 
 
@@ -90,7 +87,6 @@ function DisplayDialogOrLogin(){
         redirect(`/article/${res.data}`)
       })
       .catch((e) => {
-        console.log(e.response.data)
         setError(e.response.data)
       
 
@@ -101,11 +97,10 @@ function DisplayDialogOrLogin(){
 
   useEffect(()=>{
     axios.get(`${HOST}tags/`).then((res)=>{
-      setTagList([
-        ...tagList,
-        ...res.data])
+      setTagList(res.data)
     })
   },[])
+
 
   useEffect(() => {
     axios
@@ -119,7 +114,6 @@ function DisplayDialogOrLogin(){
   },[]);
     
     const [open, setOpen] = useState(false);
-    const [openTagDialog,setOpenTagDialog] = useState(false)
   
     let handleOpen = () => {
       setOpen(true);
@@ -133,16 +127,14 @@ function DisplayDialogOrLogin(){
           ...article,
           [key]: theContent,
         });
-        if(key==='tag' && (theContent==='Choose A Tag' || theContent === '')){
+        if(key==='tag' && (theContent==='Select A Tag' || theContent === '')){
             setDisabled(true)
     
     
         }
         else{
             setDisabled(false)
-            setSelected(theContent)
         }
-        console.log(theContent)
       }
   
     let handleCount = (e) => {
@@ -162,14 +154,13 @@ function DisplayDialogOrLogin(){
             setAuth(true)
           })
           .catch((e) => {
-            console.log(e.response.data);
             setAuth(false);
           });
       }, []);
     return(
       <div className='create-article-wrapper'>
       <div className='create-article-div' style={{backgroundColor:theme.setButtonColor}}>
-      <button className='create-article-input' onClick={/*auth?(e)=>setOpen(true):(e)=>redirect('/login')*/ (e)=>setOpen(true)} placeholder='Create an Article' >Create An Article</button>
+      <button className='create-article-input' onClick={auth?(e)=>setOpen(true):(e)=>redirect('/login')} placeholder='Create an Article' >Create An Article</button>
       <Dialog PaperProps={{
         style:{
             backgroundColor:theme.setBg,color:theme.setButtonColor}}}  fullWidth={true} maxWidth='lg' open={open} onClose={() => handleClose()} className="dialog">
@@ -214,27 +205,21 @@ function DisplayDialogOrLogin(){
         </div>
 
         <div className="tag">
-          <button onClick={(e)=>setOpenTagDialog(true)}>Choose a Tag</button>
-          <Dialog open={openTagDialog} onClose={(e)=>setOpenTagDialog(false)} minWidth='xl'>
-            <form method='dialog'>
-          <div className='filter-dialog'>
- 
- <div className='filter-input'>
-            <button onClick={(e)=>setOpenTagDialog(false)}>x</button>
-            <div className='selection-btns'  >
-          {tagList.map((tag)=>{
+          <select style={{color:theme.setColor,backgroundColor:theme.setButtonColor}}
+            default="select a tag"
+            name="tag"
+            className="tag-sel"
+            required
+            onChange={(e) => handleChange(e.target.name, e.target.value)}
+          >
+            <option default='Select A Tag' value=''>Select A Tag</option>
+            {tagList.map((tag)=>{
               return(
                 
-                <Tag name='tag' className='tag-btn'  selected={selected} value={tag}  onClick={(e)=>handleChange(e.target.name, e.target.value)} >{tag}</Tag>
+                <option name='tag' value={tag} className='tag-btn' onClick={(e)=>handleChange(e.target.name, e.target.value)}>{tag}</option>
               )
             })}
-            </div>
-
-            </div>
-            </div>
-            </form>
-          </Dialog>
-      
+          </select>
         </div>
         </div>
         <div className='editor-div'>
@@ -323,7 +308,6 @@ function CharsLeft({ chars, handleCount}) {
     useEffect(()=>{
         axios.get(`${host}current/`,{withCredentials:true}).then((res)=>{
             setCurrent(res.data)
-            console.log(res.data)
           
             })     
         },[])
@@ -376,9 +360,7 @@ function LoginOrLogout(){ //Login Or Logout component
               setAuth(auth)
             }
         }).catch((e)=>{
-            console.log(e.response.data)
             setAuth(false)
-            console.log(auth)
         }
         )
 
