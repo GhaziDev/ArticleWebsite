@@ -47,6 +47,7 @@ button{
   font-size: 18px;
   cursor:pointer;
   padding-bottom:9px;
+  margin-top:10px;
 
 
 }
@@ -219,6 +220,7 @@ input:checked + .slider:before {
   padding-right:20px;
   border: none;
   font-size:18px;
+  margin-top:10px;
   height:fit-content;
   width:fit-content;
   border-width:fit-content;
