@@ -24,7 +24,19 @@ function App() {
     setIcon:localStorage.getItem('icon'),
 }
 
+
 )
+
+if(!localStorage.getItem('theme')){
+  localStorage.setItem('theme','#E1E2E1')
+  localStorage.setItem('color','black')
+  localStorage.setItem('buttonColor','#F5F5F6')
+  localStorage.setItem('textColor','black')
+  localStorage.setItem('icon','https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/media/sun-color-icon.svg')
+
+}
+
+
   return(
     <themeContext.Provider value={{theme,setTheme}}>
 
