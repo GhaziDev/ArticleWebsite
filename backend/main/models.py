@@ -4,6 +4,7 @@ import uuid
 from ckeditor.fields import RichTextField
 from main import validators
 from django.conf import settings
+from tinymce import models as tinymce_models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,AbstractUser,UserManager
 
 
@@ -39,7 +40,7 @@ class Article(models.Model):
     _id = models.UUIDField(default=uuid.uuid4,unique=True,primary_key=True)
     title = models.CharField(max_length=200)
     title_img = models.ImageField(upload_to='media')
-    description = RichTextField()
+    description = tinymce_models.HTMLField()
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE, related_name='user_articles',to_field='username')
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE,related_name='tag_articles',to_field='name')
     date = models.DateField(auto_now_add=True,blank=False)

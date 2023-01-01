@@ -56,7 +56,13 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 
 
-
+TINYMCE_DEFAULT_CONFIG = {
+            'entity_encoding': 'raw',
+            'remove_linebreaks':True,
+            'force_br_newlines':True,
+            'force_p_newlines': True,
+            'apply_source_formatting' : True
+        }
 
 '''
 SESSION_COOKIE_SECURE = True
@@ -67,7 +73,6 @@ CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_DOMAIN = '.globeofarticles.com'
 CSRF_COOKIE_DOMAIN = '.globeofarticles.com'
-
 
 
 
@@ -83,6 +88,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # Application definition
 
 INSTALLED_APPS = [
+    'tinymce',
     'django_extensions',
     'coverage',
     'storages',
