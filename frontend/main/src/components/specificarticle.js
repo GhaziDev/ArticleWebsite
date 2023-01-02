@@ -265,8 +265,8 @@ const SpecificArticle = ()=>{
                 <ThemeSwitch ></ThemeSwitch>
             </div>
             <Helmet>
-<meta property='og:image' itemProp='image' content={article.title_img}></meta>
-<meta property='og:title' content={article.title}></meta>
+<meta  property='og:image' itemProp='image' content={article.title_img} style={{width:'250px',height:'250px'}}></meta>
+<title>{article.title}</title>
 <meta property='og:user' content={article.user}></meta>
 </Helmet>
         <div className='article-title'>
