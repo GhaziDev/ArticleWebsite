@@ -264,7 +264,7 @@ const SpecificArticle = ()=>{
             <div  className='l-div' style={{color:theme.setColor}}  onClick={()=>redirect('/')}>Home</div>
                 <ThemeSwitch ></ThemeSwitch>
             </div>
-
+<meta name='globeofarticle:image' content={article.title_img}></meta>
         <div className='article-title'>
        
             <div className='left-article-side'>
