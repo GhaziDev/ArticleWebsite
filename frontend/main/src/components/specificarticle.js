@@ -264,11 +264,13 @@ const SpecificArticle = ()=>{
             <div  className='l-div' style={{color:theme.setColor}}  onClick={()=>redirect('/')}>Home</div>
                 <ThemeSwitch ></ThemeSwitch>
             </div>
+            <html lang="en">
             <head>
 <meta property='og:image' itemProp='image' content={article.title_img}></meta>
 <meta property='og:title' content={article.title}></meta>
 <meta property='og:user' content={article.user}></meta>
 </head>
+</html>
         <div className='article-title'>
        
             <div className='left-article-side'>
