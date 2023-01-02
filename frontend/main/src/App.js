@@ -34,6 +34,15 @@ if(!localStorage.getItem('theme')){
   localStorage.setItem('textColor','black')
   localStorage.setItem('icon','https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/media/sun-color-icon.svg')
 
+  setTheme({
+    setBg:localStorage.getItem('theme'),
+    setButtonColor:localStorage.getItem('buttonColor'),
+    setColor:localStorage.getItem('color'),
+    setTextColor:localStorage.getItem('textColor'),
+    setIcon:localStorage.getItem('icon'),
+
+  })
+
 }
 
 
