@@ -17,7 +17,7 @@ import "./react-draft-wysiwyg.css";
 import draftToHtml from 'draftjs-to-html';
 import { convertToRaw } from 'draft-js';
 import HOST from '../config.js';
-
+import {Helmet} from 'react-helmet'
 
 
 
@@ -264,13 +264,11 @@ const SpecificArticle = ()=>{
             <div  className='l-div' style={{color:theme.setColor}}  onClick={()=>redirect('/')}>Home</div>
                 <ThemeSwitch ></ThemeSwitch>
             </div>
-            <html lang="en">
-            <head>
+            <Helmet>
 <meta property='og:image' itemProp='image' content={article.title_img}></meta>
 <meta property='og:title' content={article.title}></meta>
 <meta property='og:user' content={article.user}></meta>
-</head>
-</html>
+</Helmet>
         <div className='article-title'>
        
             <div className='left-article-side'>
