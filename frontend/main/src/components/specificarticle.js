@@ -267,7 +267,6 @@ const SpecificArticle = ()=>{
             <Helmet>
                 <title>{article.title}</title>
   <meta name='image' content={article.title_img} />
-  <meta name='title' content={article.title} />
 </Helmet>
         <div className='article-title'>
        
