@@ -528,7 +528,7 @@ const EditArticle = ({
                     
                     <Markdown
                       children={value}
-                 
+                      theme={theme}
                     ></Markdown> 
                   </div>
                 </div>
