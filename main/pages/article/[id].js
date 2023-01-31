@@ -52,26 +52,7 @@ import Head from "next/head";
 import { currentUser } from "../../store/currentprovider";
 import next from "next";
 
-export async function getStaticProps(context) {
-  return {
-    // Passed to the page component as props
-    props: { article: {} },
-  }
-}
 
-export async function getStaticPaths(){
-
-  axios.get(`${HOST}articles/`).then((res)=>{
-    const articles = res.data
-    const paths = articles.map((article)=>({
-      params:{id:article.slug}
-    }))
-    return {paths,fallback:false}
-  }).catch((err)=>{
-    next(err)
-  })
- 
-}
 
 const Markdown = memo(function Markdown({children,theme}){
   return <ReactMarkDown className={theme.setClassName}
