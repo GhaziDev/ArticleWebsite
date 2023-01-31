@@ -59,13 +59,19 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths(){
-  const res = fetch(`${HOST}articles/`)
-  const articles = res.json()
-  const paths = articles.map((article)=>({
-    params:{id:article.slug}
-
-  }))
-  return {paths,fallback:false}
+  const res = await axios.get(`${HOST}articles/`)
+  try{
+    const articles = await res.json()
+    const paths = articles.map((article)=>({
+      params:{id:article.slug}
+  
+    }))
+    return {paths,fallback:false}
+  }
+  catch(err){
+    console.log(err)
+  }
+ 
 }
 
 const Markdown = memo(function Markdown({children,theme}){
