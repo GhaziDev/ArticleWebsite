@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-DEV_MODE = True
+DEV_MODE = False
 
 SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -63,12 +63,12 @@ SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_PATH = '/'
 '''
-CSRF_COOKIE_SAMESITE = 'Strict'
-SESSION_COOKIE_SAMESITE = 'Strict'
-'''
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+
 SESSION_COOKIE_DOMAIN = '.globeofarticles.com'
 CSRF_COOKIE_DOMAIN = '.globeofarticles.com'
-'''
+
 
 
 
