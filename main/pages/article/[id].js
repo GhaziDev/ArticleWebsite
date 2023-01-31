@@ -894,9 +894,9 @@ const SpecificArticle = () => {
     >
      <Navigation/>
       <Head>
-        <meta name="og:title" content={article.title}/>
-        <meta name="og:image" content={article.title_img} />
-
+        <title>{article.title}</title>
+        <meta property="og:image" content={article.title_img} />
+        
       </Head>
       <div className={styles["article-title"]}>
         <div className={styles["left-article-side"]}>
