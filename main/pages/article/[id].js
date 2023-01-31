@@ -51,11 +51,21 @@ import Link from 'next/link'
 import Head from "next/head";
 import { currentUser } from "../../store/currentprovider";
 
-
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   return {
-      props: {},
-  };
+    // Passed to the page component as props
+    props: { article: {} },
+  }
+}
+
+export async function getStaticPaths(){
+  const res = axios.get(`${HOST}articles/`)
+  const articles = res.data
+  const paths = articles.map((article)=>({
+    params:{id:article.slug}
+
+  }))
+  return {paths,fallback:false}
 }
 
 const Markdown = memo(function Markdown({children,theme}){
