@@ -59,8 +59,9 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths(){
-  const res = await axios.get(`${HOST}articles/`)
+
   try{
+    const res = await axios.get(`${HOST}articles/`)
     const articles = await res.json()
     const paths = articles.map((article)=>({
       params:{id:article.slug}
@@ -69,7 +70,7 @@ export async function getStaticPaths(){
     return {paths,fallback:false}
   }
   catch(err){
-    console.log(err)
+    return err
   }
  
 }
