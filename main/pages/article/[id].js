@@ -50,7 +50,36 @@ import styles from '../../styles/styling/specificarticle.module.css'
 import Link from 'next/link'
 import Head from "next/head";
 import { currentUser } from "../../store/currentprovider";
-import next from "next";
+
+
+
+export async function getStaticProps(context){
+  return {
+    props: {}, // will be passed to the page component as props
+  }
+}
+
+
+export async function getStaticPaths(){
+  try{
+  const res = await fetch(`${HOST}articles/`)
+  const posts = await res.json()
+
+  // Get the paths we want to prerender based on posts
+  // In production environments, prerender all pages
+  // (slower builds, but faster initial page load)
+  const paths = posts.map((post) => ({
+    params: { id: post.slug },
+  }))
+
+  // { fallback: false } means other routes should 404
+  return { paths, fallback: false }
+}
+catch(err){
+  return { paths: [], fallback: false }
+
+}
+}
 
 
 
