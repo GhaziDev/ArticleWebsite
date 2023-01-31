@@ -1,0 +1,142 @@
+.errors{
+    display:flex;
+    white-space: pre-line;
+    text-align: center;
+    line-height:40px;
+  }
+
+  .login-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-flow: column wrap;
+    height: fit-content;
+    width: fit-content;
+    border-radius: 8px;
+    padding:24.7px 15.6px 24.7px 15.6px;
+    row-gap: 20px;
+  
+  }
+  
+
+  .l-div{
+    padding-left:20px;
+    padding-right:20px;
+    border: none;
+    font-size:18px;
+    margin-top:10px;
+    height:fit-content;
+    width:fit-content;
+    border-width:fit-content;
+    margin-left:10px;
+    cursor:pointer;
+    padding-bottom:9px;
+  }
+  
+  
+  .l-div:hover{
+    border-bottom:2px solid;
+  }
+  
+
+  #loginform{
+    border-radius:5px;
+  }
+
+
+  .email:focus::placeholder{
+    opacity:0;
+    transition: opacity 0.45s;
+  }
+  .password:focus::placeholder{
+    opacity:0;
+    transition: opacity 0.45s;
+  }
+  .email{
+    width:300px;
+    font-family: sans-serif;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    gap: .5em;
+    border-radius: 4px;
+    padding: .5em 1em;
+   
+  }
+  
+  .loginbtns{
+    display:flex;
+    align-self:center;
+    align-items: center;
+    justify-content: center;
+    margin-top:20px;
+  }
+  
+  
+  .login-submit{
+    outline: none;
+    overflow:none;
+    border-radius: 4px;
+    border:none;
+    background-color: #26e7f1;
+    height:40px;
+    width:140px;
+    margin: 1rem;
+    text-transform: uppercase;
+    background-color: #ffeba7;
+    color: #5e6681;
+    box-shadow: 0 8px 24px 0 rgb(255 235 167 / 20%);
+    transition: all .3s ease-in-out;
+  
+  }
+  
+  
+
+  .login-page{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height:100vh;
+  }
+
+  
+.hide-show{
+  position: relative;
+  bottom:57px;
+  left:130px;
+}
+
+
+
+  .navig-side{
+    display:flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    position: absolute;
+    top:0;
+    left:0;
+    padding:25px;
+    width:100%;
+  }
+
+  .user-link{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    outline: none;
+    overflow:none;
+    border-radius: 4px;
+    border:none;
+    height:40px;
+    width:150px;
+  
+    transition: all .3s ease-in-out;
+  }
+
+
+  #loginform{
+    border-radius:5px;
+  }
+  
+  

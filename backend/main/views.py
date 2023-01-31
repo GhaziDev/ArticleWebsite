@@ -19,6 +19,7 @@ from django.utils import timezone, dateformat
 from django.middleware.csrf import CsrfViewMiddleware
 from django.core import serializers
 from django.contrib.postgres.search import SearchVector
+from django.db.utils import IntegrityError
 import json
 from rest_framework.parsers import MultiPartParser,FormParser,JSONParser
 from django.contrib.auth.validators import ASCIIUsernameValidator
@@ -30,6 +31,13 @@ from django.urls import reverse
 import uuid
 import json
 from django.conf import settings
+import datetime
+
+from PIL import UnidentifiedImageError
+
+
+
+from django.db.models import Exists, OuterRef
 
 
 class TagByName(views.APIView):
@@ -49,7 +57,12 @@ class CheckAuthenticated(views.APIView):
             return Response(request.user.username)
     
         return Response("Not Authenticated",status=401)
-    
+
+class FetchUserArticles(views.APIView):
+    def get(self,request,username):
+        serializer_class = serializer.ArticleSerializer
+        return Response(serializer.ArticleSerializer(models.Article.objects.filter(user=username)[0:4],many=True).data,status=200)
+
 class ArticleView(viewsets.ModelViewSet):
     serializer_class = serializer.ArticleSerializer
     parser_classes = [MultiPartParser,FormParser,JSONParser]
@@ -57,27 +70,29 @@ class ArticleView(viewsets.ModelViewSet):
     def get_queryset(self):
         queryset = models.Article.objects.all()
         return queryset
+
+
     
     @method_decorator(ensure_csrf_cookie)
     def create(self,request):
         authentication_classes = [SessionAuthentication]
         permissions_classes = [IsAuthenticated]
         article = serializer.ArticleSerializer(data=request.data)
-
         if article.is_valid():
-        
             title = article.data['title']
             description = article.data['description']
             tag = models.Tag.objects.get(name=article.data['tag'])
-            date = dateformat.format(timezone.now(),settings.DATE_INPUT_FORMATS)
+            date = timezone.now().date()
+
             title_img = request.FILES['title_img']
             if not 20<=len(title)<=60:
                 return Response("Title should be between 20-60 characters!",status=400)
             if not request.user.is_authenticated:
                 return Response("user is not authenticated",status=401)
             user_profile = models.UserProfile.objects.get(user=request.user.username)
-            new_article = models.Article.objects.create(title=title,title_img=title_img,description=description,user=request.user,tag=tag,date=date,user_profile=user_profile)
-            return Response(new_article._id)
+            new_article = models.Article.objects.create(title=title,title_img=title_img,description=description,user=request.user,tag=tag,date=date,user_profile=user_profile,thumb_img=title_img)
+            new_article.save()
+            return Response(new_article.slug)
         if article.errors.get('title_img'):
            return Response('Upload an image of type : png,jpeg,jpg,ico,gif,webp',status=400)
         return Response(article.data['title_img'])
@@ -86,12 +101,94 @@ class ArticleView(viewsets.ModelViewSet):
         data = serializer.OnEditSerializer(data=request.data)
 
         if data.is_valid():
-            models.Article.objects.filter(id=pk).update(description=data.data['description'])
-            return Response(data.data['description'],status=200)
+            # don't forget to change the date
+            models.Article.objects.filter(slug=pk).update(description=data.data['description'])
+            models.Article.objects.filter(slug=pk).update(date=timezone.now().date())
+            artcl = models.Article.objects.get(slug=pk)
+            
+
+            return Response(serializer.ArticleSerializer(artcl).data,status=200)
+
+            
     def destroy(self,request,pk):
-        models.Article.objects.filter(pk=pk).delete()
+        models.Article.objects.filter(slug=pk).delete()
         return Response('Article deleted.',status=200)
-    
+
+
+
+class CommentLikesView(views.APIView):
+    serializer_class = serializer.LikesSerializer
+
+    def get(self,request,_id):
+        comment = models.Comment.objects.get(_id=_id)
+        user = request.user
+        is_liked = True if user.liked_comments.filter(_id=_id) else False
+        return Response(serializer.LikesSerializer({'likes_count':comment.likes.count,'like':is_liked,'user':user.username,'iid':user._id}).data,status=200)
+    def post(self,request,_id):
+        comment = models.Comment.objects.get(_id=_id)
+       
+        if request.user.is_authenticated:
+           user = models.CustomUser.objects.get(username=request.user.username)
+           is_liked = user.liked_comments.filter(_id=_id)
+           if is_liked:
+            comment.likes.remove(user)
+            is_liked =  False
+           else:
+            comment.likes.add(user)
+            is_liked = True
+        else:
+            is_liked = False
+        likes_count = comment.likes.count()
+        return Response(serializer.LikesSerializer(dict(likes_count=likes_count,like=is_liked,iid=_id,user=request.user.username)).data,status=200)
+
+
+class LikesView(views.APIView):
+    serializer_class = serializer.LikesSerializer
+
+    def get(self,request, slug):
+        article_likes = models.Article.objects.get(slug=slug).likes.count()
+        if request.user.is_authenticated:
+            user = models.CustomUser.objects.get(_id=request.user._id)
+            is_article_liked = user.liked_articles.filter(slug=slug)
+            if is_article_liked:
+                is_article_liked = True
+            else:
+                is_article_liked = False
+        
+        else:
+            is_article_liked = False
+        
+
+        return Response(serializer.LikesSerializer({'like':is_article_liked,'likes_count':article_likes,'user':request.user.username,'iid':slug}).data,status=200)
+
+
+    @method_decorator(ensure_csrf_cookie)
+    def post(self,request,slug):
+        if not request.user.is_authenticated:
+            return Response("User is not authenticated!",status=401)
+        if request.user.is_authenticated:
+            likes = serializer.LikesSerializer(data=request.data)
+
+            if likes.is_valid():
+                user = likes.data['user']
+                
+                if request.user.is_authenticated:
+                    user = models.CustomUser.objects.get(username=user)
+                    article = models.Article.objects.get(slug=slug)
+
+                    if user.liked_articles.filter(slug=slug):
+                        article.likes.remove(user)
+                        return Response(article.likes.count(),status=200)
+                    else:
+                        article.likes.add(user)
+                        return Response(article.likes.count(),status=200)
+            return Response("Invalid Data for the serializer!",status=400)
+
+
+
+            
+
+
 
 class TagView(viewsets.ModelViewSet):
     serializer_class = serializer.TagSerializer
@@ -139,7 +236,7 @@ class CheckUserExist(views.APIView):
     serializer_class = serializer.CheckUserSerializer
 
     def post(self,request):
-        data = serializer.CheckUserSerializer(data=request.data)
+        data = serializer.CheckUserSerializer(data=request.data,context={'user':request.user})
         valid = ASCIIUsernameValidator() # validating username using a custom validator by django.
         if data.is_valid():
             try:
@@ -170,6 +267,12 @@ class CheckPasswordValidation(views.APIView):
 
 class CommentView(viewsets.ModelViewSet):
     serializer_class = serializer.CommentSerializer
+
+    def get_serializer_context(self): #adding request.user as an extra context
+        context = super(CommentView,self).get_serializer_context()
+        context.update({'user':self.request.user})
+        return context
+
     def get_queryset(self):
         queryset = models.Comment.objects.all()
 
@@ -189,13 +292,40 @@ class CommentView(viewsets.ModelViewSet):
         if data.is_valid():
             desc = data.data['desc']
             article = data.data['article']
-            article = models.Article.objects.get(_id=article)
-            user = request.user
-            cmnt = models.Comment.objects.create(desc=desc,article=article,user=user,is_author=user==True if user == article.user else False)
+            article = models.Article.objects.get(slug=article)
+            user = models.CustomUser.objects.get(username=request.user.username)
+       
+
+            cmnt = models.Comment.objects.create(desc=desc,article=article,user=request.user,is_author=user==True if user == article.user else False)
+            cmnt.likes.add(user)
             cmnt.save()
-            comments_of_article = list(article.article_comments.all().values())
-            return JsonResponse(comments_of_article,safe=False)
-        return Response("Comment fail on creation.")     
+            comments_of_article = article.article_comments.all()
+            return Response(serializer.CommentSerializer(comments_of_article,many=True).data,status=200)
+
+        return Response("Comment fail on creation.",status=400)   
+
+    def delete(self,request,id):
+        instance = models.Comment.objects.get(_id=id)
+        if request.user == instance.user:
+            instance.delete()
+            return Response("Comment deleted!",status=200)
+        else:
+            return Response("You do not own this comment!",status=401)
+    def update(self,request,pk):
+        serializer_class = serializer.OnEditSerializer
+        instance = models.Comment.objects.get(_id=pk)
+        if request.user == instance.user:
+            data = serializer.OnEditSerializer(data=request.data)
+            if data.is_valid():
+                models.Comment.objects.filter(_id=pk).update(desc=data.data['description'])
+                return Response("Comment updated!",status=200)
+            return Response("Invalid Data!",status=400)
+        return Response("You do not own this comment!",status=401)
+
+
+
+
+          
 
 
 class LoginView(views.APIView):
@@ -206,8 +336,6 @@ class LoginView(views.APIView):
     @method_decorator(ensure_csrf_cookie)
     def post(self,request):
         data = serializer.LoginSerializer(data=request.data)
-        print(data.is_valid())
-        print(data.errors)
         if data.is_valid():
             email = data.data['email']
             password = data.data['password']
@@ -260,12 +388,21 @@ class LogoutView(views.APIView):
 
 class VerifyUser(views.APIView):
     def get(self,request,token,user):
-        user = models.CustomUser.objects.get(email=user)
-        user.is_active = True
-        profile = models.UserProfile.objects.create(user=user,bio='No Bio Here',img='C:/Users/ghazi/Desktop/images.jfif')
-        user.save()
-        profile.save()
-        return Response("Verified!")
+        try:
+
+            user = models.CustomUser.objects.get(email=user)
+            user.is_active = True
+            profile = models.UserProfile.objects.create(user=user,bio='No Bio Here',img='/media/typer.webp')
+            user.save()
+            profile.save()
+
+            return Response("Verified!",status=200)
+
+
+        except IntegrityError:
+
+            return Response("Page does not exist",status=404)
+       
 
 
 def generate_token():
@@ -295,6 +432,7 @@ class UserProfileView(viewsets.ModelViewSet):
                 bio = data.data['bio']
                 pfp = models.UserProfile.objects.get(user=username)
                 pfp.bio = bio
+                pfp.img = '/media/typer.webp'
                 pfp.save()
             else:
                 username = data.data['user']
@@ -303,14 +441,36 @@ class UserProfileView(viewsets.ModelViewSet):
                 pfp = models.UserProfile.objects.get(user=username)
                 pfp.img = img
                 pfp.bio = bio
-                pfp.save()
+                try:
+                    pfp.save()
+                except UnidentifiedImageError:
+                    return Response('Wrong image format.',status=400)
             return Response("Profile updated!",status=200)
         if data.errors.get('img'):
             return Response('Upload an image of type : png,jpeg,jpg,ico,gif,webp',status=400)
   
 
         return Response("fail to create a profile",status=400)
+    
 
+
+
+class DeleteProfileView(views.APIView):
+        def delete(self,request,username,user):
+            if username == user:
+                user = models.CustomUser.objects.get(username=username)
+                user.delete()
+                return Response("Account deleted!",status=200)
+            else:
+                return Response("Wrong username input",status=400)
+
+
+class LikedArticlesView(views.APIView):
+    def get(self,request,username):
+        user = models.CustomUser.objects.get(username=username)
+
+        liked_articles = user.liked_articles.all()
+        return Response(serializer.ArticleSerializer(liked_articles,many=True).data,status=200)
 
 
 
@@ -386,9 +546,9 @@ class FilterArticlesView(views.APIView):
                 return Response([])
           
             article = serializer.ArticleSerializer(article,many=True)
-               
+                
             return Response(article.data,status=200)
-        return Response(list(models.Article.objects.all().values()))
+        return Response(serializer.ArticleSerializer(model.Article.objects.all()).data,status=200)
 
 
 def random_token():
@@ -399,6 +559,6 @@ def random_token():
 class RetrieveComments(views.APIView):
     serializer_class = serializer.CommentSerializer
 
-    def get(self,request,id):
-        comments = serializer.CommentSerializer(models.Comment.objects.filter(article=id),many=True)
+    def get(self,request,slug):
+        comments = serializer.CommentSerializer(models.Comment.objects.filter(article=slug),many=True)
         return Response(comments.data,status=200)

@@ -1,0 +1,27 @@
+.result-div{
+    padding-top:10px;
+    padding:0;
+    width: 1000px;
+  
+  }
+  
+  .results-div{
+    display:flex;
+    justify-content: center;
+    flex-flow:column wrap;
+  }
+
+  .result-button{
+    display:flex;
+    flex-flow:column wrap;
+    width:100%;
+  
+  }
+
+
+  .searchp-div{
+    display:flex;
+    justify-content: center;
+    flex-flow:column wrap;
+  
+  }

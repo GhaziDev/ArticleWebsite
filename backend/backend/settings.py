@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-DEV_MODE = False
+DEV_MODE = True
 
 SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -63,10 +63,12 @@ SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_PATH = '/'
 '''
-CSRF_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SAMESITE = 'None'
+CSRF_COOKIE_SAMESITE = 'Strict'
+SESSION_COOKIE_SAMESITE = 'Strict'
+'''
 SESSION_COOKIE_DOMAIN = '.globeofarticles.com'
 CSRF_COOKIE_DOMAIN = '.globeofarticles.com'
+'''
 
 
 
@@ -83,6 +85,7 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # Application definition
 
 INSTALLED_APPS = [
+    'imagekit',
     'django_extensions',
     'coverage',
     'storages',
@@ -236,9 +239,15 @@ AWS_S3_ADDRESSING_STYLE = "virtual"
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-    ]
+    ],
+    'DATE_INPUT_FORMATS':['%d %b %Y','%d-%b-%Y','%Y %m %d']
 }
 
 AUTH_USER_MODEL = 'main.CustomUser'
 
-TIME_FORMAT = ['%d.%B.%Y']
+
+
+
+DATE_FORMAT ='%d %b %Y'
+
+DATE_INPUT_FORMATS = ['%d %b %Y','%Y %m %d']

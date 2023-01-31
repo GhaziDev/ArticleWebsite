@@ -48,8 +48,13 @@ urlpatterns = [
      path('reset/',views.PasswordResetView.as_view(),name='reset'),
      path('reset/<uuid:token>/',views.PasswordChangeView.as_view(),name='reset'),
      path('filter/',views.FilterArticlesView.as_view(),name='filter'),
-     path('comments_of_article/<uuid:id>/',views.RetrieveComments.as_view(),name=''),
-     path('tags/',views.TagByName.as_view(),name='tag')
+     path('comments_of_article/<slug:slug>/',views.RetrieveComments.as_view(),name=''),
+     path('tags/',views.TagByName.as_view(),name='tag'),
+     path('likes/<slug:slug>/',views.LikesView.as_view(),name='likes'),
+     path('comment_likes/<uuid:_id>/',views.CommentLikesView.as_view(),name='liked_comments'),
+     path('liked_articles/<str:username>/',views.LikedArticlesView.as_view(),name='liked_articles'),
+     path('userprofile/<str:username>/<str:user>/',views.DeleteProfileView.as_view(),name='delete_user'),
+     path('fetch/<str:username>/',views.FetchUserArticles.as_view(),name='fetch'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

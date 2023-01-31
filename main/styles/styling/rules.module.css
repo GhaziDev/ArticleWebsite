@@ -1,0 +1,24 @@
+.rules-div{
+    display:flex;
+    justify-content: center;
+    flex-flow:column wrap;
+    line-height: 1.5;
+    padding:25px;
+  }
+
+  .openbtn{
+    width:fit-content;
+    height:fit-content;
+    border:none;
+    font-size: 18px;
+    cursor:pointer;
+    padding-bottom:9px;
+    margin-top:10px;
+  
+  
+  }
+  
+  .openbtn:hover{
+    border-bottom:2px solid;
+  
+  }

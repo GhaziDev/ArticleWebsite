@@ -5,7 +5,11 @@ from ckeditor.fields import RichTextField
 from main import validators
 from django.conf import settings
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager,AbstractUser,UserManager
-
+from django.template.defaultfilters import slugify
+from autoslug import AutoSlugField
+from django.utils import timezone
+from imagekit.models import ProcessedImageField,ImageSpecField
+from imagekit.processors import ResizeToFit, ResizeToFill
 
 
 class CustomUser(AbstractUser):
@@ -26,7 +30,7 @@ class Tag(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE,to_field='username',related_name='user_profile')
-    img = models.ImageField(upload_to='media',blank=True,null=True)
+    img = ProcessedImageField(upload_to='media',processors=[ResizeToFit(width=150,height=150)],format='webp',options={'quality':100},null=True,blank=True,default='typer.webp')
     bio = models.CharField(max_length=1000)
 
     def __str__(self):
@@ -35,23 +39,28 @@ class UserProfile(models.Model):
 
 
 
+
 class Article(models.Model):
-    _id = models.UUIDField(default=uuid.uuid4,unique=True,primary_key=True)
+    _id = models.UUIDField(default=uuid.uuid4,unique=True)
     title = models.CharField(max_length=200)
-    title_img = models.ImageField(upload_to='media')
+    title_img = ProcessedImageField(upload_to='media',processors=[ResizeToFill(width=800,height=450)],format='webp',options={'quality':100})
     description = RichTextField()
     user = models.ForeignKey(CustomUser, on_delete = models.CASCADE, related_name='user_articles',to_field='username')
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE,related_name='tag_articles',to_field='name')
-    date = models.DateField(auto_now_add=True,blank=False)
+    date = models.DateField(auto_now=True,blank=False)
     user_profile = models.ForeignKey(UserProfile, on_delete=models.CASCADE,to_field='user',related_name='user_posts',default=user)
-
-
+    likes = models.ManyToManyField(CustomUser,related_name='liked_articles')
+    thumb_img = ProcessedImageField(upload_to='media',processors=[ResizeToFill(width=315,height=190,upscale=True)],format='webp',options={'quality':100})
+    slug = AutoSlugField(populate_from='title',primary_key=True,unique=True)
 
     class Meta:
         ordering = '-date',
 
     def __str__(self):
         return f"{self.title} {self.title_img.url} {self.user.username} {self.tag}"
+    
+    def save(self,*args,**kwargs):
+        return super().save(*args,**kwargs)
 
 '''
 class UploadedImagesToDescription(models.Model):
@@ -63,21 +72,28 @@ class UploadedImagesToDescription(models.Model):
 '''
 
 class Comment(models.Model):
-    _id = models.UUIDField(default=uuid.uuid4,unique=True,primary_key=True)
+    _id = models.UUIDField(default=uuid.uuid4,unique=True,primary_key=True) #fix the primary key here.
+
     desc = models.TextField()
     user = models.ForeignKey(CustomUser,on_delete=models.CASCADE,related_name='user_comments',to_field='username')
     article = models.ForeignKey(Article,on_delete=models.CASCADE,related_name='article_comments')
     date = models.DateField(auto_now_add=True)
     is_author = models.BooleanField(default=False)
+    likes = models.ManyToManyField(CustomUser,related_name='liked_comments')
+
 
     class Meta:
         ordering = '-date',
 
+
+
     def __str__(self):
         return f"{self.desc} {self.user} {self.article} {self.user.user_profile.img.url}"
-    class Meta:
-        ordering = ('-date',)
-        
+
+
+
+    
+
 
 
 class Signup(models.Model):
