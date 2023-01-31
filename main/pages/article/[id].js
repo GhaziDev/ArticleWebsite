@@ -50,6 +50,7 @@ import styles from '../../styles/styling/specificarticle.module.css'
 import Link from 'next/link'
 import Head from "next/head";
 import { currentUser } from "../../store/currentprovider";
+import next from "next";
 
 export async function getStaticProps(context) {
   return {
@@ -67,7 +68,7 @@ export async function getStaticPaths(){
     }))
     return {paths,fallback:false}
   }).catch((err)=>{
-    return err.response.data
+    next(err)
   })
  
 }
