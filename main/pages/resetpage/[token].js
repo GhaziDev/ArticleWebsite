@@ -13,17 +13,25 @@ import { Checkbox } from "@mui/material";
 import Navigation from "../../components/navig";
 import { AuthContext, AuthProvider } from "../../store/provider";
 import Link from "next/link";
+
+
+
+export async function getServerSideProps({params}){
+    try{
+        let res = await fetch(`${HOST}reset/${params.token}/`)
+        let token = await res.json()
+        return {
+            props:{}
+        }
+    }
+    catch(err){
+        return {
+            props:[]
+        }
+    }
+}
+
 import styles from '../../styles/styling/reset.module.css'
-
-
-export async function getServerSideProps({ params }) {
-    if (!params) return { props: { isSuccess: false } };
-    const { token } = params;
-    const res = await fetch(`${HOST}resetpage/${token}`);
-    return { props: { isSuccess: res.ok } };
-  }
-
-
 
 export default function PasswordResetPage(){
 
@@ -61,12 +69,14 @@ export default function PasswordResetPage(){
 
 
     useEffect(()=>{
+        if(redirect.isReady){
         axios.get(`${HOST}reset/${token}/`).then((e)=>{
             setFound({'found':true,val:1})
             found.val = 1
 
 
         })
+    }
     },[found.val])
     
     let handleSubmit = (e)=>{
