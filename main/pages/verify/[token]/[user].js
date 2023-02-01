@@ -6,6 +6,21 @@ import {useRouter} from 'next/router'
 import styles from '../../../styles/styling/verify.module.css'
 
 
+export async function getServerSideProps({params}){
+    try{
+        let res = await fetch(`${HOST}reset/${params.token}/${params.user}/`)
+        let token = await res.json()
+        return {
+            props:{token:token}
+        }
+    }
+    catch(err){
+        return {
+            props:[]
+        }
+    }
+}
+
 export default function Verify(){
     const [message, setMessage] = useState("");
     const [domLoaded,setDomLoaded] = useState(false)
