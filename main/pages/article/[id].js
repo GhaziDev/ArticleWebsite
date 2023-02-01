@@ -1005,7 +1005,7 @@ const SpecificArticle = () => {
               </RedditShareButton>
             </div>
             <div>
-              <LinkIcon fontSize="large"></LinkIcon>
+              <LinkIcon titleAccess="Copy URL" style={{cursor:'pointer'}} fontSize="large" onClick={()=>navigator.clipboard.writeText(`${HOST}article/${article.slug}/`)}></LinkIcon>
             </div>
           </div>
         </div>

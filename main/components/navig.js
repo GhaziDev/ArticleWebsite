@@ -94,7 +94,6 @@ function Navigation(){
     return(
 
         <div className={styles['nav-div']} >
-            <link href='../styles/styling/navig.css'/>
                <div className={styles['nav-div-left']}>
             <div style = {{color:theme.setTextColor}} className={styles['l-div']}  onClick={(e)=>redirect.replace('/')}>Home</div>
             <Rules></Rules>

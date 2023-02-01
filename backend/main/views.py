@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from main import models,serializer
 from rest_framework import viewsets, views
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated, AllowAny,IsAuthenticatedOrReadOnly,IsAdminUser
+
 from rest_framework.authentication import SessionAuthentication
 from rest_framework import serializers
 from rest_framework.response import Response
@@ -99,6 +100,7 @@ class ArticleView(viewsets.ModelViewSet):
 
     def update(self, request,pk):
         data = serializer.OnEditSerializer(data=request.data)
+        permission_classes = [IsAuthenticated]
 
         if data.is_valid():
             # don't forget to change the date
@@ -111,6 +113,7 @@ class ArticleView(viewsets.ModelViewSet):
 
             
     def destroy(self,request,pk):
+        permission_classes = [IsAuthenticated]
         models.Article.objects.filter(slug=pk).delete()
         return Response('Article deleted.',status=200)
 
@@ -125,6 +128,8 @@ class CommentLikesView(views.APIView):
         is_liked = True if user.liked_comments.filter(_id=_id) else False
         return Response(serializer.LikesSerializer({'likes_count':comment.likes.count,'like':is_liked,'user':user.username,'iid':user._id}).data,status=200)
     def post(self,request,_id):
+        permission_classes = [IsAuthenticated]
+
         comment = models.Comment.objects.get(_id=_id)
        
         if request.user.is_authenticated:
@@ -164,6 +169,7 @@ class LikesView(views.APIView):
 
     @method_decorator(ensure_csrf_cookie)
     def post(self,request,slug):
+        permission_classes = [IsAuthenticated]
         if not request.user.is_authenticated:
             return Response("User is not authenticated!",status=401)
         if request.user.is_authenticated:
@@ -194,6 +200,8 @@ class TagView(viewsets.ModelViewSet):
     serializer_class = serializer.TagSerializer
     lookup_field = 'name'
     queryset = models.Tag.objects.all()
+    permission_classes = [IsAdminUser]
+
 
 
 class SignupView(viewsets.ModelViewSet):
@@ -202,6 +210,7 @@ class SignupView(viewsets.ModelViewSet):
 
 
     def get_queryset(self):
+        permission_classes = [IsAdminUser]
         queryset = models.CustomUser.objects.all()
         return queryset
     
@@ -267,6 +276,8 @@ class CheckPasswordValidation(views.APIView):
 
 class CommentView(viewsets.ModelViewSet):
     serializer_class = serializer.CommentSerializer
+    permission_classes = [IsAuthenticated]
+
 
     def get_serializer_context(self): #adding request.user as an extra context
         context = super(CommentView,self).get_serializer_context()
@@ -456,6 +467,7 @@ class UserProfileView(viewsets.ModelViewSet):
 
 
 class DeleteProfileView(views.APIView):
+        permission_classes = [IsAuthenticated]
         def delete(self,request,username,user):
             if username == user:
                 user = models.CustomUser.objects.get(username=username)
@@ -560,5 +572,6 @@ class RetrieveComments(views.APIView):
     serializer_class = serializer.CommentSerializer
 
     def get(self,request,slug):
+        permission_classes=[IsAuthenticated]
         comments = serializer.CommentSerializer(models.Comment.objects.filter(article=slug),many=True)
         return Response(comments.data,status=200)

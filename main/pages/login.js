@@ -42,6 +42,7 @@ function IsAuthenticated({auth,handleChange,handleSubmit,email,password,errored,
             return <div  id='loggedin' style={{color:theme.setColor}}>You are already logged in <Link href='/' style={{color:'green'}}>Back to main page</Link></div>
         }
         return (
+           
             <form onSubmit={(e)=>handleSubmit(e)}  method='post' id='loginform' style={{backgroundColor:theme.setButtonColor,color:theme.setColor}}>
                 <div  className = {styles['login-form']} style={{backgroundColor:theme.setButtonColor,color:theme.setColor}}>
 
@@ -58,6 +59,7 @@ function IsAuthenticated({auth,handleChange,handleSubmit,email,password,errored,
                 <WrongUserPass errored={errored} errorText={errorText}></WrongUserPass>
                 </div>
             </form>
+        
             
         )
     }
@@ -118,7 +120,9 @@ const Login = ()=>{
             <div className={styles['navig-side']}>
                 <Navigation/>
        </div>
+       <div className={styles['formSec']}>
             <IsAuthenticated theme={theme} errorText={errorText} errored={isError} handleChange={handleChange} email={email} password={password} handleSubmit={handleSubmit} auth={isAuth}></IsAuthenticated>
+            </div>
         </div>
     )
 }

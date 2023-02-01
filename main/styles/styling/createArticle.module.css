@@ -19,6 +19,10 @@
   font-size:50px;
 }
 
+.article-form{
+  padding-bottom:50px;
+}
+
 .article-submit{
   display:flex;
   width:160px;
@@ -65,8 +69,8 @@
   
 .description-output{
     width:565px;
-    min-height:300px;
-    max-height:300px;
+    min-height:fit-content;
+    max-height:555px;
     border-radius: 6px;
     padding:25px 25px 25px 25px;
     font-size:14px;

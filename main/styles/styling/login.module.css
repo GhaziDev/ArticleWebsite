@@ -5,6 +5,16 @@
     line-height:40px;
   }
 
+.formSec{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+
+.formSec form{
+  border-radius:8px;
+}
   .login-form{
     display: flex;
     justify-content: center;
@@ -93,10 +103,8 @@
   
 
   .login-page{
-    align-items: center;
     display: flex;
-    justify-content: center;
-    height:100vh;
+    flex-flow: column wrap;
   }
 
   
@@ -112,11 +120,8 @@
     display:flex;
     justify-content: flex-start;
     align-items: flex-start;
-    position: absolute;
-    top:0;
-    left:0;
-    padding:25px;
     width:100%;
+    height:fit-content;
   }
 
   .user-link{
