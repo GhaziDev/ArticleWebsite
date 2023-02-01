@@ -46,7 +46,7 @@ export default function PasswordResetAsk(){
         axios.post(`${HOST}reset/`,email,{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             setIsSent(true)
             setEmail({'email':''})
-            setDisabled(true)
+            setDisabled(false)
            
 
         }).catch((e)=>{
@@ -68,7 +68,7 @@ export default function PasswordResetAsk(){
        <div className={styles['page-wrapper']}>
             <h1>Reset Password Page</h1>
             <input className={styles["email-inp"]} name='email' required value={email.email} onChange={(e)=>handleChange(e)} placeholder='insert your email here'></input>
-            <button  style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} disabled={disabled}  className={styles['reset-button']} type='submit'>{disabled?<div  className={styles["lds-ring"]}><div></div><div></div><div></div><div></div></div>:'Send reset link'}</button>
+            <button  style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} disabled={disabled}  className={styles['reset-button']} type='submit'>{disabled?<div  className={theme.setBg=='white'?styles["lds-ring-white"]:styles['lds-ring']}><div></div><div></div><div></div><div></div></div>:'Send reset link'}</button>
             <Popup isSent={isSent}></Popup>
             </div>
             

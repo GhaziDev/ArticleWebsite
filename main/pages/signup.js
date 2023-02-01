@@ -95,6 +95,7 @@ const Signup = () => {
     const Data = 
     setTimeout(()=>{
     axios.post(`${HOST}password-valid/`,{password:password},{headers:{'X-CSRFToken':Cookies.get('csrf')}}).then((res)=>{
+
       setInnerHtml(
         {
           ...innerHtml,
@@ -205,7 +206,7 @@ const Signup = () => {
     return(
       innerHtml.password.map((index)=>{
         return(
-          <div>{index}</div>
+          <div className={styles['errorMsgs']}>{index}</div>
         )
       })
     )
@@ -265,7 +266,8 @@ const Signup = () => {
             style={{backgroundColor:theme.setBg,color:theme.setTextColor}}
           ></input>
           <Checkbox className={styles['hide-show']} type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon style={{color:theme.setColor}}/>} checkedIcon={<VisibilityOffIcon/>} />
-          <div style={{color:'red'}}>{listPasswordErrors()}</div>
+          <div className={style['errorMsgs']} >{listPasswordErrors()}</div>
+
           <VerfiyAcc isUp={isUp}></VerfiyAcc>
           <button type="submit" className={styles["signupsbmt"]} disabled={disabled}  style={{backgroundColor:theme.setBg,color:theme.setColor}}>
             {disabled?<div className={theme.setBg=="#1b1b1b"?styles["lds-ring"]:styles['lds-ring-white']}><div></div><div></div><div></div><div></div></div>:'Signup'}

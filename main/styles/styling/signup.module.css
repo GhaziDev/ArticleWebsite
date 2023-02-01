@@ -83,6 +83,13 @@
     
   }
 
+.errorMsgs{
+  font-size:14px;
+
+  color:red;
+
+}
+
   .lds-ring {
     display: inline-block;
     position: relative;
