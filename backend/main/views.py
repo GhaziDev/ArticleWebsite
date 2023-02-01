@@ -70,6 +70,7 @@ class ArticleView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = models.Article.objects.all()
+        
         return queryset
 
 
