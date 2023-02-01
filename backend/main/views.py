@@ -504,6 +504,7 @@ class PasswordResetView(views.APIView):
             return Response(user.token,status=200)
     
         
+        
 
 class PasswordChangeView(views.APIView):
     serializer_class = serializer.PasswordChangeSerializer

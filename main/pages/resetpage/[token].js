@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import CsrfToken from "../../components/csrf";
 import Cookies from "js-cookie";
 import {ThemeSwitch} from '../../components/navig'
-import {themeContext} from '../_app'
+import {themeContext} from '../../pages/_app'
 import HOST from "../../config";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -15,21 +15,12 @@ import { AuthContext, AuthProvider } from "../../store/provider";
 import Link from "next/link";
 
 
-
-export async function getServerSideProps({params}){
-    try{
-        let res = await fetch(`${HOST}reset/${params.token}/`)
-        let token = await res.json()
-        return {
-            props:{token}
-        }
-    }
-    catch(err){
-        return {
-            props:[]
-        }
-    }
-}
+export async function getServerSideProps({ params }) {
+    if (!params) return { props: { isSuccess: false } };
+    const { token } = params;
+    const res = await fetch(`http://127.0.0.1:3007/api/verify/${token}`);
+    return { props: { isSuccess: res.ok } };
+  }
 
 import styles from '../../styles/styling/reset.module.css'
 
