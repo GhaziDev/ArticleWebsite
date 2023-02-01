@@ -8,10 +8,11 @@ import styles from '../../../styles/styling/verify.module.css'
 
 export async function getServerSideProps({params}){
     try{
-        let res = await fetch(`${HOST}reset/${params.token}/`)
+        console.log(res)
+        let res = await fetch(`${HOST}reset/${params.token}/${params.user}`)
         let token = await res.json()
         return {
-            props:{token:token}
+            props:{token}
         }
     }
     catch(err){
