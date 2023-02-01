@@ -13,16 +13,17 @@ import { Checkbox } from "@mui/material";
 import Navigation from "../../components/navig";
 import { AuthContext, AuthProvider } from "../../store/provider";
 import Link from "next/link";
+import styles from '../../styles/styling/reset.module.css'
 
 
 export async function getServerSideProps({ params }) {
     if (!params) return { props: { isSuccess: false } };
     const { token } = params;
-    const res = await fetch(`http://127.0.0.1:3007/api/verify/${token}`);
+    const res = await fetch(`${HOST}resetpage/${token}`);
     return { props: { isSuccess: res.ok } };
   }
 
-import styles from '../../styles/styling/reset.module.css'
+
 
 export default function PasswordResetPage(){
 
