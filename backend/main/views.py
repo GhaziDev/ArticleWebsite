@@ -70,7 +70,7 @@ class ArticleView(viewsets.ModelViewSet):
 
     def get_queryset(self):
         queryset = models.Article.objects.all()
-        
+
         return queryset
 
 
@@ -500,7 +500,7 @@ class PasswordResetView(views.APIView):
             except:
                 return Response("This email does not exist in our database",status=400)
 
-            send_mail('Password Reset', f'please reset your password here : https:/www.globeofarticles.com/reset-page/{user.token}',from_email=None, recipient_list=[data.data['email']])
+            send_mail('Password Reset', f'Reset your password here : https:/www.globeofarticles.com/resetpage/{user.token}',from_email=None, recipient_list=[data.data['email']])
             return Response(user.token,status=200)
     
         

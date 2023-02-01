@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import CsrfToken from "../../components/csrf";
 import Cookies from "js-cookie";
 import {ThemeSwitch} from '../../components/navig'
-import {themeContext} from '../../pages/_app'
+import {themeContext} from '../_app'
 import HOST from "../../config";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
