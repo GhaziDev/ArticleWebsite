@@ -65,10 +65,8 @@ CSRF_COOKIE_PATH = '/'
 '''
 CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SAMESITE = 'None'
-
 SESSION_COOKIE_DOMAIN = '.globeofarticles.com'
 CSRF_COOKIE_DOMAIN = '.globeofarticles.com'
-
 
 
 
@@ -85,7 +83,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 # Application definition
 
 INSTALLED_APPS = [
-    'imagekit',
     'django_extensions',
     'coverage',
     'storages',
@@ -239,15 +236,9 @@ AWS_S3_ADDRESSING_STYLE = "virtual"
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-    ],
-    'DATE_INPUT_FORMATS':['%d %b %Y','%d-%b-%Y','%Y %m %d']
+    ]
 }
 
 AUTH_USER_MODEL = 'main.CustomUser'
 
-
-
-
-DATE_FORMAT ='%d %b %Y'
-
-DATE_INPUT_FORMATS = ['%d %b %Y','%Y %m %d']
+TIME_FORMAT = ['%d.%B.%Y']

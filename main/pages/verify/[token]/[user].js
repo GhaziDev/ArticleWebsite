@@ -9,7 +9,7 @@ import styles from '../../../styles/styling/verify.module.css'
 export async function getServerSideProps({params}){
     try{
         console.log(res)
-        let res = await fetch(`${HOST}reset/${params.token}/${params.user}`)
+        let res = await axios.get(`${HOST}verify/${params.token}/${params.user}/`)
         let token = await res.json()
         return {
             props:{token}
