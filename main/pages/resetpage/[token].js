@@ -18,13 +18,16 @@ import Link from "next/link";
 
 export async function getServerSideProps({params}){
     try{
+        console.log(res)
         let res = await fetch(`${HOST}reset/${params.token}/`)
         let token = await res.json()
+        console.log(token)
         return {
             props:{}
         }
     }
     catch(err){
+        console.log(err)
         return {
             props:[]
         }
