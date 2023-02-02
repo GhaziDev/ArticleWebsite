@@ -34,18 +34,26 @@ export default function Verify(){
     const redirect = useRouter()
     const {token} = redirect.query;
     const {user} = redirect.query;
+    console.log("Start logging here")
+    console.log(`this is token : ${token}`)
+    console.log(`user : ${user}`)
+    console.log(`${HOST}`)
+
 
     useEffect(() => {
-
-            
+        console.log(`router is ready? ${router}`)
 
         if(redirect.isReady){
+
+            console.log("Inside useEffect assuming the router is ready : ")
     
         axios.get(`${HOST}verify/${token}/${user}/`).then((res)=>{
+            console.log(`This is data response : ${res.data}`)
             setMessage(res.data)
 
         
         }).catch((e)=>{
+            console.log(`This is error response : ${e.response.data}`)
             setError(e.response.data)
       
             
