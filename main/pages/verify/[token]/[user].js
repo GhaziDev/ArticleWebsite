@@ -5,7 +5,7 @@ import HOST from "../../../config";
 import {useRouter} from 'next/router'
 import styles from '../../../styles/styling/verify.module.css'
 
-
+/*
 export async function getServerSideProps({params}){
     try{
         console.log(res)
@@ -21,6 +21,10 @@ export async function getServerSideProps({params}){
         }
     }
 }
+
+*/
+
+
 
 export default function Verify(){
     const [message, setMessage] = useState("");
