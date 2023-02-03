@@ -17,10 +17,12 @@ import styles from '../../styles/styling/reset.module.css'
 
 console.log(`This is host : ${HOST}`)
 
-export async function getServerSideProps({params}){
-    console.log(params)
+export async function getServerSideProps(context){
+    console.log(context)
+    let {token} = context.params
+    console.log(`THIS IS TOKEN ${token}`)
     try{
-        let res = await fetch(`${HOST}reset/${params.token}/`)
+        let res = await fetch(`${HOST}reset/${token}/`)
         let token = await res.json()
         console.log(token)
         return {
