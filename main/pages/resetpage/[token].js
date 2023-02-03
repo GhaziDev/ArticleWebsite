@@ -15,11 +15,11 @@ import { AuthContext, AuthProvider } from "../../store/provider";
 import Link from "next/link";
 import styles from '../../styles/styling/reset.module.css'
 
-
+console.log(`This is host : ${HOST}`)
 
 export async function getServerSideProps({params}){
+    console.log(params)
     try{
-        console.log(res)
         let res = await fetch(`${HOST}reset/${params.token}/`)
         let token = await res.json()
         console.log(token)
