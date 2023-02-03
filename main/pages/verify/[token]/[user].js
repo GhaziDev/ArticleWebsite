@@ -25,9 +25,6 @@ export async function getServerSideProps({params}){
     }
 }
 
-export async function getStaticPaths(){
-    
-}
 
 
 
