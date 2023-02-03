@@ -73,7 +73,6 @@ export default function PasswordResetPage(){
 
 
     useEffect(()=>{
-        if(redirect.isReady){
             console.log("here")
         axios.get(`${HOST}reset/${token}/`).then((e)=>{
             setFound({'found':true,val:1})
@@ -81,8 +80,7 @@ export default function PasswordResetPage(){
 
 
         })
-    }
-    },[found.val,redirect.isReady])
+    },[found.val])
     
     let handleSubmit = (e)=>{
         e.preventDefault()
