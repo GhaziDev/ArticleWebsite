@@ -35,12 +35,18 @@ if DEV_MODE:
     SECURE_SSL_REDIRECT = False
     CSRF_COOKIE_SECURE = False
     SESSION_COOKIE_SECURE = False
+    CSRF_COOKIE_SAMESITE = 'Strict'
+    SESSION_COOKIE_SAMESITE = 'Strict'
     
 else:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
     SECURE_HSTS_SECONDS = 60
+    SESSION_COOKIE_DOMAIN = '.globeofarticles.com'
+    CSRF_COOKIE_DOMAIN = '.globeofarticles.com'
+    CSRF_COOKIE_SAMESITE = 'None'
+    SESSION_COOKIE_SAMESITE = 'None'
 
 ALLOWED_HOSTS = ['139.99.169.115','globeofarticles','127.0.0.1','localhost','backend.globeofarticles.com','globeofarticles.com','www.globeofarticles.com','https://globeofarticles.com','https://www.globeofarticles.com/','https://backend.globeofarticles.com']
 ACCESS_CONTROL_ALLOW_ORIGIN = '*'
@@ -63,11 +69,8 @@ SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_PATH = '/'
 '''
-CSRF_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SAMESITE = 'None'
 
-SESSION_COOKIE_DOMAIN = '.globeofarticles.com'
-CSRF_COOKIE_DOMAIN = '.globeofarticles.com'
+
 
 
 

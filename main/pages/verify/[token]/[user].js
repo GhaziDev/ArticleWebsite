@@ -5,24 +5,30 @@ import HOST from "../../../config";
 import {useRouter} from 'next/router'
 import styles from '../../../styles/styling/verify.module.css'
 
-/*
+
 export async function getServerSideProps({params}){
+
     try{
-        console.log(res)
         let res = await axios.get(`${HOST}verify/${params.token}/${params.user}/`)
         let token = await res.json()
-        return {
+        return({
             props:{token}
-        }
+        })
+
     }
-    catch(err){
-        return {
-            props:[]
-        }
+    catch(e){
+        return(
+            {
+                props:{}
+            }
+        )
     }
 }
 
-*/
+export async function getStaticPaths(){
+    
+}
+
 
 
 
@@ -41,7 +47,7 @@ export default function Verify(){
 
 
     useEffect(() => {
-        console.log(`router is ready? ${router}`)
+        console.log(`router is ready? ${redirect}`)
 
         if(redirect.isReady){
 
@@ -65,6 +71,10 @@ export default function Verify(){
 
 
     ,[redirect.isReady])
+
+    if (redirect.isFallback){
+        return <div>Loading...</div>
+    }
     if(error){
         return(
             <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh'}}>

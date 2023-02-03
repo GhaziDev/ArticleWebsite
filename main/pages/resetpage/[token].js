@@ -13,6 +13,7 @@ import { Checkbox } from "@mui/material";
 import Navigation from "../../components/navig";
 import { AuthContext, AuthProvider } from "../../store/provider";
 import Link from "next/link";
+import styles from '../../styles/styling/reset.module.css'
 
 
 
@@ -34,7 +35,7 @@ export async function getServerSideProps({params}){
     }
 }
 
-import styles from '../../styles/styling/reset.module.css'
+
 
 export default function PasswordResetPage(){
 
@@ -73,6 +74,7 @@ export default function PasswordResetPage(){
 
     useEffect(()=>{
         if(redirect.isReady){
+            console.log("here")
         axios.get(`${HOST}reset/${token}/`).then((e)=>{
             setFound({'found':true,val:1})
             found.val = 1
@@ -80,7 +82,7 @@ export default function PasswordResetPage(){
 
         })
     }
-    },[found.val])
+    },[found.val,redirect.isReady])
     
     let handleSubmit = (e)=>{
         e.preventDefault()

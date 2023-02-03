@@ -172,6 +172,7 @@ export function EditProfile({username}){
       setIsUpdated(isUpdated+1)
       redirect.push(`/userprofile/${username}/`)
     }).catch((e)=>{
+      console.log(e.response.data)
       setError(e.response.data)
     })
 
