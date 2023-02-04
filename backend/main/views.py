@@ -577,9 +577,3 @@ class RetrieveComments(views.APIView):
         permission_classes=[IsAuthenticated]
         comments = serializer.CommentSerializer(models.Comment.objects.filter(article=slug),many=True)
         return Response(comments.data,status=200)
-
-class RetrieveUserToken(views.APIView):
-    serializer_class = serializer.RetrieveUserTokenSerializer
-    def get(self,request):
-        return Response(models.CustomUser.objects.all().values_list('token'),
-        status=200)

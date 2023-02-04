@@ -36,10 +36,6 @@ class ArticleSerializer(serializers.ModelSerializer):
     thumb_img = serializers.ReadOnlyField(source='thumb_img.url')
 
 
-class RetrieveUserTokenSerializer(serializers.Serializer):
-    token = serializers.UUIDField(read_only=True)
-
-
 
     class Meta:
         fields = '_id','title','title_img','description','tag','user','date','user_profile','likes','slug','thumb_img',

@@ -19,14 +19,13 @@ console.log(`This is host : ${HOST}`)
 
 export async function getServerSideProps(context){
     console.log(context)
-    let {token} = context.params
+    let {token} = context.query
     console.log(`THIS IS TOKEN ${token}`)
     try{
         let res = await fetch(`${HOST}reset/${token}/`)
         let token = await res.json()
-        console.log(token)
         return {
-            props:{}
+            props:{token}
         }
     }
     catch(err){
@@ -75,6 +74,7 @@ export default function PasswordResetPage(){
 
 
     useEffect(()=>{
+        if(redirect.isReady){
             console.log("here")
         axios.get(`${HOST}reset/${token}/`).then((e)=>{
             setFound({'found':true,val:1})
@@ -82,7 +82,8 @@ export default function PasswordResetPage(){
 
 
         })
-    },[found.val])
+    }
+    },[found.val,redirect.isReady])
     
     let handleSubmit = (e)=>{
         e.preventDefault()
@@ -118,6 +119,7 @@ export default function PasswordResetPage(){
         <div className='nav-side'>
             <Navigation/>
             </div>
+            <Link href={`${token}/${user}/`}/>
             <div className={styles['pass_change']}>
             <label className={styles['label']} style={{color:theme.setColor}}>Password</label>
             <input className={styles['password']}style={{color:theme.setColor,backgroundColor:theme.setButtonColor,borderBottomColor:theme.setColor}} type='password' required value={password} onChange={(e)=>handleChange(e)}></input>

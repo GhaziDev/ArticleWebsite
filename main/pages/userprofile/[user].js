@@ -98,6 +98,7 @@ export function EditProfile({username}){
   const [user,setUser] = useState()
   const [error,setError] = useState(null)
   const [isUpdated,setIsUpdated] = useState(0)
+  const [disabled,setDisabed] = useState()
 
   const {bio,img} = profileInfo
 
@@ -144,11 +145,13 @@ export function EditProfile({username}){
    }
    const submitUsernameCheck = (e)=>{
     e.preventDefault()
+    setDisabled(true)
     axios.delete(`${HOST}userprofile/${username}/${user}/`,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
       setTimeout(()=>{
         redirect.replace('/')
 
-      },500)
+      },300)
+      
       
 
     }).catch((e)=>{
@@ -223,7 +226,7 @@ export function EditProfile({username}){
           <div className={styles['deletion-section']}>
           <input autoComplete="no" form='Form2' required onChange={(e)=>handleUserChange(e)} placeholder='Enter your username' value={user} className={styles['bio-inp']}  name='password' style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} ></input>
           <div className={styles['txt']}>By Pressing Confirm you aknowledge that you can't retrieve your account back</div>
-          <input form='Form2' type='submit' className={styles['delete-confirm']} value='Confirm' ></input>
+          <input disabled={disabled} form='Form2' type='submit' className={styles['delete-confirm']} value='Confirm' ></input>
           <div style={{color:'red'}}>{error}</div>
           </div>
           :null}
