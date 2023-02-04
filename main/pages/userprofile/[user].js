@@ -98,7 +98,7 @@ export function EditProfile({username}){
   const [user,setUser] = useState()
   const [error,setError] = useState(null)
   const [isUpdated,setIsUpdated] = useState(0)
-  const [disabled,setDisabed] = useState()
+  const [disabled,setDisabled] = useState()
 
   const {bio,img} = profileInfo
 
