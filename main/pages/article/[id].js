@@ -50,7 +50,7 @@ import Head from "next/head";
 export async function getServerSideProps({params}){
   try{
   const res = await axios.get(`${HOST}articles/${params.id}/`)
-  const data = await res.json()
+  const data = await res.data
   return {
     props: {data:data}, // will be passed to the page component as props
   }
