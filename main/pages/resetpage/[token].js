@@ -19,7 +19,7 @@ console.log(`This is host : ${HOST}`)
 
 export async function getServerSideProps(context){
     console.log(context)
-    let {token} = context.query
+    let {token} = context.params
     console.log(`THIS IS TOKEN ${token}`)
     try{
         let res = await fetch(`${HOST}reset/${token}/`)
