@@ -29,13 +29,8 @@ import remarkToc from "remark-toc";
 import rehypeSlugger from "rehype-slug";
 import remarkRehype from "remark-rehype";
 import rehypeHighlight from "rehype-highlight";
-//import remarkEmbedder from '@remark-embedder/core';
-import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import remarkGemoji from "remark-gemoji";
-import {
-  oneDark,
-  oneLight,
-} from "react-syntax-highlighter/dist/cjs/styles/prism";
+
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -49,16 +44,15 @@ import { useRouter } from "next/router.js";
 import styles from '../../styles/styling/specificarticle.module.css'
 import Link from 'next/link'
 import Head from "next/head";
-import { currentUser } from "../../store/currentprovider";
 
 
 
 export async function getServerSideProps({params}){
   try{
-  const res = await fetch(`${HOST}articles/${params.id}/`)
-  const data = res.json()
+  const res = await axios.get(`${HOST}articles/${params.id}/`)
+  const data = await res.json()
   return {
-    props: {data}, // will be passed to the page component as props
+    props: {data:data}, // will be passed to the page component as props
   }
 }
 catch(e){
