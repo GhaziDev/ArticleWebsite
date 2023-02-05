@@ -69,26 +69,6 @@ catch(e){
 }
 
 
-export async function getStaticPaths(){
-  try{
-  const res = await fetch(`${HOST}articles/`)
-  const posts = await res.json()
-
-  // Get the paths we want to prerender based on posts
-  // In production environments, prerender all pages
-  // (slower builds, but faster initial page load)
-  const paths = posts.map((post) => ({
-    params: { id: post.slug },
-  }))
-
-  // { fallback: false } means other routes should 404
-  return { paths, fallback:false}
-}
-catch(err){
-  return { paths: [], fallback:true}
-
-}
-}
 
 
 
