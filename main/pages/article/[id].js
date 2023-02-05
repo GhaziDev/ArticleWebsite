@@ -637,7 +637,7 @@ const DeleteArticle = ({ user, article, id, redirect }) => {
   return null;
 };
 
-const SpecificArticle = () => {
+const SpecificArticle = ({data}) => {
   const [article, setArticle] = useState({
     title: "",
     title_img: "",
@@ -837,7 +837,7 @@ const SpecificArticle = () => {
           }
         }
       });
-  }, [updated,redirect.isFallback]);
+  }, [updated]);
 
   useEffect(()=>{
     axios.get(`${HOST}comments_of_article/${id}/`).then((res) => {
@@ -907,9 +907,10 @@ const SpecificArticle = () => {
     }
   };
 
-  if(redirect.isFallback){
-    return <div>Loading</div>
+  if(!data){
+    return <div>PAGE NOT FOUND</div>
   }
+  
   return (domLoaded &&
     <div
       className={styles["spec-article"]}
