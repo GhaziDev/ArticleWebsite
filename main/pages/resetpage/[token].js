@@ -1,17 +1,14 @@
 import axios from "axios";
 import {useState,useEffect,useContext} from "react";
-import { useNavigate } from "react-router-dom";
 import { useRouter } from "next/router";
-import CsrfToken from "../../components/csrf";
 import Cookies from "js-cookie";
-import {ThemeSwitch} from '../../components/navig'
 import {themeContext} from '../../pages/_app'
 import HOST from "../../config";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Checkbox } from "@mui/material";
+import Checkbox  from "@mui/material/Checkbox";
 import Navigation from "../../components/navig";
-import { AuthContext, AuthProvider } from "../../store/provider";
+import { AuthContext} from "../../store/provider";
 import Link from "next/link";
 import styles from '../../styles/styling/reset.module.css'
 

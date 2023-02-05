@@ -7,7 +7,7 @@ import Navigation from "./navig.js";
 
 import {themeContext} from '../pages/_app'
 import Search from './search.js'
-import {Dialog} from '@mui/material';
+import Dialog from '@mui/material/Dialog';
 import Button from '../styles/styling/button';
 
 import ListAllArticles, {Filter} from './filtertag';

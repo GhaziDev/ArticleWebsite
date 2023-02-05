@@ -1,14 +1,13 @@
 import axios from "axios";
-import React,{ useState, useEffect, useContext, createContext, memo } from "react";
+import React,{ useState, useEffect, useContext, memo } from "react";
 import Cookies from "js-cookie";
 import { useDeferredValue } from "react";
 
 import CsrfToken from "../../components/csrf"
 import { themeContext } from "../../pages/_app";
 import { AuthContext } from "../../store/provider";
-import { Dialog, TextField } from "@mui/material";
-import Navigation, { ThemeSwitch } from "../../components/navig.js"; 
-import {unified} from 'unified';
+import Dialog from "@mui/material/Dialog";
+import Navigation from "../../components/navig.js"; 
 import { Suspense } from "react";
 
 import HOST from "../../config.js";
@@ -19,7 +18,6 @@ import {
   RedditShareButton
 } from 'next-share';
 
-import { Helmet } from "react-helmet";
 import ReactMarkDown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
@@ -816,7 +814,7 @@ const SpecificArticle = ({data}) => {
         setArticle(data);
 
      
-        let arr = res.data.title.split(" ")
+        let arr = article.title.split(" ")
         for(let i = 0;i<arr.length;i++){
           if(arr[i].length>20 || (arr[i].length>6 && arr[i+1].length>6)){
             setWordBreak({'wordBreak':'break-all'})

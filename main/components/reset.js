@@ -8,7 +8,7 @@ import {themeContext} from '../pages/_app'
 import HOST from "../config";
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Checkbox } from "@mui/material";
+import Checkbox  from "@mui/material/Checkbox";
 
 function Popup({isSent}){
     if(isSent){

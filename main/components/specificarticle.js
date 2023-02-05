@@ -1,20 +1,14 @@
 import axios from "axios";
-import { React, useState, useEffect, useContext, createContext } from "react";
-import { useNavigate, Link, useParams, redirect } from "react-router-dom";
+import { React, useState, useEffect, useContext} from "react";
+import { useNavigate, useParams} from "react-router-dom";
 import Cookies from "js-cookie";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faHome,
-  faUser,
-  faTag,
-  faCalendar,
-} from "@fortawesome/free-solid-svg-icons";
+
+
 import CsrfToken from "./csrf.js";
-import Footer from "./footer.js";
 import { themeContext } from "../pages/_app";
 import { AuthContext } from "../store/provider";
-import { Dialog, TextField } from "@mui/material";
-import Navigation, { ThemeSwitch } from "./navig.js";
+import Dialog from "@mui/material/Dialog";
+import Navigation from "./navig.js";
 
 import HOST from "../config.js";
 import { Helmet } from "react-helmet";
@@ -30,22 +24,17 @@ import remarkRehype from "remark-rehype";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import remarkGemoji from "remark-gemoji";
 import {
-  dark,
-  gruvboxLight,
   oneDark,
   oneLight,
 } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Checkbox } from "@mui/material";
-import { DisplayDialogOrLogin, LoginOrLogout } from "./displayarticles.js";
 
 
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LinkIcon from "@mui/icons-material/Link";
-import { CheckBox } from "@mui/icons-material";
 
 
 const EditArticle = ({

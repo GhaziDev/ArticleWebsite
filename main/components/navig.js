@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
 import {useState,useContext} from 'react';
-import {useNavigate,useLocation} from 'react-router-dom';
 import {themeContext} from '../pages/_app'
-import DisplayDialogOrAuth,{LoginOrLogout} from './displayarticles.js';
+import {LoginOrLogout} from './displayarticles.js';
 import Rules from './rules.js';
 import {Switch,Input,Slider} from '../styles/styling/theme' 
 import { AuthContext } from '../store/provider.js';

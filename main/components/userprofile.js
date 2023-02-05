@@ -1,13 +1,10 @@
 import axios from "axios";
 import { useState,useEffect,useContext,createContext } from "react";
-import { useParams,Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useParams,useNavigate } from "react-router-dom";
 import {themeContext} from '../pages/_app';
-import {cyanDark} from '@radix-ui/colors';
-import Footer from './footer.js'
-import Navigation, { ThemeSwitch } from "./navig";
+import Navigation from "./navig";
 import Cookies from "js-cookie";
-import {Dialog} from '@mui/material'
+import Dialog from '@mui/material/Dialog'
 import {Filter,ListAllArticles} from './filtertag';
 import HOST from "../config.js";
 import ReactPaginate from 'react-paginate';

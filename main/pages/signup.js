@@ -1,9 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { React, useState, useEffect , useContext} from "react";
-import { Dialog } from "@mui/material";
+import Dialog  from "@mui/material/Dialog";
 import CsrfToken from "../components/csrf";
-import { ThemeSwitch } from "../components/navig";
 import HOST from "../config";
 
 

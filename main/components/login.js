@@ -3,12 +3,10 @@ import {React,useState,useEffect,useContext} from 'react';
 import {useNavigate,Link} from 'react-router-dom';
 import Cookies from 'js-cookie';
 import CsrfToken from './csrf.js';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHome } from '@fortawesome/free-solid-svg-icons';
 import {themeContext} from '../pages/_app'; 
 import {ThemeSwitch} from './navig'
 import HOST from '../config.js';
-import {Checkbox} from '@mui/material'
+import Checkbox from '@mui/material/Checkbox'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { AuthContext } from '../store/provider';

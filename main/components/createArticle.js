@@ -14,10 +14,7 @@ import remarkRehype from 'remark-rehype'
 import {themeContext } from "../pages/_app";
 import { AuthContext } from '../store/provider';
 
-import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter'
 import remarkGemoji from 'remark-gemoji';
-import Footer from "./footer";
-import { oneDark,oneLight} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import Navigation from "./navig";
 
 

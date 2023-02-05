@@ -1,6 +1,6 @@
 import { useEffect,useState } from "react";
 import {useParams,useNavigate} from 'react-router-dom';
-import {Dialog} from '@mui/material'
+import Dialog from '@mui/material/Dialog'
 import axios from 'axios'
 import HOST from "../config";
 
