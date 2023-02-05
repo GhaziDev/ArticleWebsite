@@ -56,6 +56,9 @@ export async function getServerSideProps({params}){
   }
 }
 catch(e){
+  console.log("here")
+  console.log(e)
+  
   return {
     props:{}
   }
