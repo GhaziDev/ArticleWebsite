@@ -53,10 +53,19 @@ import { currentUser } from "../../store/currentprovider";
 
 
 
-export async function getStaticProps({params}){
+export async function getStaticProps({query}){
+  try{
+  const res = await fetch(`${HOST}articles/${query.id}/`)
+  const data = res.json()
   return {
-    props: {params}, // will be passed to the page component as props
+    props: {data}, // will be passed to the page component as props
   }
+}
+catch(e){
+  return {
+    props:{}
+  }
+}
 }
 
 
@@ -73,10 +82,10 @@ export async function getStaticPaths(){
   }))
 
   // { fallback: false } means other routes should 404
-  return { paths, fallback:true}
+  return { paths, fallback:false}
 }
 catch(err){
-  return { paths: [], fallback:false}
+  return { paths: [], fallback:true}
 
 }
 }
