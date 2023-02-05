@@ -56,9 +56,9 @@ import { currentUser } from "../../store/currentprovider";
 export async function getServerSideProps({params}){
   try{
   const res = await fetch(`${HOST}articles/${params.id}/`)
-  const data = res.json()
+  const article = res.json()
   return {
-    props: {data:data}, // will be passed to the page component as props
+    props: {data}, // will be passed to the page component as props
   }
 }
 catch(e){
@@ -815,10 +815,7 @@ const SpecificArticle = ({data}) => {
 
 
   useEffect(() => {
-    axios
-      .get(`${HOST}articles/${id}/`)
-      .then((res) => {
-        setArticle(res.data);
+        setArticle(data);
 
      
         let arr = res.data.title.split(" ")
@@ -826,17 +823,11 @@ const SpecificArticle = ({data}) => {
           if(arr[i].length>20 || (arr[i].length>6 && arr[i+1].length>6)){
             setWordBreak({'wordBreak':'break-all'})
             break
-          }
+
 
         }
+      }
 
-      })
-      .catch((e) => {
-        if (e.response) {
-          if (e.response.status === 401) {
-          }
-        }
-      });
   }, [updated]);
 
   useEffect(()=>{
@@ -907,10 +898,9 @@ const SpecificArticle = ({data}) => {
     }
   };
 
-  if(!data){
-    return <div>PAGE NOT FOUND</div>
-  }
-  
+  if(data){
+
+
   return (domLoaded &&
     <div
       className={styles["spec-article"]}
@@ -1041,6 +1031,11 @@ const SpecificArticle = ({data}) => {
       </div>
     </div>
   );
-};
+}
+ return(
+  <div>PAGE NOT FOUND</div>
+ )
+
+}
 
 export default SpecificArticle;
