@@ -56,7 +56,7 @@ import { currentUser } from "../../store/currentprovider";
 export async function getServerSideProps({params}){
   try{
   const res = await fetch(`${HOST}articles/${params.id}/`)
-  const article = res.json()
+  const data = res.json()
   return {
     props: {data}, // will be passed to the page component as props
   }
