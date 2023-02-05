@@ -4,7 +4,7 @@ import { faTwitter,faFacebook,faDiscord } from "@fortawesome/free-brands-svg-ico
 import { themeContext } from '../pages/_app';
 import {useState,useContext} from 'react'
 import AboutUs from './About.js';
-import {Dialog} from '@mui/material/Dialog'
+import Dialog from '@mui/material/Dialog'
 
 
 

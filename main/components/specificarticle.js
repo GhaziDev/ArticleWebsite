@@ -1,10 +1,16 @@
 import axios from "axios";
-import { React, useState, useEffect, useContext} from "react";
-import { useNavigate, useParams} from "react-router-dom";
+import { React, useState, useEffect, useContext, createContext } from "react";
+import { useNavigate, Link, useParams, redirect } from "react-router-dom";
 import Cookies from "js-cookie";
-
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHome,
+  faUser,
+  faTag,
+  faCalendar,
+} from "@fortawesome/free-solid-svg-icons";
 import CsrfToken from "./csrf.js";
+import Footer from "./footer.js";
 import { themeContext } from "../pages/_app";
 import { AuthContext } from "../store/provider";
 import Dialog from "@mui/material/Dialog";
@@ -24,6 +30,8 @@ import remarkRehype from "remark-rehype";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import remarkGemoji from "remark-gemoji";
 import {
+  dark,
+  gruvboxLight,
   oneDark,
   oneLight,
 } from "react-syntax-highlighter/dist/cjs/styles/prism";

@@ -14,7 +14,9 @@ import remarkRehype from 'remark-rehype'
 import {themeContext } from "../pages/_app";
 import { AuthContext } from '../store/provider';
 
+
 import remarkGemoji from 'remark-gemoji';
+import Footer from "./footer";
 import Navigation from "./navig";
 
 
