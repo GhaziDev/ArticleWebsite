@@ -58,7 +58,7 @@ export async function getServerSideProps({params}){
 catch(e){
   console.log("here")
   console.log(e)
-  
+
   return {
     props:{}
   }
@@ -696,7 +696,7 @@ const SpecificArticle = ({data}) => {
 
   useEffect(()=>{
     setDomLoaded(true)
-  },[redirect.isFallback])
+  },[])
   useEffect(() => {
     if(redirect.isReady){
 
@@ -812,6 +812,7 @@ const SpecificArticle = ({data}) => {
 
 
   useEffect(() => {
+    if(redirect.isReady){
         setArticle(data);
 
      
@@ -824,8 +825,9 @@ const SpecificArticle = ({data}) => {
 
         }
       }
+    }
 
-  }, [updated]);
+  }, [updated,redirect.isReady]);
 
   useEffect(()=>{
     axios.get(`${HOST}comments_of_article/${id}/`).then((res) => {
