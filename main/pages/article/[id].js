@@ -53,9 +53,9 @@ import { currentUser } from "../../store/currentprovider";
 
 
 
-export async function getStaticProps(context){
+export async function getStaticProps({params}){
   return {
-    props: {}, // will be passed to the page component as props
+    props: {params}, // will be passed to the page component as props
   }
 }
 
@@ -76,10 +76,12 @@ export async function getStaticPaths(){
   return { paths, fallback: false }
 }
 catch(err){
-  return { paths: [], fallback: false }
+  return { paths: [], fallback:'blocking' }
 
 }
 }
+
+
 
 
 

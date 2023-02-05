@@ -148,7 +148,7 @@ export function EditProfile({username}){
     setDisabled(true)
     axios.delete(`${HOST}userprofile/${username}/${user}/`,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
       setTimeout(()=>{
-        redirect.replace('/')
+        redirect.reload()
 
       },300)
       
