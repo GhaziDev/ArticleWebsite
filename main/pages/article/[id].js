@@ -73,10 +73,10 @@ export async function getStaticPaths(){
   }))
 
   // { fallback: false } means other routes should 404
-  return { paths, fallback: 'blocking' }
+  return { paths, fallback:true}
 }
 catch(err){
-  return { paths: [], fallback:'blocking' }
+  return { paths: [], fallback:false}
 
 }
 }
@@ -476,7 +476,7 @@ const EditArticle = ({
       setDescEdit(res.data.description)
     });
     
-  }, [update]);
+  }, [update,redirect.isFallback]);
 
   if (user === article.user) {
     //comparing the current user id to the owner user id (owner of post)
@@ -670,9 +670,7 @@ const SpecificArticle = () => {
   });
 
 
-  useEffect(()=>{
-    setDomLoaded(true)
-  },[])
+
   const [commentEdit, setCommentEdit] = useState({ description: comment.desc });
   const [wordBreak,setWordBreak] = useState({'wordBreak':'normal'})
 
@@ -708,6 +706,11 @@ const SpecificArticle = () => {
       redirect.replace("/");
     }, 5000);
   };
+
+
+  useEffect(()=>{
+    setDomLoaded(true)
+  },[redirect.isFallback])
   useEffect(() => {
     if(redirect.isReady){
 
@@ -845,7 +848,7 @@ const SpecificArticle = () => {
           }
         }
       });
-  }, [updated]);
+  }, [updated,redirect.isFallback]);
 
   useEffect(()=>{
     axios.get(`${HOST}comments_of_article/${id}/`).then((res) => {
@@ -914,6 +917,10 @@ const SpecificArticle = () => {
       );
     }
   };
+
+  if(redirect.isFallback){
+    return <div>Loading</div>
+  }
   return (domLoaded &&
     <div
       className={styles["spec-article"]}
