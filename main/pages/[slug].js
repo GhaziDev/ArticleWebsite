@@ -21,11 +21,17 @@ export async function getServerSideProps({params}){
 
 
 export default function Component({data}){
+  if(data){
     return(
         <div>
             {data.title}
             {data.description}
         </div>
     )
+  }
+
+  return(
+    <div>NOT FOUND</div>
+  )
 }
 
