@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { useDeferredValue } from "react";
 
 import CsrfToken from "../../components/csrf"
-import { themeContext } from "../../pages/_app";
+import { themeContext } from "../_app";
 import { AuthContext } from "../../store/provider";
 import Dialog from "@mui/material/Dialog";
 import Navigation from "../../components/navig.js"; 
@@ -460,7 +460,7 @@ const EditArticle = ({
       setDescEdit(res.data.description)
     });
     
-  }, [update,redirect.isFallback]);
+  }, [update]);
 
   if (user === article.user) {
     //comparing the current user id to the owner user id (owner of post)
