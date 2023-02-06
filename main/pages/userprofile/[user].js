@@ -15,7 +15,9 @@ import { AuthContext } from "../../store/provider.js";
 import { useRouter } from "next/router";
 import styles from '../../styles/styling/App.module.css'
 
-
+export const config = {
+  runtime: 'experimental-edge',
+}
 
 export async function getStaticPaths(){
   try{

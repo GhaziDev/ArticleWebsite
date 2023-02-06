@@ -44,6 +44,9 @@ import Link from 'next/link'
 import Head from "next/head";
 
 
+export const config = {
+  runtime: 'experimental-edge',
+}
 
 export async function getServerSideProps({params}){
   try{

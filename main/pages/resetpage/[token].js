@@ -13,6 +13,11 @@ import Link from "next/link";
 import styles from '../../styles/styling/reset.module.css'
 
 
+
+export const config = {
+    runtime: 'experimental-edge',
+  }
+
 export async function getServerSideProps({params}){
     try{
         let res = await fetch(`${HOST}reset/${params.token}/`)
