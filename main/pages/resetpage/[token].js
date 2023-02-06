@@ -22,7 +22,6 @@ export async function getServerSideProps({params}){
         }
     }
     catch(err){
-        console.log(err)
         return {
             props:[]
         }
