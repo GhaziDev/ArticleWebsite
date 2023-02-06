@@ -16,11 +16,6 @@ import { useRouter } from "next/router";
 import styles from '../../styles/styling/App.module.css'
 
 
-export async function getStaticProps(context){
-  return{
-    props:{}
-  }
-}
 
 export async function getStaticPaths(){
   try{
