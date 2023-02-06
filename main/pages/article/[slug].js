@@ -654,7 +654,7 @@ const SpecificArticle = ({data}) => {
 
 
 
-  const [commentEdit, setCommentEdit] = useState({ description: comment.desc });
+
   const [wordBreak,setWordBreak] = useState({'wordBreak':'normal'})
 
   const { desc, date } = comment;
@@ -904,9 +904,8 @@ const SpecificArticle = ({data}) => {
     >
      <Navigation/>
       <Head>
-        <title>{article.title}</title>
-        <meta property="og:image" content={article.title_img} />
-        
+        <meta property="og:title" content={article.title}/>
+        <meta property="og:image" content={article.title_img} />   
       </Head>
       <div className={styles["article-title"]}>
         <div className={styles["left-article-side"]}>
@@ -960,7 +959,7 @@ const SpecificArticle = ({data}) => {
           <div className={styles["share-links"]}>
             <div>
             <FacebookShareButton
-  url={`${HOST}article/${article.slug}/`}
+  url={`/article/${article.slug}/`}
   quote={article.description}
   hashtag={'#GlobeofArticles'}
 >
@@ -969,7 +968,7 @@ const SpecificArticle = ({data}) => {
             </div>
             <div>
               <TwitterShareButton
-               url={`${HOST}article/${article.slug}/`}
+               url={`/article/${article.slug}/`}
                quote={article.description}
                hashtag={'#GlobeofArticles'}>
               <TwitterIcon fontSize="large"></TwitterIcon>
@@ -977,20 +976,20 @@ const SpecificArticle = ({data}) => {
             </div>
             <div>
               <LinkedinShareButton 
-               url={`${HOST}article/${article.slug}/`}
+               url={`/article/${article.slug}/`}
                quote={article.description}
                hashtag={'#GlobeofArticles'}>
               <LinkedInIcon fontSize="large"></LinkedInIcon>
               </LinkedinShareButton>
             </div>
             <div>
-              <RedditShareButton url={`${HOST}article/${article.slug}/`}
+              <RedditShareButton url={`/article/${article.slug}/`}
               title={article.title}>
               <RedditIcon fontSize='large'></RedditIcon>
               </RedditShareButton>
             </div>
             <div>
-              <LinkIcon titleAccess="Copy URL" style={{cursor:'pointer'}} fontSize="large" onClick={()=>navigator.clipboard.writeText(`${HOST}article/${article.slug}/`)}></LinkIcon>
+              <LinkIcon titleAccess="Copy URL" style={{cursor:'pointer'}} fontSize="large" onClick={()=>navigator.clipboard.writeText(`/article/${article.slug}/`)}></LinkIcon>
             </div>
           </div>
         </div>
