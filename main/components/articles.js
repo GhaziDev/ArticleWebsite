@@ -1,14 +1,10 @@
 import axios from "axios";
 import React,{ useState, useEffect, createContext,useContext } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { library} from "@fortawesome/fontawesome-svg-core";
 import Navigation from "./navig.js";
 
 import {themeContext} from '../pages/_app'
-import Search from './search.js'
-import {Dialog} from '@mui/material';
-import Button from '../styles/styling/button';
 
 import ListAllArticles, {Filter} from './filtertag';
 import {DisplayDialogOrLogin} from "./displayarticles.js";

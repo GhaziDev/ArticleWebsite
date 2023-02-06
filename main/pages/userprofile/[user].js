@@ -5,7 +5,7 @@ import React,{ useState,useEffect,useContext,createContext } from "react";
 import {themeContext} from '../../pages/_app';
 import Navigation from "../../components/navig";
 import Cookies from "js-cookie";
-import {Dialog} from '@mui/material'
+import Dialog from '@mui/material/Dialog'
 import ListAllArticles,{Filter} from '../../components/filtertag';
 import HOST from "../../config.js";
 import ReactPaginate from 'react-paginate';
@@ -15,9 +15,6 @@ import { AuthContext } from "../../store/provider.js";
 import { useRouter } from "next/router";
 import styles from '../../styles/styling/App.module.css'
 
-export const config = {
-  runtime: 'experimental-edge',
-}
 
 export async function getStaticPaths(){
   try{

@@ -1,14 +1,11 @@
 import { useEffect,useState } from "react";
-import {Dialog} from '@mui/material'
+import Dialog from '@mui/material/Dialog'
 import axios from 'axios'
 import HOST from "../../../config";
 import {useRouter} from 'next/router'
 import styles from '../../../styles/styling/verify.module.css'
 
 
-export const config = {
-    runtime: 'experimental-edge',
-  }
 
 export async function getServerSideProps({params}){
 

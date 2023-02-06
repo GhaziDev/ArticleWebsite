@@ -14,9 +14,6 @@ import styles from '../../styles/styling/reset.module.css'
 
 
 
-export const config = {
-    runtime: 'experimental-edge',
-  }
 
 export async function getServerSideProps({params}){
     try{

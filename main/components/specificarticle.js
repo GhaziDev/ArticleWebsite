@@ -30,8 +30,7 @@ import remarkRehype from "remark-rehype";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import remarkGemoji from "remark-gemoji";
 import {
-  dark,
-  gruvboxLight,
+
   oneDark,
   oneLight,
 } from "react-syntax-highlighter/dist/cjs/styles/prism";

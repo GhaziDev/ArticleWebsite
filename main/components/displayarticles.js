@@ -1,17 +1,13 @@
 
 import React,{useEffect,useContext,useState} from 'react';
-import { useNavigate } from 'react-router-dom';
 import {themeContext} from '../pages/_app';
 import { AuthContext } from '../store/provider';
 
-import { Dialog} from '@mui/material';
-import CsrfToken from './csrf.js';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import {MenuList,MenuItem,Menu,Fade,Button} from '@mui/material';
+import {MenuItem,Menu,Fade,Button} from '@mui/material';
 import { EditProfile } from '../pages/userprofile/[user]';
 import HOST from '../config.js'
-import { ThemeSwitch } from './navig.js';
 import { useRouter } from 'next/router';
 import styles from '../styles/styling/displayarticles.module.css'
 

@@ -3,7 +3,7 @@ import axios from 'axios';
 import {themeContext} from '../pages/_app'
 import Button from '../styles/styling/button';
 
-import { Dialog } from '@mui/material';
+import Dialog  from '@mui/material/Dialog';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import HOST from '../config.js'
 import {FavoriteBorderIcon} from '@mui/icons-material'
