@@ -47,7 +47,7 @@ import Head from "next/head";
 
 export async function getServerSideProps({params}){
   try{
-  const res = await axios.get(`${HOST}articles/${params.id}/`)
+  const res = await axios.get(`${HOST}articles/${params.slug}/`)
   const data = await res.data
   return {
     props: {data:data}, // will be passed to the page component as props
@@ -101,9 +101,9 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
       });
   };
 
-  const handleEditMode = (e, id) => {
+  const handleEditMode = (e, slug) => {
     setEditMode(!editMode);
-    setId(id);
+    setId(slug);
     setCommentEdit(comment.desc);
   };
   const handleCommentEdit = (e, _id) => {
@@ -415,7 +415,7 @@ const EditArticle = ({
   article,
   theme,
   description,
-  id,
+  slug,
   setArticle,
   redirect,
 }) => {
@@ -427,7 +427,7 @@ const EditArticle = ({
   let handleEdit = (e) => {
     e.preventDefault();
     axios
-      .put(`${HOST}articles/${id}/`,{...article,description:descEdit}, {
+      .put(`${HOST}articles/${slug}/`,{...article,description:descEdit}, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
@@ -439,7 +439,7 @@ const EditArticle = ({
           date: res.data.date,
         });
         setOpen(false);
-        redirect.push(`/article/${id}`);
+        redirect.push(`/article/${slug}`);
         setUpdate(update + 1);
       })
       .catch((e) => {
@@ -455,7 +455,7 @@ const EditArticle = ({
   };
 
   useEffect(() => {
-    axios.get(`${HOST}articles/${id}/`).then((res) => {
+    axios.get(`${HOST}articles/${slug}/`).then((res) => {
       setArticle(res.data);
       setDescEdit(res.data.description)
     });
@@ -569,14 +569,14 @@ const EditArticle = ({
   return null;
 };
 
-const DeleteArticle = ({ user, article, id, redirect }) => {
+const DeleteArticle = ({ user, article, slug, redirect }) => {
   const { theme } = useContext(themeContext);
   let [open, setOpen] = useState(false);
 
   let handleDelete = (e) => {
     e.preventDefault();
     axios
-      .delete(`${HOST}articles/${id}/`, {
+      .delete(`${HOST}articles/${slug}/`, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
@@ -670,7 +670,7 @@ const SpecificArticle = ({data}) => {
 
   const [editMode, setEditMode] = useState(false);
   let redirect = useRouter();
-  let { id } = redirect.query;
+  let {slug } = redirect.query;
 
   let { isAuth } = useContext(AuthContext);
 
@@ -698,7 +698,7 @@ const SpecificArticle = ({data}) => {
   useEffect(() => {
     if(redirect.isReady){
 
-    axios.get(`${HOST}likes/${id}/`, { withCredentials: true }).then((res) => {
+    axios.get(`${HOST}likes/${slug}/`, { withCredentials: true }).then((res) => {
       setLikesCount(res.data);
       setHasLiked(res.data.like);
     });
@@ -707,7 +707,7 @@ const SpecificArticle = ({data}) => {
 
   let handleLike = () => {
     axios
-      .post(`${HOST}likes/${id}/`, likesCount, {
+      .post(`${HOST}likes/${slug}/`, likesCount, {
         withCredentials: true,
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
@@ -754,7 +754,7 @@ const SpecificArticle = ({data}) => {
   let handleChange = (e) => {
     setComment({
       ...comment,
-      article: id,
+      article: slug,
       [e.target.name]: e.target.value,
     });
     setCommentPreview(e.target.value)
@@ -828,7 +828,7 @@ const SpecificArticle = ({data}) => {
   }, [updated,redirect.isReady]);
 
   useEffect(()=>{
-    axios.get(`${HOST}comments_of_article/${id}/`).then((res) => {
+    axios.get(`${HOST}comments_of_article/${slug}/`).then((res) => {
       setCommentList(res.data);
     });
   },[updated])
@@ -1011,14 +1011,14 @@ const SpecificArticle = ({data}) => {
             setArticle={setArticle}
             user={user_.user}
             article={article}
-            id={id}
+          slug={slug}
             description={description}
             theme={theme}
           ></EditArticle>
           <DeleteArticle
             user={user_.user}
             article={article}
-            id={id}
+            slug={slug}
             redirect={redirect}
           ></DeleteArticle>
         </div>

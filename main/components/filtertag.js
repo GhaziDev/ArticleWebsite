@@ -1,6 +1,5 @@
 import React,{useState,useEffect, useContext} from 'react';
 import axios from 'axios';
-import { useNavigate} from 'react-router-dom';
 import {themeContext} from '../pages/_app'
 import Button from '../styles/styling/button';
 
