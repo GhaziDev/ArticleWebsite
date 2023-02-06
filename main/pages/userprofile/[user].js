@@ -16,24 +16,6 @@ import { useRouter } from "next/router";
 import styles from '../../styles/styling/App.module.css'
 
 
-export async function getStaticPaths(){
-  try{
-    const res = await fetch(`${HOST}userprofile/`)
-    const profiles = await res.json()
-    const paths = profiles.map((profile)=>{
-      return(
-      {params:{user:profile.user}}
-      )
-    })
-
-    return {paths,fallback:false}
-
-
-  }
-  catch(err){
-    return {paths:[],fallback:false}
-  }
-}
 
 
 function PaginatedItems({ itemsPerPage,articleList,theme}) { //managing items by paginating them.
