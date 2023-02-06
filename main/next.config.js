@@ -2,6 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   trailingSlash:true,
+  experimental: {
+    runtime: 'edge',
+  }
 
 }
 
