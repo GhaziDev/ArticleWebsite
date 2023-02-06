@@ -95,9 +95,9 @@ const Articles = () => {
 
       <Head>
         <title>Globe of Articles</title>
-        <meta name="robots" content="all" />
-        <meta property="og:title" content='A World of Articles'></meta>
-        <meta name="google" content="notranslate" />
+        <meta key={'unique1'} name="robots" content="all" />
+        <meta key={'unique2'} property="og:title" content='A World of Articles'></meta>
+        <meta key={'unique3'} name="google" content="notranslate" />
 
       </Head>
 

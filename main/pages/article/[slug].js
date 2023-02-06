@@ -904,8 +904,8 @@ const SpecificArticle = ({data}) => {
     >
      <Navigation/>
       <Head>
-        <meta property="og:title" content={article.title}/>
-        <meta property="og:image" content={article.title_img} />   
+        <meta key={article.title} property="og:title" content={article.title}/>
+        <meta key={article.title_img.toString()} property="og:image" content={article.title_img} />   
       </Head>
       <div className={styles["article-title"]}>
         <div className={styles["left-article-side"]}>
@@ -959,7 +959,7 @@ const SpecificArticle = ({data}) => {
           <div className={styles["share-links"]}>
             <div>
             <FacebookShareButton
-  url={`/article/${article.slug}/`}
+  url={`https://www.globeofarticles.com/article/${article.slug}/`}
   quote={article.description}
   hashtag={'#GlobeofArticles'}
 >
@@ -968,7 +968,7 @@ const SpecificArticle = ({data}) => {
             </div>
             <div>
               <TwitterShareButton
-               url={`/article/${article.slug}/`}
+               url={`https://www.globeofarticles.com/article/${article.slug}/`}
                quote={article.description}
                hashtag={'#GlobeofArticles'}>
               <TwitterIcon fontSize="large"></TwitterIcon>
@@ -976,20 +976,20 @@ const SpecificArticle = ({data}) => {
             </div>
             <div>
               <LinkedinShareButton 
-               url={`/article/${article.slug}/`}
+               url={`https://www.globeofarticles.com/article/${article.slug}/`}
                quote={article.description}
                hashtag={'#GlobeofArticles'}>
               <LinkedInIcon fontSize="large"></LinkedInIcon>
               </LinkedinShareButton>
             </div>
             <div>
-              <RedditShareButton url={`/article/${article.slug}/`}
+              <RedditShareButton url={`https://www.globeofarticles.com/article/${article.slug}/`}
               title={article.title}>
               <RedditIcon fontSize='large'></RedditIcon>
               </RedditShareButton>
             </div>
             <div>
-              <LinkIcon titleAccess="Copy URL" style={{cursor:'pointer'}} fontSize="large" onClick={()=>navigator.clipboard.writeText(`/article/${article.slug}/`)}></LinkIcon>
+              <LinkIcon titleAccess="Copy URL" style={{cursor:'pointer'}} fontSize="large" onClick={()=>navigator.clipboard.writeText(`https://www.globeofarticles.com/article/${article.slug}/`)}></LinkIcon>
             </div>
           </div>
         </div>
