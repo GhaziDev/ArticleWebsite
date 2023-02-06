@@ -1,9 +1,10 @@
-import axios from "axios";
+
 import Cookies from "js-cookie";
 import { React, useState, useEffect , useContext} from "react";
 import Dialog  from "@mui/material/Dialog";
-import CsrfToken from "../components/csrf";
+
 import HOST from "../config";
+import dynamic from "next/dynamic";
 
 
 import {
@@ -93,7 +94,7 @@ const Signup = () => {
   useEffect(()=>{
     const Data = 
     setTimeout(()=>{
-    axios.post(`${HOST}password-valid/`,{password:password},{headers:{'X-CSRFToken':Cookies.get('csrf')}}).then((res)=>{
+    fetch(`${HOST}password-valid/`,{method:'POST',body:{password:password},headers:{'X-CSRFToken':Cookies.get('csrf')}}).then((res)=>{
 
       setInnerHtml(
         {
@@ -128,8 +129,7 @@ const Signup = () => {
 
   useEffect(() => {
     const usernameData = setTimeout(()=>{
-    axios
-      .post(`${HOST}exists/`, { username: username })
+    fetch(`${HOST}exists/`,{method:'POST',body:{ username: username }})
       .then((res) => {
         setStyle({color:'yellowgreen'})
         setExist({
@@ -179,9 +179,8 @@ const Signup = () => {
   let handleSubmit = (e) => {
     setDisabled(true)
     e.preventDefault();
-    axios
-      .post(`${HOST}signup/`, signup, {
-        withCredentials: true,
+    fetch(`${HOST}signup/`, {method:'POST',body:signup, 
+        credentials: "include",
         headers: { "X-CSRFToken": Cookies.get("csrftoken") },
       })
       .then((res) => {

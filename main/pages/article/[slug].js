@@ -8,7 +8,7 @@ import { themeContext } from "../_app";
 import { AuthContext } from "../../store/provider";
 import Dialog from "@mui/material/Dialog";
 import Navigation from "../../components/navig.js"; 
-import { Suspense } from "react";
+
 
 import HOST from "../../config.js";
 import {
@@ -47,8 +47,8 @@ import Head from "next/head";
 
 export async function getServerSideProps({params}){
   try{
-  const res = await axios.get(`${HOST}articles/${params.slug}/`)
-  const data = await res.data
+  const res = await fetch(`${HOST}articles/${params.slug}/`)
+  const data = await res.json()
   return {
     props: {data:data}, // will be passed to the page component as props
   }
@@ -129,7 +129,7 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
 
 
   return(
-    <Suspense>
+    <div>
     {commentList.map((comment, index) => {
       //TODO: set if comment is liked by current user in the comment serializer to detect it in the frontend
 
@@ -274,7 +274,7 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
         </div>
       );
     })}
-    </Suspense>
+    </div>
   )
 })
 

@@ -12,11 +12,10 @@ import { AuthContext} from "../../store/provider";
 import Link from "next/link";
 import styles from '../../styles/styling/reset.module.css'
 
-console.log(`This is host : ${HOST}`)
 
-export async function getServerSideProps(context){
+export async function getServerSideProps({params}){
     try{
-        let res = await fetch(`${HOST}reset/${token}/`)
+        let res = await fetch(`${HOST}reset/${params.token}/`)
         let token = await res.json()
         return {
             props:{token}

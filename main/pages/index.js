@@ -1,4 +1,3 @@
-import axios from "axios";
 import React,{ useState, useEffect, createContext,useContext } from "react";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { library} from "@fortawesome/fontawesome-svg-core";
@@ -19,8 +18,6 @@ import Head from "next/head.js";
 
 library.add(fas);
 
-
-const host = HOST
 
 const articleContext = createContext()
 const articleVals = createContext()
