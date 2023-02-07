@@ -66,7 +66,7 @@ function ArticleCreation(){
       let [disabled,setDisabled] = useState(false)
       let {theme} = useContext(themeContext)
     let { title, title_img, description, user, tag, date} = article;
-    let {current} = useContext(currentUser)
+    let [current,setCurrent] = useState()
 
 
 
@@ -75,10 +75,10 @@ function ArticleCreation(){
 
 
     useEffect(() => {
-      current?.user?setArticle({
-              ...article,
-              user: current.user,
-            }):null;
+      axios.get(`${HOST}current/`,{withCredentials:true}).then((res)=>{
+        setCurrent(res.data)
+
+      })
       },[]);
 
 
