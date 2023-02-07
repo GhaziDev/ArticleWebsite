@@ -14,6 +14,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { AuthContext } from "../../store/provider.js";
 import { useRouter } from "next/router";
 import styles from '../../styles/styling/App.module.css'
+import Head from 'next/head'
 
 
 
@@ -261,26 +262,38 @@ function SwitchArticles({articleList,btn1,btn2,likedArticlesList,theme}){
   }
 
 
+export async function getServerSideProps({params}){
+  try{
+  let res = await fetch(`${HOST}userprofile/${params.user}/`)
+  let userInfo = await res.json()
+  console.log(userInfo)
+  return{
+    props:{userInfo:userInfo}
+  }
+  }
+  catch(e){
+    return{
+      props:{}
+    }
+  }
 
 
-function UserProfile(){
+}
+
+function UserProfile({userInfo}){
     const articleContext = createContext()
     const {theme} = useContext(themeContext) //consuming the context
-    let [userInfo,setUserInfo] = useState({'user':'','user_posts':[],'img':null,bio:''})
     let [isHidden,setIsHidden] = useState(false)
     let [btnState,setBtnState] = useState({'btn1':true,'btn2':false})
-    let {username,user_posts,bio,img} = userInfo
     let [articleList,setArticleList] = useState([])
     let [domLoaded,setDomLoaded] = useState(false)
     let [likedArticlesList,setLikedArticlesList] = useState([])
     let {isAuth} = useContext(AuthContext)
     let redirect = useRouter()
-    let {user} = redirect.query
 
     useEffect(()=>{
-      if(redirect.isReady){
       axios.get(`${HOST}current/`,{withCredentials:true}).then((res)=>{
-        if(res.data.user===username){
+        if(res.data.user===userInfo.user){
           setIsHidden(false)
         }
         else{
@@ -290,37 +303,15 @@ function UserProfile(){
         setDomLoaded(true)
   
       })
-    }
-    },[redirect.isReady])
+    },[])
 
 
     useEffect(()=>{
-      if(redirect.isReady){
-      axios.get(`${HOST}liked_articles/${user}/`).then((res)=>{
+      axios.get(`${HOST}liked_articles/${userInfo.user}/`).then((res)=>{
         setLikedArticlesList(res.data)
       })
-    }
-    },[redirect.isReady])
+    },[])
 
-
-
-    useEffect(()=>{
-      if(redirect.isReady){
-      axios.get(`${HOST}userprofile/${user}/`).then((res)=>{
-          setUserInfo({
-            username:res.data.user,
-            user_posts:[
-              ...res.data.user_posts
-            ],
-            bio:res.data.bio,
-            img:res.data.img
-          })
-
-
-      }).catch((e)=>{
-      })
-    }
-  },[redirect.isReady])
 
 
     const handleBtnSwitch = (e)=>{
@@ -335,16 +326,18 @@ function UserProfile(){
     const handleSubmit = (e)=>{
       e.preventDefault()
       let formData = new FormData()
-      formData.append('img',img)
-      formData.append('bio',bio)
-      axios.put(`${HOST}userprofile/${user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+      formData.append('img',userInfo.img)
+      formData.append('bio',userInfo.bio)
+      axios.put(`${HOST}userprofile/${userInfo.user}/`,formData,{withCredentials:true,headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
 
       })
     }
 
     return(
-      domLoaded &&
         <div className={styles['profile-div']} style={{backgroundColor:theme.setBg,color:theme.setColor}}>
+          <Head>
+
+          </Head>
 
           <Navigation></Navigation>
           
@@ -353,10 +346,10 @@ function UserProfile(){
           <div className={styles['userinfo-div']} style={{backgroundColor:theme.setButtonColor}}>
             <form method={styles['post']} onSubmit={(e)=>handleSubmit(e)}>
             <div className={styles['img-div']}>
-            <img className={styles['the-img']} src={img}  />
+            <img className={styles['the-img']} src={userInfo.img}  />
             </div>
-            <h1 >{user}</h1>
-            <h3>{bio}</h3>
+            <h1 >{userInfo.user}</h1>
+            <h3>{userInfo.bio}</h3>
             </form>
 
              </div>
@@ -364,9 +357,9 @@ function UserProfile(){
              </div>
 
              <div className={styles['main']} style={{ backgroundColor: theme.setBg, color: theme.setTextColor}}>
-             <Filter isHiddenInput={true} setArticleList={setArticleList} user={user}></Filter>
+             <Filter isHiddenInput={true} setArticleList={setArticleList} user={userInfo.user}></Filter>
              <div className={styles['switch-btns']}>
-             <button style={{backgroundColor:theme.setButtonColor,borderColor:btnState.btn1?theme.setTextColor:theme.setBg,color:theme.setTextColor}} className={styles['switch-btn1']} value={'btn1'} onClick={(e)=>{handleBtnSwitch(e)}}>{user}'s Articles</button>
+             <button style={{backgroundColor:theme.setButtonColor,borderColor:btnState.btn1?theme.setTextColor:theme.setBg,color:theme.setTextColor}} className={styles['switch-btn1']} value={'btn1'} onClick={(e)=>{handleBtnSwitch(e)}}>{userInfo.user}'s Articles</button>
              <button style={{backgroundColor:theme.setButtonColor,borderColor:btnState.btn2?theme.setTextColor:theme.setBg,color:theme.setTextColor}} className={styles['switch-btn2']} value={'btn2'} onClick={(e)=>{handleBtnSwitch(e)}}>Favorites</button>
              </div>
              <SwitchArticles theme={theme} articleList={articleList} likedArticlesList={likedArticlesList} btn1={btnState.btn1} btn2 ={btnState.btn2}></SwitchArticles>

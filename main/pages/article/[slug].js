@@ -848,10 +848,10 @@ const SpecificArticle = ({data}) => {
   useEffect(()=>{
       axios.get(`${HOST}fetch/${article.user}/`).then((res)=>{
         setRelatedArticles(res.data.filter((article)=>article.slug!==data.slug))
-        
+
       })
    
-  },[article.user])
+  },[])
 
   const getComments = () => {
     if (isAuth) {

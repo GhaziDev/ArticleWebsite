@@ -20,7 +20,7 @@ export async function getServerSideProps({params}){
         let res = await fetch(`${HOST}reset/${params.token}/`)
         let token = await res.json()
         return {
-            props:{token}
+            props:{token:token,ptoken:params.token}
         }
     }
     catch(err){
@@ -32,7 +32,7 @@ export async function getServerSideProps({params}){
 
 
 
-export default function PasswordResetPage(){
+export default function PasswordResetPage({ptoken}){
 
   
     let [password,setPassword] = useState('')
@@ -67,21 +67,10 @@ export default function PasswordResetPage(){
     }
 
 
-    useEffect(()=>{
-        if(redirect.isReady){
-            console.log("here")
-        axios.get(`${HOST}reset/${token}/`).then((e)=>{
-            setFound({'found':true,val:1})
-            found.val = 1
-
-
-        })
-    }
-    },[found.val,redirect.isReady])
     
     let handleSubmit = (e)=>{
         e.preventDefault()
-        axios.post(`${HOST}reset/${token}/`,{"password":password},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
+        axios.post(`${HOST}reset/${ptoken}/`,{"password":password},{headers:{'X-CSRFToken':Cookies.get('csrftoken')}}).then((res)=>{
             redirect.replace('/')
         }).catch((e)=>{
   
