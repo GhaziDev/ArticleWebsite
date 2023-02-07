@@ -902,8 +902,8 @@ const SpecificArticle = ({data}) => {
     >
      <Navigation/>
       <Head>
-        <meta key={article.title} property="og:title" content={article.title}/>
-        <meta key={article.title_img.toString()} property="og:image" content={article.title_img} />   
+        <meta key={data.title} property="og:title" content={article.title}/>
+        <meta key={data.title_img.toString()} property="og:image" content={article.title_img} />   
       </Head>
       <div className={styles["article-title"]}>
         <div className={styles["left-article-side"]}>
