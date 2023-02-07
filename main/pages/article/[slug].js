@@ -51,8 +51,9 @@ export async function getServerSideProps({params}){
   const res = await fetch(`${HOST}articles/${params.slug}/`)
   const data = await res.json()
   return {
-    props: {data:data}, // will be passed to the page component as props
+    props: {data:data,key:data._id}, // will be passed to the page component as props
   }
+
 }
 catch(e){
 
@@ -286,15 +287,14 @@ const WriteComment = memo(function WriteComment({redirect,desc,handleSubmit,hand
     <div className={styles["parent-grid"]}>
     
       {relatedArticles.map((article)=>{
+        console.log(article)
         return (
           <div
           className={styles["articles"]} key={article._id.toString()+'1'}
           style={{ backgroundColor: theme.setButtonColor}}
         >
           <Link key={article._id.toString()}
-            href={{
-              pathname: `/article/${article.slug}/`,
-            }}
+            href={`/article/${article.slug}`}
           >
             <div className={styles['image-div']}>
             <img key={article.thumb_img} src={article.thumb_img} className={styles["image"]} />
@@ -844,12 +844,12 @@ const SpecificArticle = ({data}) => {
 
   
 
+
   useEffect(()=>{
-    if(article.user){
       axios.get(`${HOST}fetch/${article.user}/`).then((res)=>{
-        setRelatedArticles(res.data.filter(artc=>artc._id!=article._id))
+        setRelatedArticles(res.data.filter((article)=>article.slug!==data.slug))
+        
       })
-    }
    
   },[article.user])
 
