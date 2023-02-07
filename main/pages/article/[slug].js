@@ -854,7 +854,7 @@ const SpecificArticle = ({data}) => {
   },[article.user])
 
   const getComments = () => {
-    if (isAuth &&domLoaded) {
+    if (isAuth) {
       return (
        
           <div>
