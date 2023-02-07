@@ -903,10 +903,10 @@ const SpecificArticle = ({data}) => {
       style={{ backgroundColor: theme.setBg, color: theme.setColor }}
     >
      <Navigation/>
-      <Head>
+
         <meta key={article.title} property="og:title" content={article.title}/>
         <meta key={article.title_img.toString()} property="og:image" content={article.title_img} />   
-      </Head>
+  
       <div className={styles["article-title"]}>
         <div className={styles["left-article-side"]}>
           <div className={styles["top-left-side"]}>
