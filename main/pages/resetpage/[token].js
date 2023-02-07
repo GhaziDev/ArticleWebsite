@@ -102,7 +102,6 @@ export default function PasswordResetPage({ptoken}){
         <div className='nav-side'>
             <Navigation/>
             </div>
-            <Link href={`${token}/${user}/`}/>
             <div className={styles['pass_change']}>
             <label className={styles['label']} style={{color:theme.setColor}}>Password</label>
             <input className={styles['password']}style={{color:theme.setColor,backgroundColor:theme.setButtonColor,borderBottomColor:theme.setColor}} type='password' required value={password} onChange={(e)=>handleChange(e)}></input>
