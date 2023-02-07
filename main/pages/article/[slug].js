@@ -894,19 +894,17 @@ const SpecificArticle = ({data}) => {
     }
   };
 
-  if(data){
 
-
-  return (domLoaded &&
+  return (
     <div
       className={styles["spec-article"]}
       style={{ backgroundColor: theme.setBg, color: theme.setColor }}
     >
      <Navigation/>
-
+      <Head>
         <meta key={article.title} property="og:title" content={article.title}/>
         <meta key={article.title_img.toString()} property="og:image" content={article.title_img} />   
-  
+      </Head>
       <div className={styles["article-title"]}>
         <div className={styles["left-article-side"]}>
           <div className={styles["top-left-side"]}>
@@ -1026,10 +1024,6 @@ const SpecificArticle = ({data}) => {
       </div>
     </div>
   );
-}
- return(
-  <div>PAGE NOT FOUND</div>
- )
 
 }
 

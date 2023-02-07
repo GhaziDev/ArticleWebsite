@@ -93,12 +93,13 @@ const Articles = () => {
   return (
     <div style={{ backgroundColor: theme.setBg, color: theme.setTextColor}} className={styles['main']}>
 
+      <Head>
         <title>Globe of Articles</title>
         <meta key={'unique1'} name="robots" content="all" />
         <meta key={'unique2'} property="og:title" content='A World of Articles'></meta>
         <meta key={'unique3'} name="google" content="notranslate" />
 
-
+      </Head>
 
       <articleContext.Provider value={articleList}>
         <div className={styles['mainmain']}>
