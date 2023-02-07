@@ -901,8 +901,10 @@ const SpecificArticle = ({data}) => {
       style={{ backgroundColor: theme.setBg, color: theme.setColor }}
     >
         <Head>
-        <meta key={data.title} property="og:title" content={data.title}/>
-        <meta key={data.title_img.toString()} property="og:image" content={data.title_img} />   
+        <meta  key={data.title} property="og:title" content={data.title}/>
+        <meta key={data.title_img.toString()} property="og:image" content={data.title_img} /> 
+        <meta property="og:image:width" content="1200"/>  
+        <meta property="og:image:height" content="630"/>
       </Head>
      <Navigation/>
     
