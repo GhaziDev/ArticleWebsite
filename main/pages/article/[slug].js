@@ -900,11 +900,12 @@ const SpecificArticle = ({data}) => {
       className={styles["spec-article"]}
       style={{ backgroundColor: theme.setBg, color: theme.setColor }}
     >
-     <Navigation/>
-      <Head>
-        <meta key={data.title} property="og:title" content={article.title}/>
-        <meta key={data.title_img.toString()} property="og:image" content={article.title_img} />   
+        <Head>
+        <meta key={data.title} property="og:title" content={data.title}/>
+        <meta key={data.title_img.toString()} property="og:image" content={data.title_img} />   
       </Head>
+     <Navigation/>
+    
       <div className={styles["article-title"]}>
         <div className={styles["left-article-side"]}>
           <div className={styles["top-left-side"]}>
