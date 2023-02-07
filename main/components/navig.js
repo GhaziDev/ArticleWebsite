@@ -72,15 +72,15 @@ function ThemeSwitch(){
     }
     useEffect(()=>{
         setDomLoaded(true)
-    },[])
+    },[domLoaded===true])
 
     return(
-        domLoaded&&
-        <Switch>
-        <Input defaultChecked={checked==='true'?true:false} onChange={(e)=>handleChange(e)}  theme={theme} name='theme'/>
+        <Switch hidden={domLoaded}>
+        <Input  defaultChecked={checked==='true'?true:false} onChange={(e)=>handleChange(e)}  theme={theme} name='theme'/>
         <Slider theme={theme} ></Slider>
         </Switch>
     )
+    
 
 }
 

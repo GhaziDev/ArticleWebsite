@@ -13,7 +13,7 @@ import HOST from '../config';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import styles from '../styles/styling/articles.module.css'
-import Head from "next/head.js";
+import Head from "next/head";
 
 
 library.add(fas);
@@ -26,7 +26,6 @@ function PaginatedItems({ itemsPerPage,articleList,theme}) { //managing items by
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
   const [itemOffset, setItemOffset] = useState(0);
-  const [selectedPage,setSelectedPage] = useState();
 
   // Simulate fetching items from another resources.
   // (This could be items from props; or items loaded in a local state

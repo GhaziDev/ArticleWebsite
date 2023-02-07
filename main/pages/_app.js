@@ -6,8 +6,23 @@ import CurrentUserProvider from '../store/currentprovider'
 import 'highlight.js/styles/github-dark.css'
 
 
+export async function getInitialProps({ Component, ctx }) {
+  let pageProps = {};
+  if (Component.getInitialProps) {
+    pageProps = await Component.getInitialProps(ctx);
+  }
+  const theme = {
+    setBg:window.localStorage.getItem('theme') || 'light',
+    setButtonColor:localStorage.getItem('buttonColor')||'#F5F5F6',
+    setColor:localStorage.getItem('color')||'black',
+    setTextColor:localStorage.getItem('textColor')||'black',
+    setIcon:localStorage.getItem('icon')||'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/media/sun-color-icon.svg',
+    setChecked:localStorage.getItem('checked')||'false',
 
+  }
 
+  return { ...pageProps, theme };
+}
 
 
 const themeContext = createContext()
@@ -18,12 +33,6 @@ function MyApp({ Component, pageProps }) {
 
 
   const [theme, setTheme] = useState({
-    setBg:typeof window !== "undefined" ? localStorage.getItem('theme'):false,
-    setButtonColor:typeof window !== "undefined" ? localStorage.getItem('buttonColor'):false,
-    setColor:typeof window !== "undefined" ? localStorage.getItem('color'):false,
-    setTextColor:typeof window !== "undefined" ? localStorage.getItem('textColor'):false,
-    setIcon:typeof window !== "undefined" ? localStorage.getItem('icon'):false,
-    setClassName:typeof window !== "undefined" ? localStorage.getItem('className'):false
 }
 
 )
@@ -31,32 +40,42 @@ function MyApp({ Component, pageProps }) {
 
 useEffect(()=>{
   setDomLoaded(true)
-})
+  if(typeof window !== 'undefined') {
+    if(!localStorage.getItem('theme')){
+      localStorage.setItem('theme','light');
+      localStorage.setItem('buttonColor','#F5F5F6');
+      localStorage.setItem('color','black');
+      localStorage.setItem('textColor','black');
+      localStorage.setItem('icon','https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/media/sun-color-icon.svg');
+      localStorage.setItem('checked','false');
+      setTheme({
+        setBg: localStorage.getItem('theme'),
+        setButtonColor: localStorage.getItem('buttonColor'),
+        setColor: localStorage.getItem('color'),
+        setTextColor: localStorage.getItem('textColor'),
+        setIcon: localStorage.getItem('icon'),
+        setChecked: localStorage.getItem('checked')
+      });
 
-if(typeof window!=='undefined' ){
-   if(!localStorage.getItem('theme')){
-  localStorage.setItem('theme','#1b1b1b')
-  localStorage.setItem('checked',true)
-  localStorage.setItem('color','#ffffff')
-  localStorage.setItem('buttonColor','rgb(37,37,37)')
-  localStorage.setItem('textColor','#ffffff')
-  localStorage.setItem('icon', 'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/media/dark-mode-icon.svg')
-  localStorage.setItem('className','dark')
-  setTheme({
-    setBg:localStorage.getItem('theme'),
-            setButtonColor: localStorage.getItem('buttonColor'),
-            setColor: localStorage.getItem('color'),
-            setTextColor: localStorage.getItem('textColor'),
-            setIcon: localStorage.getItem('icon'),
-            setClassName: localStorage.getItem('className')
+    }
 
-  })
-}
+    else{
+      setTheme({
+        setBg: localStorage.getItem('theme'),
+        setButtonColor: localStorage.getItem('buttonColor'),
+        setColor: localStorage.getItem('color'),
+        setTextColor: localStorage.getItem('textColor'),
+        setIcon: localStorage.getItem('icon'),
+        setChecked: localStorage.getItem('checked')
+      });
 
-}
+    }
+  }
+},[])
 
 
-  return domLoaded && <div><AuthProvider ><CurrentUserProvider><themeContext.Provider value={{theme,setTheme}}><Component {...pageProps} /></themeContext.Provider></CurrentUserProvider></AuthProvider></div>
+
+  return <div><AuthProvider ><CurrentUserProvider><themeContext.Provider value={{theme,setTheme}}><Component {...pageProps} /></themeContext.Provider></CurrentUserProvider></AuthProvider></div>
 }
 
 export default MyApp
