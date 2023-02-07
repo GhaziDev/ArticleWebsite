@@ -18,6 +18,7 @@ export async function getInitialProps({ Component, ctx }) {
     setTextColor:localStorage.getItem('textColor')||'black',
     setIcon:localStorage.getItem('icon')||'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/media/sun-color-icon.svg',
     setChecked:localStorage.getItem('checked')||'false',
+    setClassName:localStorage.getItem('className')||'light',
 
   }
 
@@ -54,7 +55,8 @@ useEffect(()=>{
         setColor: localStorage.getItem('color'),
         setTextColor: localStorage.getItem('textColor'),
         setIcon: localStorage.getItem('icon'),
-        setChecked: localStorage.getItem('checked')
+        setChecked: localStorage.getItem('checked'),
+        setClassName:localStorage.getItem('className'),
       });
 
     }
@@ -66,7 +68,8 @@ useEffect(()=>{
         setColor: localStorage.getItem('color'),
         setTextColor: localStorage.getItem('textColor'),
         setIcon: localStorage.getItem('icon'),
-        setChecked: localStorage.getItem('checked')
+        setChecked: localStorage.getItem('checked'),
+        setClassName:localStorage.getItem('className')
       });
 
     }

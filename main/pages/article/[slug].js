@@ -917,7 +917,7 @@ const SpecificArticle = ({data}) => {
                   textAlign: "center",
                 }}
               >
-                {article.tag}
+                {data.tag}
               </span>
             </div>
             <div
@@ -926,7 +926,7 @@ const SpecificArticle = ({data}) => {
                 color: theme.setBg == "#1b1b1b" ? "yellowgreen" : "green",
               }}
             >
-              {article.date}
+              {data.date}
             </div>
 
             <div>
@@ -947,19 +947,19 @@ const SpecificArticle = ({data}) => {
             </div>
           </div>
         
-          <h1 style={{ color: theme.setColor,...wordBreak }}>{article.title}</h1>
+          <h1 style={{ color: theme.setColor,...wordBreak }}>{data.title}</h1>
           <div
             className={styles["article-user"]}
-            onClick={() => redirect.push(`/userprofile/${article.user}`)}
+            onClick={() => redirect.push(`/userprofile/${data.user}`)}
           >
-            <img className={styles["profile-img"]} src={article.user_profile} />
-            <div> {article.user}</div>
+            <img className={styles["profile-img"]} src={data.user_profile} />
+            <div> {data.user}</div>
           </div>
           <div className={styles["share-links"]}>
             <div>
             <FacebookShareButton
-  url={`https://www.globeofarticles.com/article/${article.slug}/`}
-  quote={article.description}
+  url={`https://www.globeofarticles.com/article/${data.slug}/`}
+  quote={data.description}
   hashtag={'#GlobeofArticles'}
 >
   <FacebookIcon fontSize='large' />
@@ -967,33 +967,33 @@ const SpecificArticle = ({data}) => {
             </div>
             <div>
               <TwitterShareButton
-               url={`https://www.globeofarticles.com/article/${article.slug}/`}
-               quote={article.description}
+               url={`https://www.globeofarticles.com/article/${data.slug}/`}
+               quote={data.description}
                hashtag={'#GlobeofArticles'}>
               <TwitterIcon fontSize="large"></TwitterIcon>
               </TwitterShareButton>
             </div>
             <div>
               <LinkedinShareButton 
-               url={`https://www.globeofarticles.com/article/${article.slug}/`}
-               quote={article.description}
+               url={`https://www.globeofarticles.com/article/${data.slug}/`}
+               quote={data.description}
                hashtag={'#GlobeofArticles'}>
               <LinkedInIcon fontSize="large"></LinkedInIcon>
               </LinkedinShareButton>
             </div>
             <div>
-              <RedditShareButton url={`https://www.globeofarticles.com/article/${article.slug}/`}
-              title={article.title}>
+              <RedditShareButton url={`https://www.globeofarticles.com/article/${data.slug}/`}
+              title={data.title}>
               <RedditIcon fontSize='large'></RedditIcon>
               </RedditShareButton>
             </div>
             <div>
-              <LinkIcon titleAccess="Copy URL" style={{cursor:'pointer'}} fontSize="large" onClick={()=>navigator.clipboard.writeText(`https://www.globeofarticles.com/article/${article.slug}/`)}></LinkIcon>
+              <LinkIcon titleAccess="Copy URL" style={{cursor:'pointer'}} fontSize="large" onClick={()=>navigator.clipboard.writeText(`https://www.globeofarticles.com/article/${data.slug}/`)}></LinkIcon>
             </div>
           </div>
         </div>
         <div className={styles["title-img-div"]}>
-          <img alt="timg" className={styles["article-img"]} src={article.title_img} />
+          <img alt="timg" className={styles["article-img"]} src={data.title_img} />
         </div>
       </div>
       <div className={styles["article-desc-div"]}>
@@ -1007,14 +1007,14 @@ const SpecificArticle = ({data}) => {
             redirect={redirect}
             setArticle={setArticle}
             user={user_.user}
-            article={article}
+            article={data}
           slug={slug}
             description={description}
             theme={theme}
           ></EditArticle>
           <DeleteArticle
             user={user_.user}
-            article={article}
+            article={data}
             slug={slug}
             redirect={redirect}
           ></DeleteArticle>
