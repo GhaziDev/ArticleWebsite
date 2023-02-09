@@ -847,7 +847,7 @@ const SpecificArticle = ({data}) => {
 
   useEffect(()=>{
     if(redirect.isReady){
-      axios.get(`${HOST}fetch/${article.user}/`).then((res)=>{
+      axios.get(`${HOST}fetch/${data.user}/`).then((res)=>{
         setRelatedArticles(res.data.filter((article)=>article.slug!==data.slug))
 
       })
