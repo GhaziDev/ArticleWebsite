@@ -16,7 +16,6 @@ const host = HOST
 
 
 function DisplayDialogOrLogin(){
-  let [disabled,setDisabled] = useState(false)
     let [error,setError] = useState('')
     let {isAuth}= useContext(AuthContext);
     const {theme} = useContext(themeContext)
