@@ -143,6 +143,7 @@
   
   .cmnt-div button{
     border-radius: 4px;
+    padding-top:5px;
   }
 
   .csub{
@@ -411,6 +412,7 @@
   justify-content:flex-start;
   align-items:flex-start;
   padding-top:15px;
+  padding-right:25px;
 }
 
 
@@ -461,7 +463,7 @@
   .cmnt-output-container{
     display:flex;
 
-    padding-left:50px;
+    padding-left:25px;
     padding-bottom:15px;
     padding-top:15px;
   }
@@ -652,7 +654,6 @@
   }
   
   .comment-section h1{
-    padding-left:50px;
     padding-top:40px;
   }
   
