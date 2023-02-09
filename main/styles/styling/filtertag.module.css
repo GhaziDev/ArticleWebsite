@@ -62,16 +62,18 @@
   height:50px;
 }
   .tag-sec{
-    font-size: 17px;
-    height:22px;
-    margin-left:25px;
-    margin-top:15px;
-    padding-bottom:25px;
-    padding-left:10px;
-    padding-right:10px;
+    font-size: 15px;
+    height: 30px;
+    margin-left: 25px;
+    /* margin-top: 5px; */
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
     background-color: inherit;
-    border:none;
+    border: none;
     border-radius: 6px;
+
   }
   
   .title{

@@ -82,7 +82,7 @@ const Articles = () => {
   let [isLoading,setIsLoading] = useState(true)
 
   useEffect(()=>{
-    setIsLoading(false)
+    setTimeout(()=>{setIsLoading(false)},1500)
   },[])
 
   //map all the tags button, and make a condition based on filtering/searching the input.
