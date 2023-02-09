@@ -10,6 +10,7 @@ import styles from '../styles/styling/navig.module.css'
 
 
 
+
 function ThemeSwitch(){
     const {theme,setTheme} = useContext(themeContext)
     const [checked,setChecked] = useState(typeof window !== "undefined" ? localStorage.getItem('checked'):false)
@@ -90,7 +91,13 @@ function Navigation(){
     let {theme} = useContext(themeContext)
     let redirect = useRouter()
     let {isAuth} = useContext(AuthContext)
+    const [loading,setLoading] = useState(true)
+    useEffect(()=>{
+        setTimeout(()=>{setLoading(false)},1000)
+
+    },[])
     return(
+
 
         <div className={styles['nav-div']} >
                <div className={styles['nav-div-left']}>

@@ -582,6 +582,8 @@
   }
 
   .article-desc-div{
+    display:flex;
+    justify-content:center;
     padding-left:100px;
     padding-right:100px;
     padding-top:45px;
@@ -595,12 +597,13 @@
     line-height: 32px;
     font-size:1.125rem;
     font-family: sans-serif;
+    width:75ch;
     word-wrap: break-word;
     margin-inline-end: 0px;
     margin-inline-start: 0px;
     margin-block-end: 1em;
     margin-block-start: 1em;
-    padding-left:10px;
+
     padding-top:50px;
   }
 

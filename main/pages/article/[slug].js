@@ -8,6 +8,7 @@ import { themeContext } from "../_app";
 import { AuthContext } from "../../store/provider";
 import Dialog from "@mui/material/Dialog";
 import Navigation from "../../components/navig.js"; 
+import CircularProgress  from "@mui/material/CircularProgress";
 
 
 import HOST from "../../config.js";
@@ -632,6 +633,8 @@ const DeleteArticle = ({ user, article, slug, redirect }) => {
 };
 
 const SpecificArticle = ({data}) => {
+  let [isLoading,setIsLoading] = useState(true)
+
   const [article, setArticle] = useState({
     title: "",
     title_img: "",
@@ -718,6 +721,7 @@ const SpecificArticle = ({data}) => {
           likes_count: res.data,
         });
       })
+      
       .catch((e) => {
         if (e.response.status == "401") {
           redirect.push("/login");
@@ -896,8 +900,15 @@ const SpecificArticle = ({data}) => {
     }
   };
 
+  useEffect(()=>{
+    setIsLoading(false)
+  },[])
+
 
   return (
+
+    isLoading?<div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100vw',height:'100vh'}}><CircularProgress/></div>:
+    
     <div
       className={styles["spec-article"]}
       style={{ backgroundColor: theme.setBg, color: theme.setColor }}

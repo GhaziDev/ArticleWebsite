@@ -1,4 +1,4 @@
-import React,{ useState, createContext,useContext } from "react";
+import React,{ useState, createContext,useContext,useEffect } from "react";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { library} from "@fortawesome/fontawesome-svg-core";
 import Navigation from "../components/navig.js";
@@ -14,6 +14,8 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import styles from '../styles/styling/articles.module.css'
 import Head from "next/head";
+import CircularProgress  from "@mui/material/CircularProgress";
+
 
 
 library.add(fas);
@@ -77,9 +79,14 @@ const Articles = () => {
 
   let [articleList, setArticleList] = useState([]);
   let {theme} = useContext(themeContext)
+  let [isLoading,setIsLoading] = useState(true)
 
+  useEffect(()=>{
+    setIsLoading(false)
+  },[])
 
   //map all the tags button, and make a condition based on filtering/searching the input.
+
 
 
 
@@ -90,7 +97,8 @@ const Articles = () => {
 
 
   return (
-    <div style={{ backgroundColor: theme.setBg, color: theme.setTextColor}} className={styles['main']}>
+    
+    isLoading?<div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100vw',height:'100vh'}}><CircularProgress/></div>:<div style={{ backgroundColor: theme.setBg, color: theme.setTextColor}} className={styles['main']}>
 
       <Head>
         <title>Globe of Articles</title>
@@ -103,7 +111,7 @@ const Articles = () => {
       <articleContext.Provider value={articleList}>
         <div className={styles['mainmain']}>
         
-      <Navigation   ></Navigation>
+       <Navigation   ></Navigation>
 
       <div className={styles['main-containers-div']}>
         <div className={styles['website-header']}>
