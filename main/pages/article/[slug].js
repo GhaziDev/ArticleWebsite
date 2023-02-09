@@ -901,7 +901,7 @@ const SpecificArticle = ({data}) => {
   };
 
   useEffect(()=>{
-    setIsLoading(false)
+    setTimeout(()=>{setIsLoading(false)},1000)
   },[])
 
 
