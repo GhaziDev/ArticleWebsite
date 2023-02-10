@@ -914,7 +914,11 @@ const SpecificArticle = ({data}) => {
       style={{ backgroundColor: theme.setBg, color: theme.setColor }}
     >
         <Head>
+        <meta property="og:site_name" content="globeofarticles"/>
         <meta  key={data.title} property="og:title" content={data.title}/>
+        <meta key={data.tag} property="og:tag" content={data.tag}/>
+        <meta key={data.date} property="og:date" content={data.date}/>
+        <meta key={data.author} property="og:author" content={data.user}/>
         <meta key={data.title_img.toString()} property="og:image" content={data.title_img} /> 
         <meta property="og:image:width" content="1200"/>  
         <meta property="og:image:height" content="630"/>

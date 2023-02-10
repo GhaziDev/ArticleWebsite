@@ -603,6 +603,7 @@
     margin-inline-start: 0px;
     margin-block-end: 1em;
     margin-block-start: 1em;
+    text-align: justify;
 
     padding-top:50px;
   }
