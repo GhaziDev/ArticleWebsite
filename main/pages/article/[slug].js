@@ -913,17 +913,15 @@ const SpecificArticle = ({data}) => {
       style={{ backgroundColor: theme.setBg, color: theme.setColor }}
     >
         <Head>
+        <meta name="twitter:card" content="summary_large_image">
         <meta property="og:site_name" content="globeofarticles"/>
         <meta property="og:url" content={`www.globeofarticles.com/${data.slug}/`} />
         <meta  key={data.title} property="og:title" content={data.title}/>
         <meta property="og:type" content="article"/>
         <meta key={data.tag} property="article:tag" content={data.tag}/>
         <meta key={data.date} property="article:date" content={data.date}/>
-        <meta key={data.author} property="article:author" content={data.user}/>
-        <meta key={data.title_img.toString()} property="og:image" content={data.title_img} /> 
-        <meta property="og:image:width" content="1200"/>  
-
-        <meta property="og:image:height" content="630"/>
+        <meta key={data.author} property="twitter:creator" content={data.user}/>
+        <meta key={data.title_img.toString()} property="twitter:image" content={data.title_img} /> 
       </Head>
      <Navigation/>
     
