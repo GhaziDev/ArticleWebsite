@@ -913,7 +913,7 @@ const SpecificArticle = ({data}) => {
       style={{ backgroundColor: theme.setBg, color: theme.setColor }}
     >
         <Head>
-        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:card" content="summary_large_image"/>
         <meta property="og:site_name" content="globeofarticles"/>
         <meta property="og:url" content={`www.globeofarticles.com/${data.slug}/`} />
         <meta  key={data.title} property="og:title" content={data.title}/>
