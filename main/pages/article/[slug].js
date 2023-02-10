@@ -914,6 +914,7 @@ const SpecificArticle = ({data}) => {
     >
         <Head>
         <meta property="og:site_name" content="globeofarticles"/>
+        <meta property="og:url" content={`www.globeofarticles.com/${data.slug}/`} />
         <meta  key={data.title} property="og:title" content={data.title}/>
         <meta property="og:type" content="article"/>
         <meta key={data.tag} property="article:tag" content={data.tag}/>
