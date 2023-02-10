@@ -906,8 +906,6 @@ const SpecificArticle = ({data}) => {
 
 
   return (
-
-    isLoading?<div style={{display:'flex',justifyContent:'center',alignItems:'center',width:'100vw',height:'100vh'}}><CircularProgress/></div>:
     
     <div
       className={styles["spec-article"]}
@@ -921,6 +919,7 @@ const SpecificArticle = ({data}) => {
         <meta key={data.author} property="og:author" content={data.user}/>
         <meta key={data.title_img.toString()} property="og:image" content={data.title_img} /> 
         <meta property="og:image:width" content="1200"/>  
+
         <meta property="og:image:height" content="630"/>
       </Head>
      <Navigation/>
