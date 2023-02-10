@@ -915,9 +915,10 @@ const SpecificArticle = ({data}) => {
         <Head>
         <meta property="og:site_name" content="globeofarticles"/>
         <meta  key={data.title} property="og:title" content={data.title}/>
-        <meta key={data.tag} property="og:type:article:tag" content={data.tag}/>
-        <meta key={data.date} property="og:type:article:date" content={data.date}/>
-        <meta key={data.author} property="og:type:article:author" content={data.user}/>
+        <meta property="og:type" content="article"/>
+        <meta key={data.tag} property="article:tag" content={data.tag}/>
+        <meta key={data.date} property="article:date" content={data.date}/>
+        <meta key={data.author} property="article:author" content={data.user}/>
         <meta key={data.title_img.toString()} property="og:image" content={data.title_img} /> 
         <meta property="og:image:width" content="1200"/>  
 
