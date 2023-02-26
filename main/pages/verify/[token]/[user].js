@@ -1,9 +1,11 @@
 import { useEffect,useState } from "react";
-import Dialog from '@mui/material/Dialog'
+/*import Dialog from '@mui/material/Dialog'*/
+
 import axios from 'axios'
 import HOST from "../../../config";
 import {useRouter} from 'next/router'
 import styles from '../../../styles/styling/verify.module.css'
+import dynamic from "next/dynamic";
 
 
 
@@ -35,6 +37,8 @@ export default function Verify({token,data,user}){
     const [error,setError] = useState(null)
     
     const redirect = useRouter()
+
+    const Dialog = dynamic(()=>import('@mui/material/Dialog'))
 
 
     useEffect(() => {

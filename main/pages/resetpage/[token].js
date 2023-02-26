@@ -4,13 +4,17 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import {themeContext} from '../../pages/_app'
 import HOST from "../../config";
+/*
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Checkbox  from "@mui/material/Checkbox";
 import Navigation from "../../components/navig";
-import { AuthContext} from "../../store/provider";
 import Link from "next/link";
+*/
+import { AuthContext} from "../../store/provider";
+
 import styles from '../../styles/styling/reset.module.css'
+import dynamic from "next/dynamic";
 
 
 
@@ -33,8 +37,20 @@ export async function getServerSideProps({params}){
 
 
 export default function PasswordResetPage({ptoken}){
+    /*
+    import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import Checkbox  from "@mui/material/Checkbox";
+import Navigation from "../../components/navig";
+import Link from "next/link";
+*/
 
-  
+    const VisibilityOffIcon = dynamic(()=>import('@mui/icons-material/VisibilityOff'))
+    const VisibilityIcon = dynamic(()=>import('@mui/icons-material/Visibility'))
+    const Checkbox = dynamic(()=>import('@mui/icons-material/Checkbox'))
+    const Navigation = dynamic(()=>import('@mui/icons-material/Navigation'))
+    const Link = dynamic(()=>import('@mui/icons-material/Link'))
+    
     let [password,setPassword] = useState('')
     let [confirm,setConfirm] = useState('')
     let [found,setFound] = useState({'found':true,val:0})

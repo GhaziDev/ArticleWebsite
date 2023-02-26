@@ -1,20 +1,27 @@
 import axios from "axios";
 import React,{ useState,useEffect,useContext,createContext } from "react";
-
+import HOST from "../../config.js";
+import Cookies from "js-cookie";
 
 import {themeContext} from '../../pages/_app';
+/*
 import Navigation from "../../components/navig";
-import Cookies from "js-cookie";
+
 import Dialog from '@mui/material/Dialog'
 import ListAllArticles,{Filter} from '../../components/filtertag';
-import HOST from "../../config.js";
+import Head from 'next/head'
+*/
+
+/*
 import ReactPaginate from 'react-paginate';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+*/
 import { AuthContext } from "../../store/provider.js";
 import { useRouter } from "next/router";
 import styles from '../../styles/styling/App.module.css'
-import Head from 'next/head'
+import dynamic from "next/dynamic.js";
+
 
 
 
@@ -22,6 +29,19 @@ import Head from 'next/head'
 function PaginatedItems({ itemsPerPage,articleList,theme}) { //managing items by paginating them.
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
+  /*
+import Navigation from "../../components/navig";
+
+import Dialog from '@mui/material/Dialog'
+import ListAllArticles,{Filter} from '../../components/filtertag';
+import Head from 'next/head'
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+*/
+  const ListAllArticles = dynamic(()=>import('../../components/filtertag'))
+  const ReactPaginate = dynamic(()=>import('../../components/react-paginate'))
+  const ArrowBackIosIcon = dynamic(()=>import('@mui/icons-material/ArrowBackIos'))
+  const ArrowForwardIosIcon = dynamic(()=>import('@mui/icons-material/ArrowForwardIos'))
   const [itemOffset, setItemOffset] = useState(0);
   const [selectedPage,setSelectedPage] = useState();
 
@@ -68,6 +88,17 @@ function PaginatedItems({ itemsPerPage,articleList,theme}) { //managing items by
 
 
 export function EditProfile({username}){
+    /*
+import Navigation from "../../components/navig";
+
+import Dialog from '@mui/material/Dialog'
+import ListAllArticles,{Filter} from '../../components/filtertag';
+import Head from 'next/head'
+*/
+
+  const Dialog = dynamic(()=>import('@mui/material/Dialog'))
+  const Head = dynamic(()=>import('next/head'));
+  const Filter = dynamic(()=>import('../../components/filtertag').then((mod)=>mod.Filter))
   const [profileInfo,setProfileInfo] = useState({'img':'','bio':''})
   const [open,setOpen] = useState(false)
   const [userField,setUserField] = useState(false)
@@ -281,6 +312,9 @@ export async function getServerSideProps({params}){
 }
 
 function UserProfile({userInfo}){
+  const Dialog = dynamic(()=>import('@mui/material/Dialog'))
+  const Head = dynamic(()=>import('next/head'));
+  const Filter = dynamic(()=>import('../../components/filtertag').then((mod)=>mod.Filter))
     const articleContext = createContext()
     const {theme} = useContext(themeContext) //consuming the context
     let [isHidden,setIsHidden] = useState(false)
