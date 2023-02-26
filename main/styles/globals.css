@@ -120,6 +120,15 @@ button{
 }
 
 
+.dark h1{
+  font-family:sans-serif;
+}
+
+.light h1{
+  font-family: sans-serif;
+}
+
+/* a change to commit here */
 
 .dark .hljs{
   color:#c9d1d9;background:#0d1117
