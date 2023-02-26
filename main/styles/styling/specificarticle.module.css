@@ -371,6 +371,7 @@
     border:1px solid grey;
     border-radius:4px;
     width:565px;
+    word-wrap:break-word;
     padding:25px 25px 25px 25px;
   }
 
@@ -378,6 +379,7 @@
     width:100%;
     height:auto;
     border-radius:4px;
+    word-wrap:break-word
   }
 
 .submit-div{
@@ -469,12 +471,16 @@
   }
 
   .cmnt-output{
-    min-width:565px;
-    width:100%;
+    width:565px;
     height:auto;
     border-radius: 6px;
     padding-right:25px;
     padding-left:25px;
+    word-wrap:break-word;
+  }
+
+  .cmnt-output img{
+    width:100px;
   }
 
 
@@ -486,6 +492,7 @@
     padding-left:25px;
     padding-top:25px;
     padding-bottom:25px;
+    word-wrap:break-word;
 
   }
 

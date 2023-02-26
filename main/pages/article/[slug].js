@@ -6,11 +6,11 @@ import { useDeferredValue } from "react";
 import CsrfToken from "../../components/csrf"
 import { themeContext } from "../_app";
 import { AuthContext } from "../../store/provider";
-//import Dialog from "@mui/material/Dialog";
-//import Navigation from "../../components/navig.js"; 
+import Dialog from "@mui/material/Dialog";
+import Navigation from "../../components/navig.js"; 
 
 import HOST from "../../config.js";
-/*
+
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -18,9 +18,8 @@ import {
   RedditShareButton
 } from 'next-share';
 
-*/
 
-//import ReactMarkDown from "react-markdown";
+import ReactMarkDown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -31,25 +30,24 @@ import remarkRehype from "remark-rehype";
 import rehypeHighlight from "rehype-highlight";
 import remarkGemoji from "remark-gemoji";
 
-/*
+
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-*/
 
 
-/*import FacebookIcon from "@mui/icons-material/Facebook";
+
+import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import LinkIcon from "@mui/icons-material/Link";
 import RedditIcon from "@mui/icons-material/Reddit";
-*/
+
 import { useRouter } from "next/router.js";
 import styles from '../../styles/styling/specificarticle.module.css'
-/*
+
 import Link from 'next/link'
 import Head from "next/head";
-*/
 import dynamic from 'next/dynamic'
 
 
@@ -78,10 +76,10 @@ catch(e){
 
 
 const Markdown = memo(function Markdown({children,theme}){
-  const ReactMarkDown = dynamic(()=>import('react-markdown'),{
-    loading:()=>'loading...'
+  /*const ReactMarkDown = dynamic(()=>import('react-markdown'),{
+    
   }
-  )
+  )*/
   return <ReactMarkDown className={theme.setClassName}
   children={children}
                     remarkPlugins={[
@@ -292,14 +290,18 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
 
 const WriteComment = memo(function WriteComment({redirect,desc,handleSubmit,handleChange,commentPreview,theme,relatedArticles,user_}){
 
+  /*
   const FontAwesomeIcon = dynamic(()=>import('@fortawesome/react-fontawesome').then((mod)=>mod.FontAwesomeIcon))
   const FavoriteIcon = dynamic(()=>import('@mui/icons-material/Favorite'))
+  */
   /*
 import Link from 'next/link'
 import Head from "next/head";
 */
+/*
   const Link = dynamic(()=>import('next/link'))
   const Head = dynamic(()=>import('next/head'))
+  */
 
   return(
     <div className={styles["cmnt-div"]}>
@@ -440,9 +442,8 @@ const EditArticle = ({
   setArticle,
   redirect,
 }) => {
-  const Dialog = dynamic(()=>import('@mui/material/Dialog'),{
-    loading:'loading...'
-  })
+  /*const Dialog = dynamic(()=>import('@mui/material/Dialog'),{
+  })*/
   let [open, setOpen] = useState(false);
   const [update, setUpdate] = useState(false);
   const [markdownDesc,setMarkdownDesc] = useState('')
@@ -594,9 +595,8 @@ const EditArticle = ({
 };
 
 const DeleteArticle = ({ user, article, slug, redirect }) => {
-  const Dialog = dynamic(()=>import('@mui/material/Dialog'),{
-    loading:'loading...'
-  })
+  /*const Dialog = dynamic(()=>import('@mui/material/Dialog'),{
+  })*/
   const { theme } = useContext(themeContext);
   let [open, setOpen] = useState(false);
 
@@ -660,27 +660,28 @@ const DeleteArticle = ({ user, article, slug, redirect }) => {
 };
 
 const SpecificArticle = ({data}) => {
+  /*
 
   const Navigation = dynamic(()=>import( "../../components/navig.js") 
   ,{
-    loading:()=>'loading...'
+    
   })
 
   const FacebookIcon = dynamic(()=>import("@mui/icons-material/Facebook"),{
-    loading:()=>'loading...'
+    
   })
   const TwitterIcon  = dynamic(()=>import("@mui/icons-material/Twitter"),{
-    loading:()=>'loading...'
+    
   })
 
   const LinkedInIcon = dynamic(()=>import ("@mui/icons-material/LinkedIn"),{
-    loading:()=>'loading...'
+    
   })
   const LinkIcon  = dynamic(()=>import("@mui/icons-material/Link"),{
-    loading:()=>'loading...'
+    
   });
   const RedditIcon = dynamic(()=>import ("@mui/icons-material/Reddit"),{
-    loading:()=>'loading...'
+    
   })
 
   const FacebookShareButton = dynamic(()=>import('next-share').then((mod)=>mod.FacebookShareButton))
@@ -693,9 +694,11 @@ const SpecificArticle = ({data}) => {
 
 
 
-  /*const Dialog = dynamic(()=>import('@mui/material/Dialog'),{
+
+  const Dialog = dynamic(()=>import('@mui/material/Dialog'),{
     loading:'loading...'
-  })*/
+  })
+  */
   let [isLoading,setIsLoading] = useState(true)
 
 
@@ -758,9 +761,8 @@ const SpecificArticle = ({data}) => {
   };
 
 
-  useEffect(()=>{
-    setDomLoaded(true)
-  },[])
+
+  
   useEffect(() => {
     if(redirect.isReady){
 
@@ -966,17 +968,12 @@ const SpecificArticle = ({data}) => {
     }
   };
 
-  useEffect(()=>{
-    setTimeout(()=>{setIsLoading(false)},1500)
-  },[])
 
-  const Head = dynamic(()=>import('next/head'))
+  /*const Head = dynamic(()=>import('next/head'))*/
   /**/
 
 
   return (
-
-    isLoading?null:
     
 
     
