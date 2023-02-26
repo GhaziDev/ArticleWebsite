@@ -971,6 +971,7 @@ const SpecificArticle = ({data}) => {
   },[])
 
   const Head = dynamic(()=>import('next/head'))
+  /**/
 
 
   return (
