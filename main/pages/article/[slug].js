@@ -46,8 +46,10 @@ import RedditIcon from "@mui/icons-material/Reddit";
 */
 import { useRouter } from "next/router.js";
 import styles from '../../styles/styling/specificarticle.module.css'
+/*
 import Link from 'next/link'
 import Head from "next/head";
+*/
 import dynamic from 'next/dynamic'
 
 
@@ -292,6 +294,12 @@ const WriteComment = memo(function WriteComment({redirect,desc,handleSubmit,hand
 
   const FontAwesomeIcon = dynamic(()=>import('@fortawesome/react-fontawesome').then((mod)=>mod.FontAwesomeIcon))
   const FavoriteIcon = dynamic(()=>import('@mui/icons-material/Favorite'))
+  /*
+import Link from 'next/link'
+import Head from "next/head";
+*/
+  const Link = dynamic(()=>import('next/link'))
+  const Head = dynamic(()=>import('next/head'))
 
   return(
     <div className={styles["cmnt-div"]}>
@@ -683,7 +691,7 @@ const SpecificArticle = ({data}) => {
   const FavoriteBorderIcon = dynamic(()=>import("@mui/icons-material/FavoriteBorder"))
   const FavoriteIcon = dynamic(()=>import("@mui/icons-material/Favorite"))
 
-  
+
 
   /*const Dialog = dynamic(()=>import('@mui/material/Dialog'),{
     loading:'loading...'
@@ -913,9 +921,11 @@ const SpecificArticle = ({data}) => {
       })
     }
    
+
   },[redirect.isReady])
 
   const getComments = () => {
+    
     if (isAuth) {
       return (
        
@@ -959,6 +969,8 @@ const SpecificArticle = ({data}) => {
   useEffect(()=>{
     setTimeout(()=>{setIsLoading(false)},1500)
   },[])
+
+  const Head = dynamic(()=>import('next/head'))
 
 
   return (
