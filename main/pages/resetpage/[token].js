@@ -49,7 +49,9 @@ import Link from "next/link";
     const VisibilityIcon = dynamic(()=>import('@mui/icons-material/Visibility'))
     const Checkbox = dynamic(()=>import('@mui/material/Checkbox'))
     const Navigation = dynamic(()=>import('../../components/navig'))
-    const Link = dynamic(()=>import('next/Link'))
+    const Link = dynamic(()=>import('next/link'))
+
+
 
     let [password,setPassword] = useState('')
     let [confirm,setConfirm] = useState('')
