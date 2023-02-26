@@ -39,7 +39,7 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 */
   const ListAllArticles = dynamic(()=>import('../../components/filtertag'))
-  const ReactPaginate = dynamic(()=>import('../../components/react-paginate'))
+  const ReactPaginate = dynamic(()=>import('react-paginate'))
   const ArrowBackIosIcon = dynamic(()=>import('@mui/icons-material/ArrowBackIos'))
   const ArrowForwardIosIcon = dynamic(()=>import('@mui/icons-material/ArrowForwardIos'))
   const [itemOffset, setItemOffset] = useState(0);
