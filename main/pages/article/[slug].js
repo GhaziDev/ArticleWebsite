@@ -973,6 +973,20 @@ const SpecificArticle = ({data}) => {
   /**/
 
 
+  let [popup,setPopup] = useState(false)
+  const copyToClipboard= ()=>{
+    navigator.clipboard.writeText(`https://www.globeofarticles.com/article/${data.slug}/`)
+
+    setPopup(true)
+    setTimeout(()=>{
+      setPopup(false)
+    },1500)
+
+
+
+  }
+
+
   return (
     
 
@@ -1075,9 +1089,14 @@ const SpecificArticle = ({data}) => {
               <RedditIcon fontSize='large'></RedditIcon>
               </RedditShareButton>
             </div>
+
             <div>
-              <LinkIcon titleAccess="Copy URL" style={{cursor:'pointer'}} fontSize="large" onClick={()=>navigator.clipboard.writeText(`https://www.globeofarticles.com/article/${data.slug}/`)}></LinkIcon>
+              <LinkIcon titleAccess="Copy URL" style={{cursor:'pointer'}} fontSize="large" onClick={()=>copyToClipboard()}></LinkIcon>
             </div>
+            <div style={{display:popup?'flex':'none'}} className={styles['popupWrap']} >
+            <div className={styles['popupDiv']} style={{backgroundColor:theme.setBg=='white'?'white':'black', display:popup?'flex':'none',position:'fixed',bottom:'7px',left:'50%',zIndex:'6',justifyContent:'center',alignItems:'center'}}>Link Copied!</div>
+            </div>
+
           </div>
         </div>
         <div className={styles["title-img-div"]}>

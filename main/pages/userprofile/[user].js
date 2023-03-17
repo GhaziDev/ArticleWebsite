@@ -1,26 +1,25 @@
 import axios from "axios";
-import React,{ useState,useEffect,useContext,createContext } from "react";
+import React,{ useState,useEffect,useContext} from "react";
 import HOST from "../../config.js";
 import Cookies from "js-cookie";
 
 import {themeContext} from '../../pages/_app';
-/*
+
 import Navigation from "../../components/navig";
 
 import Dialog from '@mui/material/Dialog'
 import ListAllArticles,{Filter} from '../../components/filtertag';
 import Head from 'next/head'
-*/
 
-/*
+
+
 import ReactPaginate from 'react-paginate';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-*/
+
 import { AuthContext } from "../../store/provider.js";
 import { useRouter } from "next/router";
 import styles from '../../styles/styling/App.module.css'
-import dynamic from "next/dynamic.js";
 
 
 
@@ -38,10 +37,15 @@ import Head from 'next/head'
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 */
+
+
+/*
   const ListAllArticles = dynamic(()=>import('../../components/filtertag'))
   const ReactPaginate = dynamic(()=>import('react-paginate'))
   const ArrowBackIosIcon = dynamic(()=>import('@mui/icons-material/ArrowBackIos'))
   const ArrowForwardIosIcon = dynamic(()=>import('@mui/icons-material/ArrowForwardIos'))
+
+  */
   const [itemOffset, setItemOffset] = useState(0);
   const [selectedPage,setSelectedPage] = useState();
 
@@ -96,9 +100,12 @@ import ListAllArticles,{Filter} from '../../components/filtertag';
 import Head from 'next/head'
 */
 
+
+/*
   const Dialog = dynamic(()=>import('@mui/material/Dialog'))
   const Head = dynamic(()=>import('next/head'));
   const Filter = dynamic(()=>import('../../components/filtertag').then((mod)=>mod.Filter))
+  */
   const [profileInfo,setProfileInfo] = useState({'img':'','bio':''})
   const [open,setOpen] = useState(false)
   const [userField,setUserField] = useState(false)
@@ -297,7 +304,6 @@ export async function getServerSideProps({params}){
   try{
   let res = await fetch(`${HOST}userprofile/${params.user}/`)
   let userInfo = await res.json()
-  console.log(userInfo)
   return{
     props:{userInfo:userInfo}
   }
@@ -312,10 +318,11 @@ export async function getServerSideProps({params}){
 }
 
 function UserProfile({userInfo}){
+  /*
   const Dialog = dynamic(()=>import('@mui/material/Dialog'))
   const Head = dynamic(()=>import('next/head'));
   const Filter = dynamic(()=>import('../../components/filtertag').then((mod)=>mod.Filter))
-    const articleContext = createContext()
+  */
     const {theme} = useContext(themeContext) //consuming the context
     let [isHidden,setIsHidden] = useState(false)
     let [btnState,setBtnState] = useState({'btn1':true,'btn2':false})

@@ -4,13 +4,13 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import {themeContext} from '../../pages/_app'
 import HOST from "../../config";
-/*
+
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import Checkbox  from "@mui/material/Checkbox";
 import Navigation from "../../components/navig";
 import Link from "next/link";
-*/
+
 import { AuthContext} from "../../store/provider";
 
 import styles from '../../styles/styling/reset.module.css'
@@ -45,11 +45,14 @@ import Navigation from "../../components/navig";
 import Link from "next/link";
 */
 
+/*
     const VisibilityOffIcon = dynamic(()=>import('@mui/icons-material/VisibilityOff'))
     const VisibilityIcon = dynamic(()=>import('@mui/icons-material/Visibility'))
     const Checkbox = dynamic(()=>import('@mui/material/Checkbox'))
     const Navigation = dynamic(()=>import('../../components/navig'))
     const Link = dynamic(()=>import('next/link'))
+
+    */
 
 
 
