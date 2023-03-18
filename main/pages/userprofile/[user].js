@@ -5,21 +5,37 @@ import Cookies from "js-cookie";
 
 import {themeContext} from '../../pages/_app';
 
+/*
 import Navigation from "../../components/navig";
 
 import Dialog from '@mui/material/Dialog'
 import ListAllArticles,{Filter} from '../../components/filtertag';
 import Head from 'next/head'
 
+*/
 
 
 import ReactPaginate from 'react-paginate';
+
+/*
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+
+*/
 
 import { AuthContext } from "../../store/provider.js";
 import { useRouter } from "next/router";
 import styles from '../../styles/styling/App.module.css'
+import dynamic from 'next/dynamic'
+
+const Dialog = dynamic(()=>import('@mui/material/Dialog'))
+const Head = dynamic(()=>import('next/head'));
+const Filter = dynamic(()=>import('../../components/filtertag').then((mod)=>mod.Filter))
+const ListAllArticles = dynamic(()=>import('../../components/filtertag'))
+const ArrowBackIosIcon = dynamic(()=>import('@mui/icons-material/ArrowBackIos'))
+const ArrowForwardIosIcon = dynamic(()=>import('@mui/icons-material/ArrowForwardIos'))
+
+const Navigation = dynamic(()=>import('../../components/navig'))
 
 
 
@@ -40,10 +56,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 
 /*
-  const ListAllArticles = dynamic(()=>import('../../components/filtertag'))
-  const ReactPaginate = dynamic(()=>import('react-paginate'))
-  const ArrowBackIosIcon = dynamic(()=>import('@mui/icons-material/ArrowBackIos'))
-  const ArrowForwardIosIcon = dynamic(()=>import('@mui/icons-material/ArrowForwardIos'))
+ 
 
   */
   const [itemOffset, setItemOffset] = useState(0);
@@ -101,11 +114,9 @@ import Head from 'next/head'
 */
 
 
-/*
-  const Dialog = dynamic(()=>import('@mui/material/Dialog'))
-  const Head = dynamic(()=>import('next/head'));
-  const Filter = dynamic(()=>import('../../components/filtertag').then((mod)=>mod.Filter))
-  */
+
+  
+
   const [profileInfo,setProfileInfo] = useState({'img':'','bio':''})
   const [open,setOpen] = useState(false)
   const [userField,setUserField] = useState(false)
