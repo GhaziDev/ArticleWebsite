@@ -110,12 +110,17 @@ export async function getServerSideProps({params}){
   try{
   const res = await fetch(`${HOST}articles/${params.slug}/`)
   const data = await res.json()
+  console.log("this is data")
+  console.log(data)
   return {
     props: {data:data,key:data._id}, // will be passed to the page component as props
   }
 
 }
 catch(e){
+
+  console.log("this is error")
+  console.log(e)
 
   return {
     props:{}
