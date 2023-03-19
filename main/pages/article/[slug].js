@@ -889,11 +889,9 @@ const SpecificArticle = ({data}) => {
 
 
   useEffect(() => {
-    if(redirect.isReady){
-        setArticle(data);
 
      
-        let arr = article.title.split(" ")
+        let arr = data.title.split(" ")
         for(let i = 0;i<arr.length;i++){
           if(arr[i].length>20 || (arr[i].length>6 && arr[i+1].length>6)){
             setWordBreak({'wordBreak':'break-all'})
@@ -901,10 +899,9 @@ const SpecificArticle = ({data}) => {
 
 
         }
-      }
     }
 
-  }, [updated,redirect.isReady]);
+  }, [updated]);
 
   useEffect(()=>{
     axios.get(`${HOST}comments_of_article/${slug}/`).then((res) => {

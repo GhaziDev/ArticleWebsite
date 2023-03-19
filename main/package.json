@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "dependencies": {
     "@emotion/react": "^11.10.4",
@@ -19,12 +20,10 @@
     "@mui/icons-material": "^5.10.6",
     "@mui/material": "^5.10.7",
     "@radix-ui/colors": "^0.1.8",
-    "@reduxjs/toolkit": "^1.9.1",
     "@remark-embedder/core": "^3.0.1",
     "axios": "^0.27.2",
     "babel-polyfill": "^6.26.0",
     "babel-preset-es2017": "^6.24.1",
-    "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "graceful-fs": "^4.2.10",
     "highlight.js": "^11.7.0",
@@ -63,9 +62,12 @@
     "remark-toc": "^8.0.1",
     "styled-components": "^5.3.6",
     "unified": "^10.1.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "webpack-bundle-analyzer": "^4.8.0"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^13.2.4",
+    "cross-env": "^7.0.3",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.4"
   }
