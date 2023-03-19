@@ -67,7 +67,7 @@ const ReactMarkDown = dynamic(()=>import('react-markdown'),{
 )
 
 const FontAwesomeIcon = dynamic(()=>import('@fortawesome/react-fontawesome').then((mod)=>mod.FontAwesomeIcon))
-//const FavoriteIcon = dynamic(()=>import('@mui/icons-material/Favorite'))
+const FavoriteIcon = dynamic(()=>import('@mui/icons-material/Favorite'))
 
 const Dialog = dynamic(()=>import('@mui/material/Dialog'),{
 })
@@ -77,20 +77,29 @@ const Navigation = dynamic(()=>import( "../../components/navig.js")
     
   })
 
-  //const FacebookIcon = dynamic(()=>import("@mui/icons-material/Facebook"),{})
-  //const TwitterIcon  = dynamic(()=>import("@mui/icons-material/Twitter"),{})
+  const FacebookIcon = dynamic(()=>import("@mui/icons-material/Facebook"),{
+    
+  })
+  const TwitterIcon  = dynamic(()=>import("@mui/icons-material/Twitter"),{
+    
+  })
 
-  //const LinkedInIcon = dynamic(()=>import ("@mui/icons-material/LinkedIn"),{})
+  const LinkedInIcon = dynamic(()=>import ("@mui/icons-material/LinkedIn"),{
+    
+  })
+  const LinkIcon  = dynamic(()=>import("@mui/icons-material/Link"),{
+    
+  });
+  const RedditIcon = dynamic(()=>import ("@mui/icons-material/Reddit"),{
+    
+  })
 
-  //const LinkIcon  = dynamic(()=>import("@mui/icons-material/Link"),{});
-  //const RedditIcon = dynamic(()=>import ("@mui/icons-material/Reddit"),{})
+  const FacebookShareButton = dynamic(()=>import('next-share').then((mod)=>mod.FacebookShareButton))
+  const TwitterShareButton = dynamic(()=>import('next-share').then((mod)=>mod.TwitterShareButton))
+  const LinkedinShareButton = dynamic(()=>import('next-share').then((mod)=>mod.LinkedinShareButton))
+  const RedditShareButton = dynamic(()=>import('next-share').then((mod)=>mod.RedditShareButton))
 
-  //const FacebookShareButton = dynamic(()=>import('next-share').then((mod)=>mod.FacebookShareButton))
-  //const TwitterShareButton = dynamic(()=>import('next-share').then((mod)=>mod.TwitterShareButton))
-  //const LinkedinShareButton = dynamic(()=>import('next-share').then((mod)=>mod.LinkedinShareButton))
-  //const RedditShareButton = dynamic(()=>import('next-share').then((mod)=>mod.RedditShareButton))
-
-  //const FavoriteBorderIcon = dynamic(()=>import("@mui/icons-material/FavoriteBorder"))
+  const FavoriteBorderIcon = dynamic(()=>import("@mui/icons-material/FavoriteBorder"))
 
 
 
@@ -366,7 +375,7 @@ import Head from "next/head";
             <div className={styles['article-tag-like']}>
               <button key={article.tag_id} style={{ backgroundColor:theme.setBg,color: theme.setColor }} className={styles['tag-sec']}>{article.tag}</button>
               <div className={styles['article-like-div']} style={{color:theme.setTextColor}}>
-              
+              <FavoriteIcon  style={{color:'red'}} />
               {article.likes}</div>
               </div>
     <div className={styles['title-card']}>
@@ -1032,7 +1041,19 @@ const SpecificArticle = ({data}) => {
             </div>
 
             <div>
-              
+              {!hasLiked ? (
+                <FavoriteBorderIcon
+                  onClick={(e) => handleLike(e)}
+                  fontSize="large"
+                  style={{ color: theme.setTextColor, cursor: "pointer" }}
+                />
+              ) : (
+                <FavoriteIcon
+                  onClick={(e) => handleLike(e)}
+                  fontSize="large"
+                  style={{ color: "red", cursor: "pointer" }}
+                />
+              )}
               {likesCount.likes_count}
             </div>
           </div>
@@ -1045,7 +1066,47 @@ const SpecificArticle = ({data}) => {
             <img className={styles["profile-img"]} src={data.user_profile} />
             <div> {data.user}</div>
           </div>
-         
+          <div className={styles["share-links"]}>
+            <div>
+            <FacebookShareButton
+  url={`https://www.globeofarticles.com/article/${data.slug}/`}
+  quote={data.description}
+  hashtag={'#GlobeofArticles'}
+>
+  <FacebookIcon fontSize='large' />
+</FacebookShareButton>
+            </div>
+            <div>
+              <TwitterShareButton
+               url={`https://www.globeofarticles.com/article/${data.slug}/`}
+               quote={data.description}
+               hashtag={'#GlobeofArticles'}>
+              <TwitterIcon fontSize="large"></TwitterIcon>
+              </TwitterShareButton>
+            </div>
+            <div>
+              <LinkedinShareButton 
+               url={`https://www.globeofarticles.com/article/${data.slug}/`}
+               quote={data.description}
+               hashtag={'#GlobeofArticles'}>
+              <LinkedInIcon fontSize="large"></LinkedInIcon>
+              </LinkedinShareButton>
+            </div>
+            <div>
+              <RedditShareButton url={`https://www.globeofarticles.com/article/${data.slug}/`}
+              title={data.title}>
+              <RedditIcon fontSize='large'></RedditIcon>
+              </RedditShareButton>
+            </div>
+
+            <div>
+              <LinkIcon titleAccess="Copy URL" style={{cursor:'pointer'}} fontSize="large" onClick={()=>copyToClipboard()}></LinkIcon>
+            </div>
+            <div style={{display:popup?'flex':'none'}} className={styles['popupWrap']} >
+            <div className={styles['popupDiv']} style={{backgroundColor:theme.setBg=='white'?'white':'black', display:popup?'flex':'none',position:'fixed',bottom:'7px',left:'50%',zIndex:'6',justifyContent:'center',alignItems:'center'}}>Link Copied!</div>
+            </div>
+
+          </div>
         </div>
         <div className={styles["title-img-div"]}>
           <img alt="timg" className={styles["article-img"]} src={data.title_img} />
