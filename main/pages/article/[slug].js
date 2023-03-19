@@ -108,7 +108,7 @@ const Navigation = dynamic(()=>import( "../../components/navig.js")
 
 export async function getServerSideProps({params}){
   try{
-  const res = await fetch(`${HOST}articles/${params.slug}/`)
+  const res = await fetch(`${HOST}articles/${params.slug}/`, { timeout: 120000 })
   const data = await res.json()
   console.log("this is data")
   console.log(data)
