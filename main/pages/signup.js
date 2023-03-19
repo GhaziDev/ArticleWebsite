@@ -1,20 +1,19 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 import { React, useState, useEffect , useContext} from "react";
-import Dialog  from "@mui/material/Dialog";
 import CsrfToken from "../components/csrf";
 import HOST from "../config";
-
-
-import {
-	Checkbox
-} from "@mui/material";
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import dynamic from 'next/dynamic'
 import { themeContext } from "../pages/_app";
 import { useRouter } from "next/router";
 import styles from '../styles/styling/signup.module.css';
-import Navigation from "../components/navig";
+
+const Dialog = dynamic(()=>import('@mui/material/Dialog'))
+const Checkbox = dynamic(()=>import('@mui/material/Checkbox'))
+const VisibilityIcon = dynamic(()=>import('@mui/icons-material/Visibility'))
+const VisibilityOffIcon = dynamic(()=>import('@mui/icons-material/VisibilityOff'))
+const Navigation = dynamic(()=>import('../components/navig'))
+
 
 
 function VerfiyAcc({isUp}){

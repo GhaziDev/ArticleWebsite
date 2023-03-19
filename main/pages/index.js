@@ -1,19 +1,33 @@
 import React,{ useState, createContext,useContext,useEffect } from "react";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { library} from "@fortawesome/fontawesome-svg-core";
-import Navigation from "../components/navig.js";
+//import Navigation from "../components/navig.js";
 
 import {themeContext} from '../pages/_app'
 
 import ListAllArticles, {Filter} from '../components/filtertag';
+
 import {DisplayDialogOrLogin} from "../components/displayarticles.js";
 import ReactPaginate from 'react-paginate';
 import HOST from '../config';
 
+/*
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+*/
 import styles from '../styles/styling/articles.module.css'
-import Head from "next/head";
+//import Head from "next/head";
+import dynamic from "next/dynamic.js";
+
+
+
+
+const ArrowBackIosIcon = dynamic(()=>import('@mui/icons-material/ArrowBackIos'))
+const ArrowForwardIosIcon = dynamic(()=>import('@mui/icons-material/ArrowForwardIos'))
+const Head = dynamic(()=>import('next/head'))
+const Navigation = dynamic(()=>import('../components/navig.js'))
+
+
 
 
 

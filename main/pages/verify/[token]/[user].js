@@ -6,6 +6,7 @@ import HOST from "../../../config";
 import {useRouter} from 'next/router'
 import styles from '../../../styles/styling/verify.module.css'
 import dynamic from "next/dynamic";
+const Dialog = dynamic(()=>import('@mui/material/Dialog'))
 
 
 
@@ -38,7 +39,7 @@ export default function Verify({token,data,user}){
     
     const redirect = useRouter()
 
-    const Dialog = dynamic(()=>import('@mui/material/Dialog'))
+    
 
 
     useEffect(() => {

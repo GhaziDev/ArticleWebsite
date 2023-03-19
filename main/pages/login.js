@@ -6,14 +6,17 @@ import CsrfToken from '../components/csrf.js';
 import {themeContext} from '../pages/_app'; 
 import {ThemeSwitch} from '../components/navig'
 import HOST from '../config.js';
-import {Checkbox} from '@mui/material'
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { AuthContext } from '../store/provider';
 import { useRouter } from 'next/router.js';
-import Link from 'next/link'
 import styles from '../styles/styling/login.module.css'
-import Navigation from '../components/navig';
+import dynamic from 'next/dynamic'
+
+const Navigation = dynamic(()=>import('../components/navig'))
+const Checkbox = dynamic(()=>import('@mui/material').then((mod)=>mod.Checkbox))
+const VisibilityIcon = dynamic(()=>import('@mui/icons-material/Visibility'))
+const VisibilityOffIcon = dynamic(()=>import('@mui/icons-material/VisibilityOff'))
+const Link = dynamic(()=>import('next/link'))
+
 
 
 

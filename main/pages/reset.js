@@ -10,8 +10,10 @@ import HOST from "../config";
 import styles from '../styles/styling/reset.module.css'
 
 import { AuthContext } from "../store/provider";
-import Link from "next/link";
 
+import dynamic from 'next/dynamic'
+
+const Link = (()=>import('next/link'))
 function Popup({isSent}){
     if(isSent){
     return(

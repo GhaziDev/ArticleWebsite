@@ -16,10 +16,11 @@ import { AuthContext } from '../store/provider';
 
 import remarkGemoji from 'remark-gemoji';
 import { oneDark,oneLight} from 'react-syntax-highlighter/dist/cjs/styles/prism'
-import Navigation from "../components/navig";
 import { useRouter } from "next/router";
 import styles from '../styles/styling/createArticle.module.css'
 import { currentUser } from "../store/currentprovider";
+import dynamic from 'next/dynamic'
+const Navigation = dynamic(()=>import('../components/navig'))
 
 let host = HOST
 
