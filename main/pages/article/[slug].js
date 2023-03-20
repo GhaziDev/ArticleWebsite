@@ -65,7 +65,7 @@ import Head  from 'next/head'
 
 import ReactMarkDown  from 'react-markdown'
 
-import FontAwesomeIcon  from '@fortawesome/react-fontawesome'
+import {FontAwesomeIcon}  from '@fortawesome/react-fontawesome'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 
 import Dialog from '@mui/material/Dialog'
