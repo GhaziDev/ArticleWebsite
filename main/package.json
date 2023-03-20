@@ -61,6 +61,7 @@
     "remark-rehype": "^10.1.0",
     "remark-toc": "^8.0.1",
     "styled-components": "^5.3.6",
+    "swr": "^2.1.0",
     "unified": "^10.1.2",
     "web-vitals": "^2.1.4",
     "webpack-bundle-analyzer": "^4.8.0"

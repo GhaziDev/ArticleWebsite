@@ -6,6 +6,8 @@ import { useDeferredValue } from "react";
 import CsrfToken from "../../components/csrf"
 import { themeContext } from "../_app";
 import { AuthContext } from "../../store/provider";
+
+import useSWR from 'swr'
 //import Dialog from "@mui/material/Dialog";
 //import Navigation from "../../components/navig.js"; 
 
@@ -89,12 +91,11 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
 
 
 
-export async function getServerSideProps({params}){
+
+export async function getStaticProps({params}){
   try{
   const res = await fetch(`${HOST}articles/${params.slug}/`, { timeout: 120000 })
   const data = await res.json()
-  console.log("this is data")
-  console.log(data)
   return {
     props: {data:data,key:data._id}, // will be passed to the page component as props
   }
@@ -102,17 +103,12 @@ export async function getServerSideProps({params}){
 }
 catch(e){
 
-  console.log("this is error")
-  console.log(e)
 
   return {
     props:{}
   }
 }
 }
-
-
-
 
 
 
@@ -695,9 +691,6 @@ const DeleteArticle = ({ user, article, slug, redirect }) => {
 
 const SpecificArticle = ({data}) => {
 
-  console.log('this is data')
-  console.log(data)
-  
 
   
   let [isLoading,setIsLoading] = useState(true)
