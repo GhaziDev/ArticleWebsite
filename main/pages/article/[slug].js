@@ -57,8 +57,8 @@ import styles from '../../styles/styling/specificarticle.module.css'
 //import Head from "next/head";
 //import dynamic from 'next/dynamic'
 
-import Link from('next/link')
-import Head  from('next/head')
+import Link from 'next/link'
+import Head  from 'next/head'
 
 
 import ReactMarkDown  from 'react-markdown'
@@ -73,16 +73,16 @@ import Navigation from  "../../components/navig.js"
 import FacebookIcon  from "@mui/icons-material/Facebook"
 import TwitterIcon  from "@mui/icons-material/Twitter"
 
-  import LinkedInIcon from "@mui/icons-material/LinkedIn"
-  import LinkIcon  from "@mui/icons-material/Link"
-  import RedditIcon from "@mui/icons-material/Reddit"
+import LinkedInIcon from "@mui/icons-material/LinkedIn"
+import LinkIcon  from "@mui/icons-material/Link"
+import RedditIcon from "@mui/icons-material/Reddit"
 
-  import {FacebookShareButton} from 'next-share'
-  import {TwitterShareButton}  from 'next-share'
-  import {LinkedinShareButton} from 'next-share'
-  import {RedditShareButton}  from 'next-share'
+import {FacebookShareButton} from 'next-share'
+import {TwitterShareButton}  from 'next-share'
+import {LinkedinShareButton} from 'next-share'
+import {RedditShareButton}  from 'next-share'
 
-  import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
 
 
 
