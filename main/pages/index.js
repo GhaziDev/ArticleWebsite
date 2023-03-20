@@ -94,6 +94,7 @@ const Articles = () => {
   let [articleList, setArticleList] = useState([]);
   let {theme} = useContext(themeContext)
   let [isLoading,setIsLoading] = useState(true)
+  console.log("here")
 
   useEffect(()=>{
     setTimeout(()=>{setIsLoading(false)},1500)

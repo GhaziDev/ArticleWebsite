@@ -7,7 +7,7 @@ import CsrfToken from "../../components/csrf"
 import { themeContext } from "../_app";
 import { AuthContext } from "../../store/provider";
 
-import useSWR from 'swr'
+
 //import Dialog from "@mui/material/Dialog";
 //import Navigation from "../../components/navig.js"; 
 
@@ -63,28 +63,22 @@ import Link from 'next/link'
 import Head  from 'next/head'
 
 
-import ReactMarkDown  from 'react-markdown'
 
-import {FontAwesomeIcon}  from '@fortawesome/react-fontawesome'
-import FavoriteIcon from '@mui/icons-material/Favorite'
+const ReactMarkDown = dynamic(()=>import('react-markdown'))
+const Dialog = dynamic(()=>import('@mui/material/Dialog'))
 
-import Dialog from '@mui/material/Dialog'
+
 
 import Navigation from  "../../components/navig.js"
 
-import FacebookIcon  from "@mui/icons-material/Facebook"
-import TwitterIcon  from "@mui/icons-material/Twitter"
 
-import LinkedInIcon from "@mui/icons-material/LinkedIn"
-import LinkIcon  from "@mui/icons-material/Link"
-import RedditIcon from "@mui/icons-material/Reddit"
 
 import {FacebookShareButton} from 'next-share'
 import {TwitterShareButton}  from 'next-share'
 import {LinkedinShareButton} from 'next-share'
 import {RedditShareButton}  from 'next-share'
 
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
+import 'iconify-icon'
 
 
 
@@ -92,7 +86,7 @@ import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
 
 
 
-export async function getStaticProps({params}){
+export async function getServerSideProps({params}){
   try{
   const res = await fetch(`${HOST}articles/${params.slug}/`, { timeout: 120000 })
   const data = await res.json()
@@ -109,6 +103,8 @@ catch(e){
   }
 }
 }
+
+
 
 
 
@@ -359,7 +355,7 @@ import Head from "next/head";
             <div className={styles['article-tag-like']}>
               <button key={article.tag_id} style={{ backgroundColor:theme.setBg,color: theme.setColor }} className={styles['tag-sec']}>{article.tag}</button>
               <div className={styles['article-like-div']} style={{color:theme.setTextColor}}>
-              <FavoriteIcon  style={{color:'red'}} />
+              <iconify-icon width="40" height="40" icon='material-symbols:favorite'  style={{color:'red'}} />
               {article.likes}</div>
               </div>
     <div className={styles['title-card']}>
@@ -377,7 +373,7 @@ import Head from "next/head";
             </h4>
             </div>
             <h4 key={article.date.toString()} className={styles["date"]}  style={{color:theme.setColor}}>
-              <FontAwesomeIcon  key={article.date.toString()} icon="fa-solid fa-calendar" /> {article.date}
+              <iconify-icon  width='40' height='40' key={article.date.toString()} icon="uim:calender" /> {article.date}
             </h4>
             </div>
           </Link>
@@ -876,18 +872,19 @@ const SpecificArticle = ({data}) => {
 
   useEffect(() => {
 
-     
+    if(redirect.isReady){
         let arr = data.title.split(" ")
         for(let i = 0;i<arr.length;i++){
-          if(arr[i].length>20 || (arr[i].length>6 && arr[i+1].length>6)){
+          if(arr[i].length>20 || (arr[i].length>6 && arr[i+1]?.length>6)){
             setWordBreak({'wordBreak':'break-all'})
             break
 
 
         }
     }
+  }
 
-  }, [updated]);
+  }, [updated,redirect.isReady]);
 
   useEffect(()=>{
     axios.get(`${HOST}comments_of_article/${slug}/`).then((res) => {
@@ -989,6 +986,8 @@ const SpecificArticle = ({data}) => {
       style={{ backgroundColor: theme.setBg, color: theme.setColor }}
     >
         <Head>
+    
+
         <meta name="twitter:card" content="summary_large_image"/>
         <meta property="og:site_name" content="globeofarticles"/>
         <meta property="og:url" content={`www.globeofarticles.com/${data.slug}/`} />
@@ -1026,15 +1025,19 @@ const SpecificArticle = ({data}) => {
 
             <div>
               {!hasLiked ? (
-                <FavoriteBorderIcon
+                <iconify-icon
+                width="40" height="40"
+                icon='material-symbols:favorite-outline-rounded'   
                   onClick={(e) => handleLike(e)}
-                  fontSize="large"
+          
                   style={{ color: theme.setTextColor, cursor: "pointer" }}
                 />
               ) : (
-                <FavoriteIcon
+                <iconify-icon
+                width="40" height="40"
+                icon = "material-symbols:favorite"
                   onClick={(e) => handleLike(e)}
-                  fontSize="large"
+                  
                   style={{ color: "red", cursor: "pointer" }}
                 />
               )}
@@ -1057,7 +1060,7 @@ const SpecificArticle = ({data}) => {
   quote={data.description}
   hashtag={'#GlobeofArticles'}
 >
-  <FacebookIcon fontSize='large' />
+  <iconify-icon icon='ri:facebook-box-fill' width='40' height='40' />
 </FacebookShareButton>
             </div>
             <div>
@@ -1065,7 +1068,7 @@ const SpecificArticle = ({data}) => {
                url={`https://www.globeofarticles.com/article/${data.slug}/`}
                quote={data.description}
                hashtag={'#GlobeofArticles'}>
-              <TwitterIcon fontSize="large"></TwitterIcon>
+              <iconify-icon icon='mdi-twitter' width='40' height='40' ></iconify-icon>
               </TwitterShareButton>
             </div>
             <div>
@@ -1073,18 +1076,18 @@ const SpecificArticle = ({data}) => {
                url={`https://www.globeofarticles.com/article/${data.slug}/`}
                quote={data.description}
                hashtag={'#GlobeofArticles'}>
-              <LinkedInIcon fontSize="large"></LinkedInIcon>
+              <iconify-icon icon='mdi:linkedin' width='40' height='40'></iconify-icon>
               </LinkedinShareButton>
             </div>
             <div>
               <RedditShareButton url={`https://www.globeofarticles.com/article/${data.slug}/`}
               title={data.title}>
-              <RedditIcon fontSize='large'></RedditIcon>
+              <iconify-icon icon='ph:reddit-logo-fill' width='40' height='40'></iconify-icon>
               </RedditShareButton>
             </div>
 
             <div>
-              <LinkIcon titleAccess="Copy URL" style={{cursor:'pointer'}} fontSize="large" onClick={()=>copyToClipboard()}></LinkIcon>
+              <iconify-icon icon='material-symbols:link' titleAccess="Copy URL" style={{cursor:'pointer'}} width='40' height='40' onClick={()=>copyToClipboard()}></iconify-icon>
             </div>
             <div style={{display:popup?'flex':'none'}} className={styles['popupWrap']} >
             <div className={styles['popupDiv']} style={{backgroundColor:theme.setBg=='white'?'white':'black', display:popup?'flex':'none',position:'fixed',bottom:'7px',left:'50%',zIndex:'6',justifyContent:'center',alignItems:'center'}}>Link Copied!</div>

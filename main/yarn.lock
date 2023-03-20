@@ -419,6 +419,18 @@
   "resolved" "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   "version" "1.2.1"
 
+"@iconify/react@^4.1.0":
+  "integrity" "sha512-Mf72i3TNNKpKCKxmo7kzqyrUdCgaoljpqtWmtqpqwyxoV4ukhnDsSRNLhf2yBnqGr3cVZsdj/i0FMpXIY0Qk0g=="
+  "resolved" "https://registry.npmjs.org/@iconify/react/-/react-4.1.0.tgz"
+  "version" "4.1.0"
+  dependencies:
+    "@iconify/types" "^2.0.0"
+
+"@iconify/types@^2.0.0":
+  "integrity" "sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg=="
+  "resolved" "https://registry.npmjs.org/@iconify/types/-/types-2.0.0.tgz"
+  "version" "2.0.0"
+
 "@isaacs/string-locale-compare@^1.1.0":
   "version" "1.1.0"
 
@@ -2996,6 +3008,13 @@
   "integrity" "sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q=="
   "resolved" "https://registry.npmjs.org/i/-/i-0.3.7.tgz"
   "version" "0.3.7"
+
+"iconify-icon@^1.0.7":
+  "integrity" "sha512-MxaO3Jhf3f5ymPWGHR9x74f90TNKcq1D+B2iGucGhVtqAgbC9EtM06kKiTGH2CKELNnexckwhrA3/+OpT4HKFw=="
+  "resolved" "https://registry.npmjs.org/iconify-icon/-/iconify-icon-1.0.7.tgz"
+  "version" "1.0.7"
+  dependencies:
+    "@iconify/types" "^2.0.0"
 
 "iconv-lite@^0.6.2":
   "version" "0.6.3"
