@@ -69,6 +69,8 @@ import dynamic from "next/dynamic";
 const ReactMarkDown = dynamic(()=>import('react-markdown'))
 const Dialog = dynamic(()=>import('@mui/material/Dialog'))
 
+import useSWR from "swr";
+
 
 
 import Navigation from  "../../components/navig.js"
@@ -87,7 +89,7 @@ import 'iconify-icon'
 
 
 
-
+export const runtime = 'experimental-edge'
 export async function getServerSideProps({params}){
   try{
   const res = await fetch(`${HOST}articles/${params.slug}/`, { timeout: 120000 })
