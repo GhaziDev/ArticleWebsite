@@ -8,6 +8,7 @@ import { themeContext } from "../_app";
 import { AuthContext } from "../../store/provider";
 
 
+
 //import Dialog from "@mui/material/Dialog";
 //import Navigation from "../../components/navig.js"; 
 
@@ -88,8 +89,7 @@ import 'iconify-icon'
 
 
 
-
-export const runtime = 'experimental-edge'
+/*
 export async function getServerSideProps({params}){
   try{
   const res = await fetch(`${HOST}articles/${params.slug}/`, { timeout: 120000 })
@@ -107,6 +107,7 @@ catch(e){
   }
 }
 }
+*/
 
 
 
@@ -689,11 +690,30 @@ const DeleteArticle = ({ user, article, slug, redirect }) => {
   return null;
 };
 
-const SpecificArticle = ({data}) => {
+const SpecificArticle = () => {
+  function fetcher(url) {
+    return fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        return data;
+      })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  }
+   let redirect = useRouter();
+   let {slug } = redirect.query;
+
+  let {data,error} = useSWR(slug?`${HOST}articles/${slug}/`:null,slug?fetcher:null)
+  console.log(data)
+  console.log(error)
+
+
 
 
   
-  let [isLoading,setIsLoading] = useState(true)
+  //let [isLoading,setIsLoading] = useState(true)
 
 
   const [article, setArticle] = useState({
@@ -732,8 +752,7 @@ const SpecificArticle = ({data}) => {
   });
 
   const [editMode, setEditMode] = useState(false);
-  let redirect = useRouter();
-  let {slug } = redirect.query;
+ 
 
   let { isAuth } = useContext(AuthContext);
 
@@ -876,7 +895,7 @@ const SpecificArticle = ({data}) => {
 
   useEffect(() => {
 
-    if(redirect.isReady){
+    if(data){
         let arr = data.title.split(" ")
         for(let i = 0;i<arr.length;i++){
           if(arr[i].length>20 || (arr[i].length>6 && arr[i+1]?.length>6)){
@@ -888,7 +907,7 @@ const SpecificArticle = ({data}) => {
     }
   }
 
-  }, [updated,redirect.isReady]);
+  }, [updated,data]);
 
   useEffect(()=>{
     axios.get(`${HOST}comments_of_article/${slug}/`).then((res) => {
@@ -910,7 +929,7 @@ const SpecificArticle = ({data}) => {
 
 
   useEffect(()=>{
-    if(redirect.isReady){
+    if(data){
       console.log("here also at line 937")
       axios.get(`${HOST}fetch/${data.user}/`).then((res)=>{
         setRelatedArticles(res.data.filter((article)=>article.slug!==data.slug))
@@ -919,7 +938,7 @@ const SpecificArticle = ({data}) => {
     }
    
 
-  },[redirect.isReady])
+  },[data])
 
   const getComments = () => {
     
@@ -982,6 +1001,8 @@ const SpecificArticle = ({data}) => {
 
 
   return (
+
+    data?
     
 
     
@@ -1130,8 +1151,8 @@ const SpecificArticle = ({data}) => {
       <div className={styles["comment-section"]} id="cmnt">
         {getComments()}
       </div>
-    </div>
-  );
+    </div>:<div>Loading...</div>
+  )
 
 }
 
