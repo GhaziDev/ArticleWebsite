@@ -711,6 +711,9 @@ const DeleteArticle = ({ user, article, slug, redirect }) => {
 };
 
 const SpecificArticle = ({data}) => {
+
+  console.log('this is data')
+  console.log(data)
   
 
   
@@ -780,6 +783,8 @@ const SpecificArticle = ({data}) => {
   
   useEffect(() => {
     if(redirect.isReady){
+      console.log("inside like use effect line 786")
+      console.log(data)
 
     axios.get(`${HOST}likes/${slug}/`, { withCredentials: true }).then((res) => {
       setLikesCount(res.data);
@@ -929,6 +934,7 @@ const SpecificArticle = ({data}) => {
 
   useEffect(()=>{
     if(redirect.isReady){
+      console.log("here also at line 937")
       axios.get(`${HOST}fetch/${data.user}/`).then((res)=>{
         setRelatedArticles(res.data.filter((article)=>article.slug!==data.slug))
 
