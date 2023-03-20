@@ -55,51 +55,34 @@ import styles from '../../styles/styling/specificarticle.module.css'
 
 //import Link from 'next/link'
 //import Head from "next/head";
-import dynamic from 'next/dynamic'
+//import dynamic from 'next/dynamic'
 
-const Link = dynamic(()=>import('next/link'))
-const Head = dynamic(()=>import('next/head'))
+import Link from('next/link')
+import Head  from('next/head')
 
 
-const ReactMarkDown = dynamic(()=>import('react-markdown'),{
-    
-}
-)
+import ReactMarkDown  from 'react-markdown'
 
-const FontAwesomeIcon = dynamic(()=>import('@fortawesome/react-fontawesome').then((mod)=>mod.FontAwesomeIcon))
-const FavoriteIcon = dynamic(()=>import('@mui/icons-material/Favorite'))
+import FontAwesomeIcon  from '@fortawesome/react-fontawesome'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
-const Dialog = dynamic(()=>import('@mui/material/Dialog'),{
-})
+import Dialog from '@mui/material/Dialog'
 
-const Navigation = dynamic(()=>import( "../../components/navig.js") 
-  ,{
-    
-  })
+import Navigation from  "../../components/navig.js"
 
-  const FacebookIcon = dynamic(()=>import("@mui/icons-material/Facebook"),{
-    
-  })
-  const TwitterIcon  = dynamic(()=>import("@mui/icons-material/Twitter"),{
-    
-  })
+import FacebookIcon  from "@mui/icons-material/Facebook"
+import TwitterIcon  from "@mui/icons-material/Twitter"
 
-  const LinkedInIcon = dynamic(()=>import ("@mui/icons-material/LinkedIn"),{
-    
-  })
-  const LinkIcon  = dynamic(()=>import("@mui/icons-material/Link"),{
-    
-  });
-  const RedditIcon = dynamic(()=>import ("@mui/icons-material/Reddit"),{
-    
-  })
+  import LinkedInIcon from "@mui/icons-material/LinkedIn"
+  import LinkIcon  from "@mui/icons-material/Link"
+  import RedditIcon from "@mui/icons-material/Reddit"
 
-  const FacebookShareButton = dynamic(()=>import('next-share').then((mod)=>mod.FacebookShareButton))
-  const TwitterShareButton = dynamic(()=>import('next-share').then((mod)=>mod.TwitterShareButton))
-  const LinkedinShareButton = dynamic(()=>import('next-share').then((mod)=>mod.LinkedinShareButton))
-  const RedditShareButton = dynamic(()=>import('next-share').then((mod)=>mod.RedditShareButton))
+  import {FacebookShareButton} from 'next-share'
+  import {TwitterShareButton}  from 'next-share'
+  import {LinkedinShareButton} from 'next-share'
+  import {RedditShareButton}  from 'next-share'
 
-  const FavoriteBorderIcon = dynamic(()=>import("@mui/icons-material/FavoriteBorder"))
+  import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder"
 
 
 
