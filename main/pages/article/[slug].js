@@ -62,6 +62,8 @@ import styles from '../../styles/styling/specificarticle.module.css'
 import Link from 'next/link'
 import Head  from 'next/head'
 
+import dynamic from "next/dynamic";
+
 
 
 const ReactMarkDown = dynamic(()=>import('react-markdown'))
