@@ -109,6 +109,8 @@ catch(e){
 }
 
 
+/*
+
 export async function getStaticPaths() {
 
   try{
@@ -130,7 +132,7 @@ catch(err){
   return {paths:[],fallback:'blocking'}
 }
 }
-
+*/
 
 
 
