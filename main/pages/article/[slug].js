@@ -806,18 +806,16 @@ const SpecificArticle = ({InitialData}) => {
 
   
   useEffect(() => {
-    if(redirect.isReady){
-      console.log("inside like use effect line 786")
-      console.log(data)
-
+    if(data){
     axios.get(`${HOST}likes/${slug}/`, { withCredentials: true }).then((res) => {
       setLikesCount(res.data);
       setHasLiked(res.data.like);
     });
   }
-  }, [likesCount.likes_count]);
+  }, [likesCount.likes_count,data]);
 
   let handleLike = () => {
+    if(data){
     axios
       .post(`${HOST}likes/${slug}/`, likesCount, {
         withCredentials: true,
@@ -833,10 +831,14 @@ const SpecificArticle = ({InitialData}) => {
       })
       
       .catch((e) => {
+        console.log(e)
         if (e.response.status == "401") {
           redirect.push("/login");
         }
       });
+    }
+
+
   };
 
   useEffect(() => {
