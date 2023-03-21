@@ -64,6 +64,14 @@ class FetchUserArticles(views.APIView):
         serializer_class = serializer.ArticleSerializer
         return Response(serializer.ArticleSerializer(models.Article.objects.filter(user=username)[0:4],many=True).data,status=200)
 
+class SpecificArticleView(views.APIView):
+    def get(self,request,slug):
+        serializer_class = serializer.ArticleSerializer
+        inst = models.Article.objects.get(slug=slug)
+        return Response(serializer.ArticleSerializer(inst).data,status=200)
+        
+        
+
 class ArticleView(viewsets.ModelViewSet):
     serializer_class = serializer.ArticleSerializer
     parser_classes = [MultiPartParser,FormParser,JSONParser]

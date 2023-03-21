@@ -55,6 +55,7 @@ urlpatterns = [
      path('liked_articles/<str:username>/',views.LikedArticlesView.as_view(),name='liked_articles'),
      path('userprofile/<str:username>/<str:user>/',views.DeleteProfileView.as_view(),name='delete_user'),
      path('fetch/<str:username>/',views.FetchUserArticles.as_view(),name='fetch'),
+     path('article/<slug:slug>/',views.SpecificArticleView.as_view(),name='article'),
     
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

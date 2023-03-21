@@ -690,7 +690,7 @@ const SpecificArticle = ({InitialData}) => {
    let redirect = useRouter();
    let {slug } = redirect.query;
 
-  let {data,error} = useSWR(slug?`${HOST}articles/${slug}/`:null,slug?fetcher:null,{InitialData})
+  let {data,error} = useSWR(slug?`${HOST}article/${slug}/`:null,slug?fetcher:null,{InitialData})
   console.log(data)
   console.log(error)
 
@@ -1143,7 +1143,7 @@ const SpecificArticle = ({InitialData}) => {
 
 SpecificArticle.getInitialProps = async ({params})=>{
   try{
-  const res = await fetch(`${HOST}articles/${params.slug}/`, { timeout: 120000 })
+  const res = await fetch(`${HOST}article/${params.slug}/`, { timeout: 120000 })
   const data = await res.json()
   return {
     props: {InitialData:data,key:data._id}, // will be passed to the page component as props
