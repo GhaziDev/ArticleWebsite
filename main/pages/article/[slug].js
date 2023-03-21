@@ -87,7 +87,7 @@ import 'iconify-icon'
 
 
 
-
+/*
 export  async function getStaticProps(){
   try{
   const res = await fetch(`${HOST}articles/${params.slug}/`, { timeout: 120000 })
@@ -108,8 +108,6 @@ catch(e){
 }
 }
 
-
-/*
 
 export async function getStaticPaths() {
 
