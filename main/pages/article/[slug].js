@@ -127,7 +127,7 @@ export async function getStaticPaths() {
 
 }
 catch(err){
-  return {path:''}
+  return {paths:[],fallback:'blocking'}
 }
 }
 
