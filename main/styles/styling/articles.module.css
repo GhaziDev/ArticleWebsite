@@ -56,6 +56,7 @@
   justify-content: center;
   align-items: center;
   flex-flow:column wrap;
+  font-size:serif;
 
   
 }
@@ -77,10 +78,10 @@
   }
 
   .website-header-div h2{
-    font-size: 20px;
     text-align: center;
     word-break:normal;
     letter-spacing: 0.006em;
+    font-weight:500;
     
   }
   

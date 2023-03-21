@@ -89,25 +89,10 @@ import 'iconify-icon'
 
 
 
-/*
-export async function getServerSideProps({params}){
-  try{
-  const res = await fetch(`${HOST}articles/${params.slug}/`, { timeout: 120000 })
-  const data = await res.json()
-  return {
-    props: {data:data,key:data._id}, // will be passed to the page component as props
-  }
-
-}
-catch(e){
 
 
-  return {
-    props:{}
-  }
-}
-}
-*/
+
+
 
 
 
@@ -378,7 +363,7 @@ import Head from "next/head";
             </h4>
             </div>
             <h4 key={article.date.toString()} className={styles["date"]}  style={{color:theme.setColor}}>
-              <iconify-icon  width='40' height='40' key={article.date.toString()} icon="uim:calender" /> {article.date}
+              <iconify-icon  width='30' height='30' key={article.date.toString()} icon="uim:calender" /> {article.date}
             </h4>
             </div>
           </Link>
@@ -690,7 +675,7 @@ const DeleteArticle = ({ user, article, slug, redirect }) => {
   return null;
 };
 
-const SpecificArticle = () => {
+const SpecificArticle = ({InitialData}) => {
   function fetcher(url) {
     return fetch(url)
       .then(response => response.json())
@@ -705,7 +690,7 @@ const SpecificArticle = () => {
    let redirect = useRouter();
    let {slug } = redirect.query;
 
-  let {data,error} = useSWR(slug?`${HOST}articles/${slug}/`:null,slug?fetcher:null)
+  let {data,error} = useSWR(slug?`${HOST}articles/${slug}/`:null,slug?fetcher:null,{InitialData})
   console.log(data)
   console.log(error)
 
@@ -1154,6 +1139,24 @@ const SpecificArticle = () => {
     </div>:<div>Loading...</div>
   )
 
+}
+
+SpecificArticle.getInitialProps = async ({params})=>{
+  try{
+  const res = await fetch(`${HOST}articles/${params.slug}/`, { timeout: 120000 })
+  const data = await res.json()
+  return {
+    props: {InitialData:data,key:data._id}, // will be passed to the page component as props
+  }
+
+}
+catch(e){
+
+
+  return {
+    props:{}
+  }
+}
 }
 
 export default SpecificArticle;

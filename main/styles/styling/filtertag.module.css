@@ -81,7 +81,9 @@
     text-overflow: ellipsis;
     padding-left:25px;
     padding-right:25px;
-    font-size:18px;
+    line-height: 1.5rem;
+    font-size: 16px;
+    text-align: center;
   
   }
 
@@ -109,6 +111,7 @@
 
 .separator .date{
   padding-right: 25px;
+  font-size:15px
 }
 
 
@@ -190,7 +193,6 @@
   .search-input{
     border:none;
     border-radius: 4px;
-    width:140px;
     height:40px;
     text-align: center;
   
