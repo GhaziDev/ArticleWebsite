@@ -88,6 +88,50 @@ import 'iconify-icon'
 
 
 
+export  async function getStaticProps(){
+  try{
+  const res = await fetch(`${HOST}articles/${params.slug}/`, { timeout: 120000 })
+  const data = await res.json()
+  return {
+    props: {InitialData:data,key:data._id}, // will be passed to the page component as props
+    revalidate: 10,
+  }
+
+}
+
+catch(e){
+
+
+  return {
+    props:{}
+  }
+}
+}
+
+
+export async function getStaticPaths() {
+
+  try{
+  const res = await fetch(`${HOST}articles/`)
+  const articles= await res.json()
+
+  // Get the paths we want to pre-render based on posts
+  const paths = articles.map((article) => ({
+    params: { slug: article.slug },
+  }))
+
+  // We'll pre-render only these paths at build time.
+  // { fallback: 'blocking' } will server-render pages
+  // on-demand if the path doesn't exist.
+  return { paths, fallback: 'blocking' }
+
+}
+catch(err){
+  return {path:''}
+}
+}
+
+
 
 
 
@@ -1141,22 +1185,6 @@ const SpecificArticle = ({InitialData}) => {
 
 }
 
-SpecificArticle.getInitialProps = async ({params})=>{
-  try{
-  const res = await fetch(`${HOST}article/${params.slug}/`, { timeout: 120000 })
-  const data = await res.json()
-  return {
-    props: {InitialData:data,key:data._id}, // will be passed to the page component as props
-  }
 
-}
-catch(e){
-
-
-  return {
-    props:{}
-  }
-}
-}
 
 export default SpecificArticle;
