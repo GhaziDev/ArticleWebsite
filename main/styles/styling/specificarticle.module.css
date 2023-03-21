@@ -260,7 +260,8 @@
     text-overflow: ellipsis;
     padding-left:25px;
     padding-right:25px;
-    font-size:18px;
+    font-size: 16px;
+    text-align: center;
   
   }
 
@@ -288,6 +289,7 @@
 
 .separator .date{
   padding-right: 25px;
+  font-size:14px;
 }
 
 

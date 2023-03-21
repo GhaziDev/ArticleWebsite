@@ -78,6 +78,7 @@ export default function PasswordResetAsk(){
         </form>
     )
 }
+
      return <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh'}}><div style={{fontSize:'25px'}}>You are already Logged in <Link href='/'>Back to main page</Link></div></div>
 }
 

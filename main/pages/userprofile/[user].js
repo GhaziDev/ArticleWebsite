@@ -27,6 +27,7 @@ import { AuthContext } from "../../store/provider.js";
 import { useRouter } from "next/router";
 import styles from '../../styles/styling/App.module.css'
 import dynamic from 'next/dynamic'
+import useSWR from "swr";
 
 const Dialog = dynamic(()=>import('@mui/material/Dialog'))
 const Head = dynamic(()=>import('next/head'));
@@ -311,6 +312,9 @@ function SwitchArticles({articleList,btn1,btn2,likedArticlesList,theme}){
   }
 
 
+/*
+
+
 export async function getServerSideProps({params}){
   try{
   let res = await fetch(`${HOST}userprofile/${params.user}/`)
@@ -328,12 +332,27 @@ export async function getServerSideProps({params}){
 
 }
 
-function UserProfile({userInfo}){
+*/
+
+function UserProfile(){
   /*
   const Dialog = dynamic(()=>import('@mui/material/Dialog'))
   const Head = dynamic(()=>import('next/head'));
   const Filter = dynamic(()=>import('../../components/filtertag').then((mod)=>mod.Filter))
   */
+
+  function fetcher(url) {
+    return fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        return data;
+      })
+      .catch(error => {
+        console.error(error);
+        return null;
+      });
+  }
     const {theme} = useContext(themeContext) //consuming the context
     let [isHidden,setIsHidden] = useState(false)
     let [btnState,setBtnState] = useState({'btn1':true,'btn2':false})
@@ -342,8 +361,11 @@ function UserProfile({userInfo}){
     let [likedArticlesList,setLikedArticlesList] = useState([])
     let {isAuth} = useContext(AuthContext)
     let redirect = useRouter()
+    let {user} = redirect.query
+    let {data:userInfo,error} = useSWR(`${HOST}userprofile/${user}/`,fetcher)
 
     useEffect(()=>{
+      if(userInfo){
       axios.get(`${HOST}current/`,{withCredentials:true}).then((res)=>{
         if(res.data.user===userInfo.user){
           setIsHidden(false)
@@ -355,14 +377,18 @@ function UserProfile({userInfo}){
         setDomLoaded(true)
   
       })
-    },[])
+    }
+    },[userInfo])
+
 
 
     useEffect(()=>{
+      if(userInfo){
       axios.get(`${HOST}liked_articles/${userInfo.user}/`).then((res)=>{
         setLikedArticlesList(res.data)
       })
-    },[])
+    }
+    },[userInfo])
 
 
 
@@ -386,6 +412,7 @@ function UserProfile({userInfo}){
     }
 
     return(
+      userInfo?
         <div className={styles['profile-div']} style={{backgroundColor:theme.setBg,color:theme.setColor}}>
           <Head>
 
@@ -418,7 +445,7 @@ function UserProfile({userInfo}){
 
       </div>
             
-        </div>
+        </div>:<div>Loading</div>
     )
 
 }

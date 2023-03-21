@@ -389,7 +389,7 @@ import Head from "next/head";
             <div className={styles['article-tag-like']}>
               <button key={article.tag_id} style={{ backgroundColor:theme.setBg,color: theme.setColor }} className={styles['tag-sec']}>{article.tag}</button>
               <div className={styles['article-like-div']} style={{color:theme.setTextColor}}>
-              <iconify-icon width="40" height="40" icon='material-symbols:favorite'  style={{color:'red'}} />
+              <iconify-icon width="30" height="30" icon='material-symbols:favorite'  style={{color:'red'}} />
               {article.likes}</div>
               </div>
     <div className={styles['title-card']}>

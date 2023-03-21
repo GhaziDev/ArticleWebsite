@@ -10,6 +10,7 @@ import { AuthContext} from "../../store/provider";
 
 import styles from '../../styles/styling/reset.module.css'
 import dynamic from "next/dynamic";
+import useSWR from 'swr';
 const VisibilityOffIcon = dynamic(()=>import('@mui/icons-material/VisibilityOff'))
 const VisibilityIcon = dynamic(()=>import('@mui/icons-material/Visibility'))
 const Checkbox = dynamic(()=>import('@mui/material/Checkbox'))
@@ -18,6 +19,8 @@ const Link = dynamic(()=>import('next/link'))
 
 
 
+
+/*
 
 export async function getServerSideProps({params}){
     try{
@@ -34,9 +37,9 @@ export async function getServerSideProps({params}){
     }
 }
 
+*/
 
-
-export default function PasswordResetPage({ptoken}){
+export default function PasswordResetPage(){
     /*
     import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -61,6 +64,8 @@ import Link from "next/link";
     let {theme} = useContext(themeContext)
     let [type,setType] = useState('password')
     let {isAuth} = useContext(AuthContext)
+    let {data:ptoken,err} = useSWR(`${HOST}reset/${token}/`,url=>fetch(url).then((res)=>res.json()))
+    
 
     let handleChange = (e)=>{
         setPassword(
@@ -115,6 +120,7 @@ import Link from "next/link";
 
     if(!isAuth){
     return(
+        ptoken?
         <form method='post' onSubmit={(e)=>handleSubmit(e)} style={{backgroundColor:theme.setBg}}>
         <div className='nav-side'>
             <Navigation/>
@@ -132,7 +138,7 @@ import Link from "next/link";
 
 
         </div>
-        </form>
+        </form>:<div>Loading...</div>
     )
 
 

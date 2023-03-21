@@ -6,10 +6,11 @@ import HOST from "../../../config";
 import {useRouter} from 'next/router'
 import styles from '../../../styles/styling/verify.module.css'
 import dynamic from "next/dynamic";
+import useSWR from 'swr';
 const Dialog = dynamic(()=>import('@mui/material/Dialog'))
 
 
-
+/*
 export async function getServerSideProps({params}){
 
     try{
@@ -29,20 +30,29 @@ export async function getServerSideProps({params}){
     }
 }
 
+*/
 
 
 
 
-export default function Verify({token,data,user}){
+
+
+export default function Verify(){
     const [message, setMessage] = useState("");
     const [error,setError] = useState(null)
-    
     const redirect = useRouter()
+    const {user} = redirect.query
+    const {token} = redirect.query
+    let {data,err1} = useSWR(`${HOST}verify/${params.token}/${params.user}/`,url=>fetch(url).then((res)=>res.json()))
+    
+    
 
     
 
 
     useEffect(() => {
+
+        if(data){
     
         axios.get(`${HOST}verify/${token}/${user}/`).then((res)=>{
             console.log(`This is data response : ${res.data}`)
@@ -57,14 +67,12 @@ export default function Verify({token,data,user}){
         
         })
     }
+}
 
 
 
-    ,[])
+    ,[data])
 
-    if (redirect.isFallback){
-        return <div>Loading...</div>
-    }
     if(error){
         return(
             <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'100vh'}}>
@@ -76,13 +84,15 @@ export default function Verify({token,data,user}){
     
     return (
 
+        data?
+
       
         <Dialog open={true} onClose={setTimeout(()=>{
             redirect.replace('/')
         },2000)}
          className={styles['verify-div']}>
            <div style={{color:'green',padding:'25px',fontSize:'18px'}}>{data}</div>
-        </Dialog>
+        </Dialog>:<div>Loading...</div>
     )
 
 }
