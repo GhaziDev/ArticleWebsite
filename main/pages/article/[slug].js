@@ -734,7 +734,7 @@ const SpecificArticle = ({InitialData}) => {
    let redirect = useRouter();
    let {slug } = redirect.query;
 
-  let {data,error} = useSWR(slug?`${HOST}article/${slug}/`:null,slug?fetcher:null,{InitialData})
+  let {data,error} = useSWR(slug?`${HOST}articles/${slug}/`:null,slug?fetcher:null,{InitialData})
   console.log(data)
   console.log(error)
 
