@@ -43,7 +43,7 @@ export default function Verify(){
     const redirect = useRouter()
     const {user} = redirect.query
     const {token} = redirect.query
-    let {data,err1} = useSWR(`${HOST}verify/${params.token}/${params.user}/`,url=>fetch(url).then((res)=>res.json()))
+    let {data,err1} = useSWR(`${HOST}verify/${token}/${user}/`,url=>fetch(url).then((res)=>res.json()))
     
     
 
