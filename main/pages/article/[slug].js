@@ -1,11 +1,13 @@
 import axios from "axios";
-import React,{ useState, useEffect, useContext, memo } from "react";
+import React,{ useState, useEffect, useContext, memo, useRef } from "react";
 import Cookies from "js-cookie";
 import { useDeferredValue } from "react";
 
 import CsrfToken from "../../components/csrf"
 import { themeContext } from "../_app";
 import { AuthContext } from "../../store/provider";
+import { clsx } from 'clsx';
+
 
 
 
@@ -54,7 +56,7 @@ import RedditIcon from "@mui/icons-material/Reddit";
 */
 
 import { useRouter } from "next/router.js";
-import styles from '../../styles/styling/specificarticle.module.css'
+import styles from '../../styles/styling/specificarticle.module.scss'
 
 //import Link from 'next/link'
 //import Head from "next/head";
@@ -195,6 +197,11 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
     setId(_id);
     setEditMode(false)
   };
+
+  useEffect(()=>{
+
+
+  },[updated])
   const handleCommentEditChange = (e, id) => {
     setCommentEdit({
       ...commentEdit,
@@ -221,17 +228,19 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
           <div className={styles["descmnt"]} key={comment.desc}>
             <div className={styles["user-date-cmnt-sec"]}>
               <div
-                className={styles["cmnt-user"]}
+                className={`${styles["cmnt-user"]} ${clsx({
+                  [styles.dark]:theme.setChecked,
+                  [styles.light]:!theme.setChecked
+                })}`}
                 onClick={(e) => redirect.push(`/userprofile/${comment.user}`)}
                 key={comment.user}
-                style={{ color: theme.setTextColor }}
               >
                 {comment.user}{" "}
               </div>
               <div
                 style={{
                   color:
-                    theme.setBg === "#1b1b1b" ? "yellowgreen" : "green",
+                    theme.setChecked? "yellowgreen" : "green",
                 }}
                 className={styles["cmnt-date"]}
                 key={comment.date.toString()}
@@ -294,27 +303,28 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
                 onSubmit={(e) => handleCommentEdit(e, comment._id)}
               >
                 <textarea
-                  style={{
-                    backgroundColor: theme.setButtonColor,
-                    color: theme.setTextColor,
-                  }}
-                  className={styles["cmnteditinp"]}
+
+                  className={`${styles["cmnteditinp"]} ${clsx({
+                    [styles.dark]:theme.setChecked,
+                    [styles.light]:!theme.setChecked
+                  })} ${styles['btn']}`}
                   defaultValue={comment.desc}
                   value={commentEdit.description}
                   onChange={(e) => handleCommentEditChange(e)}
                 />
                 <div
-                  style={{
-                    backgroundColor: theme.setButtonColor,
-                    color: theme.setTextColor,
-                  }}
-                  className={styles["cmnt-output-edit"]}
+
+          
+                  className={`${styles["cmnt-output-edit"]} ${clsx({
+                    [styles.dark]:theme.setChecked,
+                    [styles.light]:!theme.setChecked
+                  })} ${styles['btn']}`}
                 >
                   {" "}
                   <h2
                     style={{
                       color:
-                        theme.setBg === "#1b1b1b"
+                        theme.setChecked
                           ? "yellowgreen"
                           : "green",
                     }}
@@ -333,7 +343,10 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
                     color: theme.setTextColor,
                   }}
 
-                  className={styles['submitButton']}
+                  className={`${styles['submitButton']} ${clsx({
+                    [styles.dark]:theme.setChecked,
+                    [styles.light]:!theme.setChecked
+                  }) } ${styles['btn']}`}
                 >
                   Submit Change
                 </button>
@@ -374,11 +387,12 @@ import Head from "next/head";
     <div className={styles["parent-grid"]}>
     
       {relatedArticles.map((article)=>{
-        console.log(article)
         return (
           <div
-          className={styles["articles"]} key={article._id.toString()+'1'}
-          style={{ backgroundColor: theme.setButtonColor}}
+          className={`${styles["articles"]} ${clsx({
+            [styles.dark]:theme.setChecked,
+            [styles.light]:!theme.setChecked,
+          })} ${styles['btn']}`} key={article._id.toString()+'1'}
         >
           <Link key={article._id.toString()}
             href={`/article/${article.slug}`}
@@ -386,14 +400,23 @@ import Head from "next/head";
             <div className={styles['image-div']}>
             <img key={article.thumb_img} src={article.thumb_img} className={styles["image"]} />
             </div>
-            <div className={styles['article-tag-like']}>
-              <button key={article.tag_id} style={{ backgroundColor:theme.setBg,color: theme.setColor }} className={styles['tag-sec']}>{article.tag}</button>
-              <div className={styles['article-like-div']} style={{color:theme.setTextColor}}>
+            <div className={`${styles['article-tag-like']}${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+              })} ${styles['btn']}`}>
+              <button key={article.tag_id}  className={`${styles['tag-sec']} ${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+              })}`}>{article.tag}</button>
+              <div className={`${styles['article-like-div']} ${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+              })} ${styles['btn']}`} >
               <iconify-icon width="30" height="30" icon='material-symbols:favorite'  style={{color:'red'}} />
               {article.likes}</div>
               </div>
-    <div className={styles['title-card']}>
-            <h4 key={article.title} className={styles["title"]} style={{color:theme.setColor}} >
+    <div className={`${styles['title-card']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}>
+            <h4 key={article.title} className={`${styles["title"]}`}>
               {article.title}
             </h4>
             </div>
@@ -401,12 +424,18 @@ import Head from "next/head";
             
             <div className={styles['separator']}>
               <div className={styles['userinfo']}>
-            <h4 key={article.user_id} className={styles["user"]}  style={{color:theme.setColor}}>
+            <h4 key={article.user_id} className={`${styles["user"]} ${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+              })} ${styles['btn']}`} >
               {" "}
               <img key={article.user_profile.toString()} src={article.user_profile}/> {article.user}
             </h4>
             </div>
-            <h4 key={article.date.toString()} className={styles["date"]}  style={{color:theme.setColor}}>
+            <h4 key={article.date.toString()} className={`${styles["date"]} ${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+              })} ${styles['btn']}`} >
               <iconify-icon  width='30' height='30' key={article.date.toString()} icon="uim:calender" /> {article.date}
             </h4>
             </div>
@@ -426,14 +455,15 @@ import Head from "next/head";
           <textarea
             name="desc"
             required
-            className={styles["cmntinp"]}
+            className={`${styles["cmntinp"]}
+            ${clsx({
+              [styles.dark]:theme.setChecked,
+              [styles.light]:!theme.setChecked
+            })} ${styles['btn']}`
+          }
             onChange={(e) => handleChange(e)}
             value={desc}
             placeholder="Write your comment here"
-            style={{
-              backgroundColor: theme.setButtonColor,
-              color: theme.setTextColor,
-            }}
           ></textarea>
         </div>
         <div className={styles["cmnt-output-container"]}>
@@ -444,12 +474,15 @@ import Head from "next/head";
                 backgroundColor: theme.setButtonColor,
                 color: theme.setTextColor,
               }}
-              className={styles["cmnt-output"]}
+              className={`${styles["cmnt-output"]} ${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+              })} ${styles['btn']}`}
             >
               <h2
                 style={{
                   color:
-                    theme.setBg === "#1b1b1b" ? "yellowgreen" : "green",
+                    theme.setChecked ? "yellowgreen" : "green",
                 }}
               >
                 Preview
@@ -467,11 +500,11 @@ import Head from "next/head";
         <div className={styles["submit-div"]}>
           <button
             type="submit"
-            className={styles['submitButton']}
-            style={{
-              background: theme.setButtonColor,
-              color: theme.setTextColor,
-            }}
+            className={`${styles['submitButton']} ${clsx({
+              [styles.dark]:theme.setChecked,
+              [styles.light]:!theme.setChecked
+            })} ${styles['btn']}`}
+
           >
             Submit
           </button>
@@ -554,12 +587,11 @@ const EditArticle = ({
     return (
       <div className={styles["edit-article-div"]}>
         <button
-          className={styles["edit-btn"]}
+          className={`${styles["edit-btn"]} ${clsx({
+            [styles.dark]:theme.setChecked,
+            [styles.light]:!theme.setChecked
+          })} ${styles['btn']}` }
           onClick={() => setOpen(true)}
-          style={{
-            backgroundColor: theme.setButtonColor,
-            color: theme.setTextColor,
-          }}
         >
           Edit
         </button>
@@ -572,12 +604,17 @@ const EditArticle = ({
           maxWidth="l"
           className={styles["dialog"]}
         >
-          <div class="dialog-content" style={{ backgroundColor: theme.setBg }}>
+          <div class={`${styles["dialog-content"]}${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+              })}`} >
             <form
               method="put"
               onSubmit={(e) => handleEdit(e)}
-              className={styles["dialog-form"]}
-              style={{ backgroundColor: theme.setBg }}
+              className={`${styles["dialog-form"]} ${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+              })}`}
             >
               <div className={styles["back-btn-div"]}>
                 <button
@@ -589,40 +626,43 @@ const EditArticle = ({
                   &larr;
                 </button>
               </div>
-              <div className={styles["page-name"]}>
-                <h1 style={{ color: theme.setTextColor }}>Edit Page</h1>
+              <div className={`${styles["page-name"]}${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+              })}`}>
+                <h1 >Edit Page</h1>
               </div>
               <div
-                className={styles["description-container"]}
-                style={{
-                  backgroundColor: theme.setBg,
-                  color: theme.setTextColor,
-                }}
+                className={`${styles["description-container"]} ${clsx({
+                  [styles.dark]:theme.setChecked,
+                  [styles.light]:!theme.setChecked
+                })}`}
               >
                 <textarea
                   required
                   minLength={"2000"}
                   
-                  className={styles["description-input1"]}
+                  className={`${styles["description-input1"]}${clsx({
+                    [styles.dark]:theme.setChecked,
+                    [styles.light]:!theme.setChecked
+                  })} ${styles['btn']}`}
                   value={descEdit}
                   onChange={(e) => handleDescChange(e)}
-                  style={{
-                    backgroundColor: theme.setButtonColor,
-                    color: theme.setTextColor,
-                  }}
+              
                 ></textarea>
                 <div>
                   <div
-                    className={styles["description-output"]}
-                    style={{
-                      backgroundColor: theme.setButtonColor,
-                      color: theme.setTextColor,
-                    }}
+                    className={`${styles["description-output"]}
+                    ${clsx({
+                      [styles.dark]:theme.setChecked,
+                      [styles.light]:!theme.setChecked
+                    })} ${styles['btn']}`}
+  
                   >
                     <h1
                       style={{
                         color:
-                          theme.setBg === "#1b1b1b" ? "yellowgreen" : "green",
+                          theme.setChecked? "yellowgreen" : "green",
                       }}
                     >
                       Preview
@@ -638,11 +678,12 @@ const EditArticle = ({
               <div className={styles["edit-btn-div"]}>
                 <button
                   type="submit"
-                  className={styles["edit-btn"]}
-                  style={{
-                    backgroundColor: theme.setButtonColor,
-                    color: theme.setTextColor,
-                  }}
+                  className={`${styles["edit-btn"]} 
+                  ${clsx({
+                    [styles.dark]:theme.setChecked,
+                    [styles.light]:!theme.setChecked
+                  })} ${styles['btn']}`}
+    
                 >
                   Submit Change
                 </button>
@@ -678,34 +719,34 @@ const DeleteArticle = ({ user, article, slug, redirect }) => {
     return (
       <div className={styles["delete-div"]}>
         <button
-          className={styles["delete-btn"]}
+          className={`${styles["delete-btn"]}
+          ${clsx({
+            [styles.dark]:theme.setChecked,
+            [styles.light]:!theme.setChecked
+          })} ${styles['btn']}`}
           onClick={() => setOpen(true)}
-          style={{
-            backgroundColor: theme.setButtonColor,
-            color: theme.setTextColor,
-          }}
         >
           Delete
         </button>
         <Dialog
           open={open}
           onClose={() => setOpen(false)}
-          style={{ backgroundColor: theme.setBg }}
+          className={clsx({
+            [styles.dark]:theme.setChecked,
+            [styles.light]:!theme.setChecked
+          })}
+
         >
           <form
             method="delete"
             onSubmit={(e) => handleDelete(e)}
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              flexFlow: "column wrap",
-              alignItems: "center",
-              padding:'25px',
+            className={`${styles['artclDel']}
+            ${clsx({
+              [styles.dark]:theme.setChecked,
+              [styles.light]:!theme.setChecked
+            })}`
+          }
 
-              borderRadius:'3px',
-              backgroundColor: theme.setBg,
-              color: theme.setTextColor,
-            }}
           >
             <p>Are you sure you want to delete this article? </p>
             <button  className={styles["delete-btn"]} type="submit">
@@ -736,7 +777,6 @@ const SpecificArticle = ({InitialData}) => {
 
   let {data,error} = useSWR(slug?`${HOST}articles/${slug}/`:null,slug?fetcher:null,{InitialData})
   console.log(data)
-  console.log(error)
 
 //some comment here
 
@@ -767,8 +807,15 @@ const SpecificArticle = ({InitialData}) => {
 
 
 
+  
 
   const [wordBreak,setWordBreak] = useState({'wordBreak':'normal'})
+
+ 
+  const heightRef = useRef(0)
+  const cmntRef = useRef(0)
+  const [scroll,setScroll] = useState(0)
+  const [progress,setProgress] = useState(0)
 
   const { desc, date } = comment;
   const [updated, setUpdated] = useState(0);
@@ -802,9 +849,28 @@ const SpecificArticle = ({InitialData}) => {
     }, 5000);
   };
 
+  useEffect(()=>{ /* this line to be removed */
+    setUpdated(updated+1)
+  },[])
 
+  useEffect(()=>{
+    
+  },[updated])
 
-  
+useEffect(()=>{
+  window.addEventListener("scroll", handleScroll);
+  return () => {
+  window.removeEventListener("scroll", handleScroll);
+  }
+},[scroll])
+
+  let handleScroll = (e)=>{
+    setScroll(e.target.scrollTop)
+    setProgress((scroll)/((e.target.scrollHeight-e.target.offsetHeight-cmntRef.current.clientHeight))*100+'%')
+
+    
+
+  }
   useEffect(() => {
     if(data){
     axios.get(`${HOST}likes/${slug}/`, { withCredentials: true }).then((res) => {
@@ -814,7 +880,7 @@ const SpecificArticle = ({InitialData}) => {
   }
   }, [likesCount.likes_count,data]);
 
-  let handleLike = () => {
+  let handleLike = (e) => {
     if(data){
     axios
       .post(`${HOST}likes/${slug}/`, likesCount, {
@@ -925,7 +991,7 @@ const SpecificArticle = ({InitialData}) => {
 
 
   useEffect(() => {
-
+    if(redirect.isReady){
     if(data){
         let arr = data.title.split(" ")
         for(let i = 0;i<arr.length;i++){
@@ -937,14 +1003,19 @@ const SpecificArticle = ({InitialData}) => {
         }
     }
   }
+}
 
-  }, [updated,data]);
+  }, [updated,data,redirect.isReady]);
+
 
   useEffect(()=>{
+    if(redirect.isReady){
     axios.get(`${HOST}comments_of_article/${slug}/`).then((res) => {
       setCommentList(res.data);
     });
-  },[updated])
+  }
+  },[updated,redirect.isReady])
+
 
   const handleRedirectLogin = () => {
     redirect.push("/login");
@@ -961,7 +1032,6 @@ const SpecificArticle = ({InitialData}) => {
 
   useEffect(()=>{
     if(data){
-      console.log("here also at line 937")
       axios.get(`${HOST}fetch/${data.user}/`).then((res)=>{
         setRelatedArticles(res.data.filter((article)=>article.slug!==data.slug))
 
@@ -970,6 +1040,8 @@ const SpecificArticle = ({InitialData}) => {
    
 
   },[data])
+
+  let [clicked,setClicked] = useState(false)
 
   const getComments = () => {
     
@@ -988,11 +1060,10 @@ const SpecificArticle = ({InitialData}) => {
         <div className={styles["notLoggedIn"]}>
           <h1>Comment Section</h1>
           <button
-            className={styles["submitButton"]}
-            style={{
-              backgroundColor: theme.setButtonColor,
-              color: theme.setTextColor,
-            }}
+            className={`${styles["submitButton"]} ${clsx({
+              [styles.dark]:theme.setChecked,
+              [styles.light]:!theme.setChecked
+            })} ${styles['btn']}`}
             onClick={() => handleRedirectLogin()}
             
           >
@@ -1000,11 +1071,10 @@ const SpecificArticle = ({InitialData}) => {
           </button>
           <button
             onClick={() => handleRedirectSignUp()}
-            style={{
-              backgroundColor: theme.setButtonColor,
-              color: theme.setTextColor,
-            }}
-            className={styles["submitButton"]}
+            className={`${styles["submitButton"]} ${clsx({
+              [styles.dark]:theme.setChecked,
+              [styles.light]:!theme.setChecked
+            })} ${styles['btn']}`}
           >
             Signup
           </button>
@@ -1038,9 +1108,14 @@ const SpecificArticle = ({InitialData}) => {
 
     
     <div
-      className={styles["spec-article"]}
-      style={{ backgroundColor: theme.setBg, color: theme.setColor }}
+      onScroll={(e)=>handleScroll(e)}
+      className={`${styles["spec-article"]}
+      ${clsx({
+        [styles.dark]:theme.setChecked,
+        [styles.light]:!theme.setChecked
+      })}`}
     >
+      <div className='progressBar' style={{position:'sticky',top:0,left:0,height:'5px',width:progress,backgroundColor:!theme.setChecked?'#1d6f27':'#3CCF4E'}}></div>
         <Head>
     
 
@@ -1055,14 +1130,18 @@ const SpecificArticle = ({InitialData}) => {
         <meta key={data.title_img.toString()} property="twitter:image" content={data.title_img} /> 
       </Head>
      <Navigation/>
+     
     
       <div className={styles["article-title"]}>
         <div className={styles["left-article-side"]}>
           <div className={styles["top-left-side"]}>
             <div className={styles["article-tag"]} onClick={(e) => handleTagRedirect(e)}>
               <span
+              className={`${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+              })} ${styles['btn']}`}
                 style={{
-                  backgroundColor: theme.setButtonColor,
                   borderRadius: "4px",
                   textAlign: "center",
                 }}
@@ -1073,7 +1152,7 @@ const SpecificArticle = ({InitialData}) => {
             <div
               className={styles["article-date"]}
               style={{
-                color: theme.setBg == "#1b1b1b" ? "yellowgreen" : "green",
+                color: theme.setChecked ? "yellowgreen" : "green",
               }}
             >
               {data.date}
@@ -1081,15 +1160,31 @@ const SpecificArticle = ({InitialData}) => {
 
             <div>
               {!hasLiked ? (
+              
                 <iconify-icon
+
+                class={clsx({
+                  [styles['dislike']]:clicked
+                })}
+            
+              
                 width="40" height="40"
                 icon='material-symbols:favorite-outline-rounded'   
-                  onClick={(e) => handleLike(e)}
+                  onClick={(e) => handleLike(e) }
+                  onFocus={(e)=>setClicked(true)}
+                  tabindex='0'
           
-                  style={{ color: theme.setTextColor, cursor: "pointer" }}
+                  style={{cursor: "pointer" }}
                 />
+
+
+
+
               ) : (
                 <iconify-icon
+                class={ clsx({
+                  [styles['animate']]:clicked
+                })}
                 width="40" height="40"
                 icon = "material-symbols:favorite"
                   onClick={(e) => handleLike(e)}
@@ -1100,8 +1195,12 @@ const SpecificArticle = ({InitialData}) => {
               {likesCount.likes_count}
             </div>
           </div>
-        
-          <h1 style={{ color: theme.setColor,...wordBreak }}>{data.title}</h1>
+        <div className={clsx({
+        [styles.dark]:theme.setChecked,
+        [styles.light]:!theme.setChecked
+      })}>
+
+      <h1 style={{color:theme.setChecked?'white':'black' ,...wordBreak }}>{data.title}</h1></div>
           <div
             className={styles["article-user"]}
             onClick={() => redirect.push(`/userprofile/${data.user}`)}
@@ -1116,7 +1215,7 @@ const SpecificArticle = ({InitialData}) => {
   quote={data.description}
   hashtag={'#GlobeofArticles'}
 >
-  <iconify-icon icon='ri:facebook-box-fill' width='40' height='40' />
+  <iconify-icon class={styles['icon']} id={styles['fb']} icon='ri:facebook-box-fill' width='40' height='40' />
 </FacebookShareButton>
             </div>
             <div>
@@ -1124,7 +1223,7 @@ const SpecificArticle = ({InitialData}) => {
                url={`https://www.globeofarticles.com/article/${data.slug}/`}
                quote={data.description}
                hashtag={'#GlobeofArticles'}>
-              <iconify-icon icon='mdi-twitter' width='40' height='40' ></iconify-icon>
+              <iconify-icon class={styles['icon']} id={styles['twitter']} icon='mdi-twitter' width='40' height='40' ></iconify-icon>
               </TwitterShareButton>
             </div>
             <div>
@@ -1132,13 +1231,13 @@ const SpecificArticle = ({InitialData}) => {
                url={`https://www.globeofarticles.com/article/${data.slug}/`}
                quote={data.description}
                hashtag={'#GlobeofArticles'}>
-              <iconify-icon icon='mdi:linkedin' width='40' height='40'></iconify-icon>
+              <iconify-icon class={styles['icon']} id={styles['linkedin']} icon='mdi:linkedin' width='40' height='40'></iconify-icon>
               </LinkedinShareButton>
             </div>
             <div>
               <RedditShareButton url={`https://www.globeofarticles.com/article/${data.slug}/`}
               title={data.title}>
-              <iconify-icon icon='ph:reddit-logo-fill' width='40' height='40'></iconify-icon>
+              <iconify-icon id={styles['reddit']} class={styles['icon']} icon='ph:reddit-logo-fill' width='40' height='40'></iconify-icon>
               </RedditShareButton>
             </div>
 
@@ -1146,7 +1245,7 @@ const SpecificArticle = ({InitialData}) => {
               <iconify-icon icon='material-symbols:link' titleAccess="Copy URL" style={{cursor:'pointer'}} width='40' height='40' onClick={()=>copyToClipboard()}></iconify-icon>
             </div>
             <div style={{display:popup?'flex':'none'}} className={styles['popupWrap']} >
-            <div className={styles['popupDiv']} style={{backgroundColor:theme.setBg=='white'?'white':'black', display:popup?'flex':'none',position:'fixed',bottom:'7px',left:'50%',zIndex:'6',justifyContent:'center',alignItems:'center'}}>Link Copied!</div>
+            <div className={styles['popupDiv']} style={{display:popup?'flex':'none',position:'fixed',bottom:'12px',left:'45%',zIndex:'6',justifyContent:'center',alignItems:'center'}}>Link Copied!</div>
             </div>
 
           </div>
@@ -1155,7 +1254,7 @@ const SpecificArticle = ({InitialData}) => {
           <img alt="timg" className={styles["article-img"]} src={data.title_img} />
         </div>
       </div>
-      <div className={styles["article-desc-div"]}>
+      <div ref={heightRef}  className={styles["article-desc-div"]}>
        <LoadDescription theme={theme} description={description}/>
 
 
@@ -1179,7 +1278,7 @@ const SpecificArticle = ({InitialData}) => {
           ></DeleteArticle>
         </div>
       </div>
-      <div className={styles["comment-section"]} id="cmnt">
+      <div ref={cmntRef} className={styles["comment-section"]} id="cmnt">
         {getComments()}
       </div>
     </div>:<div>Loading...</div>

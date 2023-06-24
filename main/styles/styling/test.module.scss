@@ -1,0 +1,20 @@
+$dark-bg:#1B1B1B;
+$dark-color:white;
+$dark-link:#3CCF4E;
+$dark-btn:#333333;
+$dark-icon:'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/media/dark-mode-icon.svg';
+$dark-text:white;
+
+$light-bg:white;
+$light-color:black;
+$light-link:#1d6f27;
+$light-btn:#F5F5F6;
+$light-text:black;
+$light-icon:'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/media/sun-color-icon.svg';
+
+
+// i will have a conditional class name, className= 'main light' or className='main dark'
+
+.main .light{
+    
+}

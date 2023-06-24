@@ -1,0 +1,31 @@
+$dark-bg:#1b1b1b;
+$dark-btn:#222222;
+$dark-text:white;
+$light-bg:white;
+$light-btn:#F1F1F1;
+$light-text:black;
+
+
+.dark{
+    background-color: $dark-bg;
+    color:$dark-text;
+  
+  }
+  
+  .dark.btn{
+    background-color:$dark-btn;
+    color:$dark-text
+  }
+  
+  
+  .light{
+    background-color: $light-bg;
+    color:$light-text;
+  
+  }
+  
+  .light.btn{
+    background-color:$light-btn;
+    color:$light-text
+  }
+  

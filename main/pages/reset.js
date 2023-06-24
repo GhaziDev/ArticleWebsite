@@ -7,7 +7,9 @@ import Navigation from '../components/navig'
 import {themeContext} from '../pages/_app'
 import HOST from "../config";
 
-import styles from '../styles/styling/reset.module.css'
+import styles from '../styles/styling/reset.module.scss'
+import {clsx} from 'clsx';
+
 
 import { AuthContext } from "../store/provider";
 
@@ -59,7 +61,10 @@ export default function PasswordResetAsk(){
 
     if(!isAuth){
     return(
-        <form method='post' onSubmit={(e)=>submitChange(e)} style={{backgroundColor:theme.setBg,color:theme.setColor}}>
+        <form method='post' className={clsx({
+            [styles.dark]:theme.setChecked,
+            [styles.light]:!theme.setChecked
+        })} onSubmit={(e)=>submitChange(e)} >
         <div className={styles['reset-page-div']} >
         <CsrfToken></CsrfToken>
         <div className={styles['navig-wrapper']}>
@@ -70,7 +75,10 @@ export default function PasswordResetAsk(){
        <div className={styles['page-wrapper']}>
             <h1>Reset Password Page</h1>
             <input className={styles["email-inp"]} name='email' required value={email.email} onChange={(e)=>handleChange(e)} placeholder='insert your email here'></input>
-            <button  style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} disabled={disabled}  className={styles['reset-button']} type='submit'>{disabled?<div  className={theme.setBg=='white'?styles["lds-ring-white"]:styles['lds-ring']}><div></div><div></div><div></div><div></div></div>:'Send reset link'}</button>
+            <button  style={{backgroundColor:theme.setButtonColor,color:theme.setColor}} disabled={disabled}  className={`${styles['reset-button']} ${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+            })} ${styles['btn']}`} type='submit'>{disabled?<div  className={theme.setChecked?styles["lds-ring-white"]:styles['lds-ring']}><div></div><div></div><div></div><div></div></div>:'Send reset link'}</button>
             <Popup isSent={isSent}></Popup>
             </div>
             

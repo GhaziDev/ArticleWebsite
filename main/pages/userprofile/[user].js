@@ -3,6 +3,8 @@ import React,{ useState,useEffect,useContext} from "react";
 import HOST from "../../config.js";
 import Cookies from "js-cookie";
 
+import {clsx} from 'clsx';
+
 import {themeContext} from '../../pages/_app';
 
 /*
@@ -25,7 +27,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 import { AuthContext } from "../../store/provider.js";
 import { useRouter } from "next/router";
-import styles from '../../styles/styling/App.module.css'
+import styles from '../../styles/styling/App.module.scss'
 import dynamic from 'next/dynamic'
 import useSWR from "swr";
 
@@ -77,25 +79,28 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
   };
   return(
     <>
-    <ListAllArticles articles={currentItems} theme={theme} />
-    <div className={styles["paginator"]} >
+      <div className={`${styles["paginator"]} `}>
     <ReactPaginate
       breakLabel="..."
-      nextLabel={<ArrowForwardIosIcon></ArrowForwardIosIcon>}
+      nextLabel={<ArrowForwardIosIcon className={`${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}  ${styles['btn']}`}></ArrowForwardIosIcon>}
       onPageChange={(e)=>handlePageClick(e)}
       pageRangeDisplayed={5}
       pageCount={pageCount}
       pageClassName={styles["page-item"]}
-      pageLinkClassName={styles["page-link"]}
-      previousClassName={styles["page-item"]}
-      previousLinkClassName={styles["page-link"]}
-      nextClassName={styles["page-item"]}
-      nextLinkClassName={styles["page-link"]}
+      pageLinkClassName={`${styles["page-link"]}`}
+      previousClassName={`${styles["page-item"]}`}
+      previousLinkClassName={`${styles["page-link"]}`
+    }
+      nextClassName={`${styles["page-item"]}`
+    }
+      nextLinkClassName={`${styles["page-link"]}`}
       breakClassName={styles["page-item"]}
       breakLinkClassName={styles["page-link"]}
-      containerClassName={styles["pagination"]}
-      activeClassName={styles["active"]}
-      previousLabel={<ArrowBackIosIcon></ArrowBackIosIcon>}
+      containerClassName={`${styles["pagination"]}
+      ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}
+      activeClassName={`${styles["active"]}  ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}`}
+      activeLinkClassName = {`${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}
+      previousLabel={<ArrowBackIosIcon className={`${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}></ArrowBackIosIcon>}
       renderOnZeroPageCount={null}
       marginPagesDisplayed={2}
     />
@@ -216,18 +221,18 @@ import Head from 'next/head'
 
   return(
     <div>
-    <button onClick={(e)=>setOpen(true)} style={{backgroundColor:theme.setButtonColor,color:theme.setColor}}  className={styles['ll-div']}>
+    <button onClick={(e)=>setOpen(true)}  className={`${styles['ll-div']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}  ${styles['btn']}`}>
     <Dialog className={styles['dialog-div']} open={open} onClose={(e)=>setOpen(false)} width='xl' >
     <form id='Form2' method='delete' onSubmit={(e)=>submitUsernameCheck(e)}/>
 
-    <div className={styles['edit-profile-div']} style={{backgroundColor:theme.setBg,color:theme.setTextColor}}>
+    <div className={`${styles['edit-profile-div']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}`}>
       
       <form onSubmit={(e)=>{e.preventDefault()  
         setOpen(false)}} className={styles['back-btn-form']} >
       <button  type='cancel' className={styles['back-btn']}>&larr;</button>
       </form>
       <h1 style={{textAlign:'center'}}>Edit Your Profile</h1>
-        <form method='POST' id='Form1' className={styles['edit-profile-form']} onSubmit={(e)=>submitChange(e)} style={{backgroundColor:theme.setBg,color:theme.setColor,}}>
+        <form method='POST' id='Form1' className={`${styles['edit-profile-form']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} `} onSubmit={(e)=>submitChange(e)} >
           <div className={styles['edit-img-div']}>
         
           <img src={img} className={styles['edit-img']}></img>
@@ -244,13 +249,13 @@ import Head from 'next/head'
 
           <div className={styles['edit-bio-div']}>
           BIO
-          <input form='Form1' className={styles['bio-inp']} name='bio' value={bio} onChange={(e)=>handleChange(e,e.target.value)} style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}></input>
+          <input form='Form1' className={`${styles['bio-inp']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}  ${styles['btn']}`} name='bio' value={bio} onChange={(e)=>handleChange(e,e.target.value)} ></input>
           Account Deletion
-          <button  className={styles['delete-btn']} type="button" onClick={(e)=>setUserField(!userField)} name='bio' value={bio} style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}>Delete Account</button>
+          <button  className={`${styles['delete-btn']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}  ${styles['btn']}`} type="button" onClick={(e)=>setUserField(!userField)} name='bio' value={bio}>Delete Account</button>
           
           {userField?
           <div className={styles['deletion-section']}>
-          <input autoComplete="no" form='Form2' required onChange={(e)=>handleUserChange(e)} placeholder='Enter your username' value={user} className={styles['bio-inp']}  name='password' style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} ></input>
+          <input autoComplete="no" form='Form2' required onChange={(e)=>handleUserChange(e)} placeholder='Enter your username' value={user} className={`${styles['bio-inp']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}  ${styles['btn']}`}  name='password'  ></input>
           <div className={styles['txt']}>By Pressing Confirm you aknowledge that you can't retrieve your account back</div>
           <input disabled={disabled} form='Form2' type='submit' className={styles['delete-confirm']} value='Confirm' ></input>
           <div style={{color:'red'}}>{error}</div>
@@ -262,7 +267,7 @@ import Head from 'next/head'
 
 
          <div className={styles['submission-btn-div']}>
-          <input type='submit' form='Form1' value='Submit Change'  className={styles['submission-btn']}   style={{backgroundColor:theme.setButtonColor,color:theme.setColor,cursor:'pointer'}}></input>
+          <input type='submit' form='Form1' value='Submit Change'  className={`${styles['submission-btn']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}  ${styles['btn']}`}  style={{cursor:'pointer'}}></input>
 
           </div>
         </form>
@@ -413,7 +418,7 @@ function UserProfile(){
 
     return(
       userInfo?
-        <div className={styles['profile-div']} style={{backgroundColor:theme.setBg,color:theme.setColor}}>
+        <div className={`${styles['profile-div']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} `}>
           <Head>
 
           </Head>
@@ -422,7 +427,7 @@ function UserProfile(){
           
 
           <div className={styles['userinfo-div-wrapper']}>
-          <div className={styles['userinfo-div']} style={{backgroundColor:theme.setButtonColor}}>
+          <div className={`${styles['userinfo-div']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}  ${styles['btn']}`}>
             <form method={styles['post']} onSubmit={(e)=>handleSubmit(e)}>
             <div className={styles['img-div']}>
             <img className={styles['the-img']} src={userInfo.img}  />
@@ -435,11 +440,11 @@ function UserProfile(){
 
              </div>
 
-             <div className={styles['main']} style={{ backgroundColor: theme.setBg, color: theme.setTextColor}}>
+             <div className={`${styles['main']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} `}>
              <Filter isHiddenInput={true} setArticleList={setArticleList} user={userInfo.user}></Filter>
              <div className={styles['switch-btns']}>
-             <button style={{backgroundColor:theme.setButtonColor,borderColor:btnState.btn1?theme.setTextColor:theme.setBg,color:theme.setTextColor}} className={styles['switch-btn1']} value={'btn1'} onClick={(e)=>{handleBtnSwitch(e)}}>{userInfo.user}'s Articles</button>
-             <button style={{backgroundColor:theme.setButtonColor,borderColor:btnState.btn2?theme.setTextColor:theme.setBg,color:theme.setTextColor}} className={styles['switch-btn2']} value={'btn2'} onClick={(e)=>{handleBtnSwitch(e)}}>Favorites</button>
+             <button style={{borderColor:btnState.btn1?(theme.setChecked?'white':'black'):theme.setChecked?'#1b1b1b':'white'}} className={`${styles['switch-btn1']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}  ${styles['btn']}`} value={'btn1'} onClick={(e)=>{handleBtnSwitch(e)}}>{userInfo.user}'s Articles</button>
+             <button style={{borderColor:btnState.btn2?(theme.setChecked?'white':'black'):theme.setChecked?'#1b1b1b':'white'}} className={`${styles['switch-btn2']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}  ${styles['btn']}`} value={'btn2'} onClick={(e)=>{handleBtnSwitch(e)}}>Favorites</button>
              </div>
              <SwitchArticles theme={theme} articleList={articleList} likedArticlesList={likedArticlesList} btn1={btnState.btn1} btn2 ={btnState.btn2}></SwitchArticles>
 

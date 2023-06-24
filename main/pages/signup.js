@@ -6,7 +6,8 @@ import HOST from "../config";
 import dynamic from 'next/dynamic'
 import { themeContext } from "../pages/_app";
 import { useRouter } from "next/router";
-import styles from '../styles/styling/signup.module.css';
+import styles from '../styles/styling/signup.module.scss';
+import {clsx} from 'clsx';
 
 const Dialog = dynamic(()=>import('@mui/material/Dialog'))
 const Checkbox = dynamic(()=>import('@mui/material/Checkbox'))
@@ -213,7 +214,10 @@ const Signup = () => {
 }
 
   return (
-    <div className={styles["signup-page"]} style={{backgroundColor:theme.setBg}}>
+    <div className={`${styles["signup-page"]} ${clsx({
+      [styles.dark]:theme.setChecked,
+      [styles.light]:!theme.setChecked
+    })}`} >
       <div className={styles['navig-side']}>
         <Navigation></Navigation>
        </div>
@@ -227,7 +231,12 @@ const Signup = () => {
         autoCorrect="off"
       >
         <CsrfToken></CsrfToken>
-        <div className={styles["signup-form"]} style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}>
+        <div className={`${styles["signup-form"]}
+        ${clsx({
+          [styles.dark]:theme.setChecked,
+          [styles.light]:!theme.setChecked
+        })}
+         ${styles['btn']}`} >
           <h1>Signup Page</h1>
           <input
             minLength={6}
@@ -235,42 +244,60 @@ const Signup = () => {
             required
             type="text"
             name="username"
-            className={styles["username"]}
+            className={`${styles["username"]}
+            ${clsx({
+              [styles.dark]:theme.setChecked,
+              [styles.light]:!theme.setChecked
+            })}`}
             onChange={(e) => handleChange(e)}
             placeholder="Username"
             value={username}
-            style={{backgroundColor:theme.setBg,color:theme.setTextColor}}
+
           ></input>
           <div style={style}>{innerHtml.username}</div>
           <input
             required
             type="email"
             name="email"
-            className={styles["username"]}
+            className={`${styles["username"]}
+            ${clsx({
+              [styles.dark]:theme.setChecked,
+              [styles.light]:!theme.setChecked
+            })}`}
             onChange={(e) => handleChange(e)}
             placeholder="Email"
             value={email}
-            style={{backgroundColor:theme.setBg,color:theme.setTextColor}}
           ></input>
           <div style={{color:'red'}}>{error}</div>
           <input
             required
             type={type}
             name="password"
-            className={styles["username"]}
+            className={`${styles["username"]}
+            ${clsx({
+              [styles.dark]:theme.setChecked,
+              [styles.light]:!theme.setChecked
+            })}`}
             onChange={(e) => handleChange(e)}
             placeholder="Password"
             value={password}
-            style={{backgroundColor:theme.setBg,color:theme.setTextColor}}
           ></input>
-          <Checkbox className={styles['hide-show']} type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon style={{color:theme.setColor}}/>} checkedIcon={<VisibilityOffIcon/>} />
+          <Checkbox className={styles['hide-show']} type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon style={{color:theme.setChecked?'white':'black'}}/>} checkedIcon={<VisibilityOffIcon/>} />
           <div className={style['errorMsgs']} >{listPasswordErrors()}</div>
 
           <VerfiyAcc isUp={isUp}></VerfiyAcc>
-          <button type="submit" className={styles["signupsbmt"]} disabled={disabled}  style={{backgroundColor:theme.setBg,color:theme.setColor}}>
-            {disabled?<div className={theme.setBg=="#1b1b1b"?styles["lds-ring"]:styles['lds-ring-white']}><div></div><div></div><div></div><div></div></div>:'Signup'}
+          <button type="submit" className={`${styles["signupsbmt"]}
+
+          ${clsx({
+            [styles.dark]:theme.setChecked,
+            [styles.light]:!theme.setChecked
+          })}`} disabled={disabled}  >
+            {disabled?<div className={theme.setChecked?styles["lds-ring"]:styles['lds-ring-white']}><div></div><div></div><div></div><div></div></div>:'Signup'}
           </button>
-          <button   type='button' style={{color:theme.setTextColor,backgroundColor:theme.setButtonColor,border:'none'}} onClick={(e)=>redirect.replace('/login')}>Already have an account?</button>
+          <button  className={`${clsx({
+      [styles.dark]:theme.setChecked,
+      [styles.light]:!theme.setChecked
+    })} ${styles['btn']}`} type='button' style={{border:'none'}} onClick={(e)=>redirect.replace('/login')}>Already have an account?</button>
         </div>
       </form>
       </div>

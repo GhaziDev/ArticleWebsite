@@ -8,8 +8,10 @@ import {ThemeSwitch} from '../components/navig'
 import HOST from '../config.js';
 import { AuthContext } from '../store/provider';
 import { useRouter } from 'next/router.js';
-import styles from '../styles/styling/login.module.css'
+import styles from '../styles/styling/login.module.scss'
 import dynamic from 'next/dynamic'
+
+import {clsx} from 'clsx'
 
 const Navigation = dynamic(()=>import('../components/navig'))
 const Checkbox = dynamic(()=>import('@mui/material').then((mod)=>mod.Checkbox))
@@ -42,23 +44,52 @@ function IsAuthenticated({auth,handleChange,handleSubmit,email,password,errored,
         }
     }
         if(auth){
-            return <div  id='loggedin' style={{color:theme.setColor}}>You are already logged in <Link href='/' style={{color:'green'}}>Back to main page</Link></div>
+            return <div  id='loggedin' className={clsx({
+                [styles.dark]: theme.setChecked,
+                [styles.light]:!theme.setChecked
+            })}>You are already logged in <Link href='/' style={{color:'green'}}>Back to main page</Link></div>
         }
         return (
            
-            <form onSubmit={(e)=>handleSubmit(e)}  method='post' id='loginform' style={{backgroundColor:theme.setButtonColor,color:theme.setColor}}>
-                <div  className = {styles['login-form']} style={{backgroundColor:theme.setButtonColor,color:theme.setColor}}>
+            <form onSubmit={(e)=>handleSubmit(e)}  method='post' id='loginform' className={clsx({
+                [styles.dark]: theme.setChecked,
+                [styles.light]:!theme.setChecked
+            })}>
+                <div  className = {`${styles['login-form']}
+                ${clsx({
+                    [styles.dark]: theme.setChecked,
+                    [styles.light]:!theme.setChecked
+                })}`} >
 
                 <CsrfToken/>
-                <h1 style={{color:theme.setColor}}>Login Page</h1>
-                <input  type='email' className={styles['email']} name='email' onChange={(e)=>handleChange(e)} value={email} placeholder='Email' autoComplete='off' style={{backgroundColor:theme.setBg,color:theme.setTextColor}}></input>
+                <h1 style={{color:theme.setChecked?'white':'black'}}>Login Page</h1>
+                <input  type='email' className={`${styles['email']}
+                ${clsx({
+                    [styles.dark]: theme.setChecked,
+                    [styles.light]:!theme.setChecked
+                })} ${styles['btn']}`} name='email' onChange={(e)=>handleChange(e)} value={email} placeholder='Email' autoComplete='off' ></input>
 
-                <input type={type} className={styles['email']} name='password' onChange={(e)=>handleChange(e)} value={password} placeholder='Password' style={{backgroundColor:theme.setBg,color:theme.setTextColor}}></input>
+                <input type={type} className={`${styles['email']}
+                ${clsx({
+                    [styles.dark]: theme.setChecked,
+                    [styles.light]:!theme.setChecked
+                })} ${styles['btn']}`} name='password' onChange={(e)=>handleChange(e)} value={password} placeholder='Password'></input>
                 <Checkbox className={styles['hide-show']} type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon style={{color:theme.setColor}}/>} checkedIcon={<VisibilityOffIcon/>} />
 
-                <button  type='submit' className={styles['user-link']}style={{backgroundColor:theme.setBg,color:theme.setTextColor}}>Login</button>
-                <button type='button' onClick={(e)=>redirect.push('/signup')} className={styles['user-link']}style={{backgroundColor:theme.setBg,color:theme.setTextColor}}>New User?</button>
-                <button type='button' onClick={(e)=>redirect.push('/reset')} className={styles['user-link']} style={{backgroundColor:theme.setBg,color:theme.setTextColor}}>Forgot Password?</button>
+                <button  type='submit' className={`${styles['user-link']} ${clsx({
+                [styles.dark]: theme.setChecked,
+                [styles.light]:!theme.setChecked
+            })} ${styles['btn']}`} >Login</button>
+                <button type='button' onClick={(e)=>redirect.push('/signup')} className={`${styles['user-link']}
+                ${clsx({
+                    [styles.dark]: theme.setChecked,
+                    [styles.light]:!theme.setChecked
+                })} ${styles['btn']}`}>New User?</button>
+                <button type='button' onClick={(e)=>redirect.push('/reset')} className={`${styles['user-link']}
+                ${clsx({
+                    [styles.dark]: theme.setChecked,
+                    [styles.light]:!theme.setChecked
+                })} ${styles['btn']}`} >Forgot Password?</button>
                 <WrongUserPass errored={errored} errorText={errorText}></WrongUserPass>
                 </div>
             </form>
@@ -118,7 +149,10 @@ const Login = ()=>{
 
 
     return(
-        <div className={styles['login-page']} id='loginpage' style={{backgroundColor:theme.setBg}}>
+        <div className={`${styles['login-page']} ${clsx({
+            [styles.dark]: theme.setChecked,
+            [styles.light]:!theme.setChecked
+        })} ${styles['btn']}`} id='loginpage'>
             <CsrfToken></CsrfToken>
             <div className={styles['navig-side']}>
                 <Navigation/>

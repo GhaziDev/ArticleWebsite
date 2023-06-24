@@ -17,9 +17,10 @@ import { AuthContext } from '../store/provider';
 import remarkGemoji from 'remark-gemoji';
 import { oneDark,oneLight} from 'react-syntax-highlighter/dist/cjs/styles/prism'
 import { useRouter } from "next/router";
-import styles from '../styles/styling/createArticle.module.css'
+import styles from '../styles/styling/createArticle.module.scss'
 import { currentUser } from "../store/currentprovider";
 import dynamic from 'next/dynamic'
+import {clsx} from 'clsx';
 const Navigation = dynamic(()=>import('../components/navig'))
 
 let host = HOST
@@ -29,7 +30,7 @@ const Markdown = memo(function Markdown({children,theme}){
   return <ReactMarkDown
   children={children}
   theme={theme}
-  className={theme.setClassName}
+  className={`${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}
                     remarkPlugins={[
                       remarkGfm,
                       remarkMath,
@@ -164,7 +165,7 @@ function ArticleCreation(){
 
 if(isAuth){
 return(
-    <div className={styles['main-content']} style={{backgroundColor:theme.setBg,color:theme.setTextColor}}>
+    <div className={`${styles['main-content']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}`}>
         <Navigation></Navigation>
         <div className={styles['page-name']}>
         <h1>Article Creation Page</h1>
@@ -172,10 +173,10 @@ return(
         <div className={styles['container']}>
        
             <form className={styles['article-form']} onSubmit={(e)=>handleSubmit(e)}>
-            <div className={styles['upper-container']} style={{backgroundColor:theme.setButtonColor}}>
+            <div className={`${styles['upper-container']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}>
             <div className={styles['title-div']}>
-                <textarea placeholder="Write the title here.." required minLength={20} maxLength={60}  className={styles['title-input']} name='title' value={title} onChange={(e)=>handleChange(e)}
-                style={{borderColor:theme.setTextColor,backgroundColor:theme.setButtonColor,color:theme.setTextColor}}></textarea>
+                <textarea placeholder="Write the title here.." required minLength={20} maxLength={60}  className={`${styles['title-input']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`} name='title' value={title} onChange={(e)=>handleChange(e)}
+               ></textarea>
           </div>
         <div className={styles["title-img"]}>
           <label required htmlFor="upload" className={styles["imglbl"]} alt='Error' >
@@ -193,7 +194,7 @@ return(
         ></input>
           </div>
                 <div className={styles['tag-input']}>
-                    <select placeholder='choose' name='tag' required className={styles['tag-selection']}  onChange={(e)=>handleChange(e)} style={{backgroundColor:theme.setBg,color:theme.setTextColor}}>
+                    <select placeholder='choose' name='tag' required className={`${styles['tag-selection']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}`}  onChange={(e)=>handleChange(e)} >
                         <option onChange={(e)=>handleChange(e)} value='' >Select a Tag</option>
                         {tagList?.map((tag) => {
                             return <option name ='tag' onChange={(e)=>handleChange(e)} key='tag' value={tag}>{tag.charAt(0).toUpperCase()+tag.slice(1)}</option>
@@ -204,7 +205,7 @@ return(
 
             
             <div className={styles["description-container"]}>
-                <textarea placeholder="Write the description here..." style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} minLength={2000} required className={styles['description-input']} value={description} name='description' onChange={(e)=>handleChange(e)}>
+                <textarea placeholder="Write the description here..."  minLength={2000} required className={`${styles['description-input']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`} value={description} name='description' onChange={(e)=>handleChange(e)}>
 
                 </textarea>
           
@@ -219,8 +220,8 @@ return(
           type="submit"
           id="confirmBtn"
           value="default"
-          className={styles["article-submit"]}
-          style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}
+          className={`${styles["article-submit"]} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}
+    
           disabled={disabled}
         >
           <span>{disabled?<div class={styles["lds-ring"]}><div></div><div></div><div></div><div></div></div>:'Post'}</span>
@@ -229,8 +230,8 @@ return(
             </form>
 
             <div className={styles['preview-container']}>
-                <div  style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} className={styles['description-output']}>
-                <h1 style={{color:theme.setBg==='#1b1b1b'?'yellowgreen':'green'}}>Preview</h1>
+                <div  className={`${styles['description-output']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}>
+                <h1 style={{color:theme.setChecked?'yellowgreen':'green'}}>Preview</h1>
                     <Markdown  theme={theme} children={description} ></Markdown>
                 </div>
 

@@ -331,6 +331,7 @@ class CommentView(viewsets.ModelViewSet):
             return Response("Comment deleted!",status=200)
         else:
             return Response("You do not own this comment!",status=401)
+    @method_decorator(ensure_csrf_cookie)
     def update(self,request,pk):
         serializer_class = serializer.OnEditSerializer
         instance = models.Comment.objects.get(_id=pk)

@@ -9,15 +9,15 @@ import ListAllArticles, {Filter} from '../components/filtertag';
 
 import {DisplayDialogOrLogin} from "../components/displayarticles.js";
 import ReactPaginate from 'react-paginate';
-import HOST from '../config';
-
 /*
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 */
-import styles from '../styles/styling/articles.module.css'
+import styles from '../styles/styling/articles.module.scss'
 //import Head from "next/head";
 import dynamic from "next/dynamic.js";
+
+import {clsx} from 'clsx';
 
 
 
@@ -58,24 +58,28 @@ function PaginatedItems({ itemsPerPage,articleList,theme}) { //managing items by
   return(
     <>
     <ListAllArticles articles={currentItems} theme={theme} />
-    <div className={styles["paginator"]} >
+    <div className={`${styles["paginator"]} `}>
     <ReactPaginate
       breakLabel="..."
-      nextLabel={<ArrowForwardIosIcon></ArrowForwardIosIcon>}
+      nextLabel={<ArrowForwardIosIcon className={`${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}  ${styles['btn']}`}></ArrowForwardIosIcon>}
       onPageChange={(e)=>handlePageClick(e)}
       pageRangeDisplayed={5}
       pageCount={pageCount}
       pageClassName={styles["page-item"]}
-      pageLinkClassName={styles["page-link"]}
-      previousClassName={styles["page-item"]}
-      previousLinkClassName={styles["page-link"]}
-      nextClassName={styles["page-item"]}
-      nextLinkClassName={styles["page-link"]}
+      pageLinkClassName={`${styles["page-link"]}`}
+      previousClassName={`${styles["page-item"]}`}
+      previousLinkClassName={`${styles["page-link"]}`
+    }
+      nextClassName={`${styles["page-item"]}`
+    }
+      nextLinkClassName={`${styles["page-link"]}`}
       breakClassName={styles["page-item"]}
       breakLinkClassName={styles["page-link"]}
-      containerClassName={styles["pagination"]}
-      activeClassName={styles["active"]}
-      previousLabel={<ArrowBackIosIcon></ArrowBackIosIcon>}
+      containerClassName={`${styles["pagination"]}
+      ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}
+      activeClassName={`${styles["active"]}  ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}`}
+      activeLinkClassName = {`${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}
+      previousLabel={<ArrowBackIosIcon className={`${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}></ArrowBackIosIcon>}
       renderOnZeroPageCount={null}
       marginPagesDisplayed={2}
     />
@@ -93,8 +97,7 @@ const Articles = () => {
 
   let [articleList, setArticleList] = useState([]);
   let {theme} = useContext(themeContext)
-  let [isLoading,setIsLoading] = useState(true)
-  console.log("here")
+  let [isLoading,setIsLoading] = useState(true) // will be used for skeleton loading
 
   useEffect(()=>{
     setTimeout(()=>{setIsLoading(false)},1500)
@@ -113,7 +116,10 @@ const Articles = () => {
 
   return (
     
-<div style={{ backgroundColor: theme.setBg, color: theme.setTextColor}} className={styles['main']}>
+<div  className={`${styles['main']} ${clsx({
+  [styles.dark]:theme.setChecked,
+  [styles.light]:!theme.setChecked
+})}`}>
 
       <Head>
         <title>Globe of Articles</title>
@@ -134,16 +140,18 @@ const Articles = () => {
 
       <div className={styles['main-containers-div']}>
         <div className={styles['website-header']}>
+        <div className={styles['headerImg']}>
+            <img height='300' width='1000'  src={!theme.setChecked?'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/logo_7.png':'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/logo_8.png'}/>
+
+            </div>
           <div className={styles['website-header-div']}>
-        <h1>A World of <span style={{color:theme.setBg=='#1b1b1b'?'rgb(60, 207, 78)':'#3CCF4E'}}>Articles</span></h1>
-        <h2>Globeofarticles is a website that give you the space to express your opinion and to share you experience
-          across different topics.
-        </h2>
+            
         <div className={styles['btns-wrapper']}>
         <DisplayDialogOrLogin></DisplayDialogOrLogin>
         <button onClick={(e)=>{
           window.open('https://www.markdownguide.org/cheat-sheet/')
-        }} style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} className={styles['create-article-input']}>Markdown Guide</button>
+        }}  className={`${styles['create-article-input']}
+        ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}>Markdown Guide</button>
         </div>
         </div>
         </div>
@@ -153,7 +161,10 @@ const Articles = () => {
         <Filter setArticleList={setArticleList}  isHiddenInput={false} user={''}/>
         </div>
 
-<div className={styles["parent-grid"]} >
+<div className={`${styles["parent-grid"]} ${clsx({
+  [styles.dark]:theme.setChecked,
+  [styles.light]:!theme.setChecked
+})}` } >
   <PaginatedItems articleList={articleList} theme={theme} itemsPerPage={4}/>
 
       </div>
