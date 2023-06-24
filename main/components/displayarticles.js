@@ -9,10 +9,10 @@ import {MenuItem,Menu,Fade,Button} from '@mui/material';
 import { EditProfile } from '../pages/userprofile/[user]';
 import HOST from '../config.js'
 import { useRouter } from 'next/router';
-import styles from '../styles/styling/displayarticles.module.css'
+import styles from '../styles/styling/displayarticles.module.scss'
+import {clsx} from 'clsx';
 
 const host = HOST
-
 
 
 function DisplayDialogOrLogin(){
@@ -88,7 +88,10 @@ function DisplayDialogOrLogin(){
 
     return(
       <div className={styles['create-article-wrapper']}>
-      <div className={styles['create-article-div']} style={{backgroundColor:theme.setButtonColor}}>
+      <div className={`${styles['create-article-div']} ${clsx({
+        [styles.dark]:theme.setChecked,
+        [styles.light]:!theme.setChecked,
+      })} ${styles['btn']}`}>
       <button className={styles['create-article-input']} onClick={isAuth?(e)=>redirect.replace('/create'):(e)=>redirect.replace('/login')} placeholder='Create an Article' style={{backgroundColor:'#3CCF4E'}} >Create Article</button>
     </div>
     </div>
@@ -138,8 +141,13 @@ function DisplayDialogOrLogin(){
         id="fade-button"
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
+        className={clsx({
+            [styles.dark]:theme.setChecked,
+            [styles.light]:!theme.setChecked,
+          })
+        }
         aria-expanded={open ? 'true' : undefined}
-        style={{backgroundColor:theme.setBg,paddingBottom:'10px',borderRadius:'50%'}}
+        style={{paddingBottom:'10px',borderRadius:'50%'}}
         onClick={handleClick}>
           <img className={styles['profile-img' ]}src={current.img}/>
       </Button>
@@ -154,9 +162,18 @@ function DisplayDialogOrLogin(){
         onClose={handleClose}
         TransitionComponent={Fade}
         >
-            <MenuItem><button className={styles['ll-div']} style = {{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} onClick={(e)=>{redirect.replace(`/userprofile/${current.user}/`)}}>My Profile</button></MenuItem>
-            <MenuItem><EditProfile username={current.user} className={styles['ll-div']} style = {{backgroundColor:theme.setButtonColor,color:theme.setTextColor}}>Settings</EditProfile></MenuItem>
-            <MenuItem><button onClick={(e)=>redirectLogout(e)}  className={styles['ll-div']} style={{backgroundColor:theme.setButtonColor,color:theme.setTextColor}} >Logout </button></MenuItem>
+            <MenuItem><button className={`${styles['ll-div']} ${clsx({
+        [styles.dark]:theme.setChecked,
+        [styles.light]:!theme.setChecked,
+      })} ${styles['btn']}`}  onClick={(e)=>{redirect.replace(`/userprofile/${current.user}/`)}}>My Profile</button></MenuItem>
+            <MenuItem><EditProfile username={current.user} className={`${styles['ll-div']} ${clsx({
+        [styles.dark]:theme.setChecked,
+        [styles.light]:!theme.setChecked,
+      })} ${styles['btn']}`} >Settings</EditProfile></MenuItem>
+            <MenuItem><button onClick={(e)=>redirectLogout(e)}  className={`${styles['ll-div']} ${clsx({
+        [styles.dark]:theme.setChecked,
+        [styles.light]:!theme.setChecked,
+      })} ${styles['btn']}`} >Logout </button></MenuItem>
         </Menu>
         </span>
     )
@@ -205,8 +222,14 @@ function LoginOrLogout(){ //Login Or Logout component
     }
     return(
       <div className={styles['right-div']}>
-            <div className={styles['l-div']} style={{color:theme.setTextColor}} onClick={()=>handleRedirectLogin()}>Login</div>
-            <div onClick = {()=>handleRedirectSignUp()} style={{color:theme.setTextColor}} className={styles['l-div']}>Signup</div>
+            <div className={`${styles['l-div']} ${clsx({
+        [styles.dark]:theme.setChecked,
+        [styles.light]:!theme.setChecked,
+      })}`}  onClick={()=>handleRedirectLogin()}>Login</div>
+            <div onClick = {()=>handleRedirectSignUp()}  className={`${styles['l-div']} ${clsx({
+        [styles.dark]:theme.setChecked,
+        [styles.light]:!theme.setChecked,
+      })}`}>Signup</div>
             </div>
         )
 

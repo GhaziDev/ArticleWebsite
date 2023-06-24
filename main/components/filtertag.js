@@ -10,7 +10,8 @@ import {FavoriteBorderIcon} from '@mui/icons-material'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import { useRouter } from 'next/router';
 import Link from 'next/link'
-import styles from '../styles/styling/filtertag.module.css'
+import styles from '../styles/styling/filtertag.module.scss'
+import {clsx} from 'clsx'
 
 
 
@@ -23,7 +24,10 @@ function ListAllArticles({ articles,theme}){
       return articles.map((article) => {
         return (
           <div
-            className={styles["articles"]} key={article._id.toString()+'1'}
+            className={`${styles["articles"]} ${clsx({
+              [styles.dark]:theme.setChecked,
+              [styles.light]:!theme.setChecked
+            })} ${styles['btn']}`} key={article._id.toString()+'1'}
             style={{ backgroundColor: theme.setButtonColor}}
           >
             <Link key={article._id.toString()}
@@ -34,29 +38,45 @@ function ListAllArticles({ articles,theme}){
               <div key={article.thumb_img.toString()+"1"} className={styles['image-div']}>
               <img key={article.thumb_img} src={article.thumb_img} className={styles["image"]} />
               </div>
-              <div key={article.tag_id+"1"} className={styles['article-tag-like']}>
-                <button key={article.tag_id} style={{ backgroundColor:theme.setBg,color: theme.setColor }} className={styles['tag-sec']}>{article.tag}</button>
-                <div key={article.likes} className={styles['article-like-div']} style={{color:theme.setTextColor}}>
+              <div key={article.tag_id+"1"} className={`${styles['article-tag-like']} ${clsx({
+                  [styles.dark]:theme.setChecked,
+                  [styles.light]:!theme.setChecked})} ${styles['btn']}`}>
+                <button key={article.tag_id} className={`${styles['tag-sec']} ${clsx({
+                  [styles.dark]:theme.setChecked,
+                  [styles.light]:!theme.setChecked
+                })}`}>{article.tag}</button>
+                <div key={article.likes} className={`${styles['article-like-div']} ${clsx({
+                  [styles.dark]:theme.setChecked,
+                  [styles.light]:!theme.setChecked})} ${styles['btn']}` } >
                 <FavoriteIcon key={article.likes+1} style={{color:'red'}} />
                 {article.likes}</div>
                 </div>
-      <div  key={article.title+"1"} className={styles['title-card']}>
-              <h4 key={article.title} className={styles["title"]} style={{color:theme.setColor}} >
+      <div  key={article.title+"1"} className={`${styles['title-card']} ${clsx({
+                  [styles.dark]:theme.setChecked,
+                  [styles.light]:!theme.setChecked})} ${styles['btn']}`}>
+              <h4 key={article.title} className={styles["title"]} >
                 {article.title}
               </h4>
               </div>
     
               
               <div key={article.user_id+1} className={styles['separator']}>
-                <div key={article.user_id+2} className={styles['userinfo']}>
-              <h4 key={article.user_id} className={styles["user"]}  style={{color:theme.setColor}}>
+                <div key={article.user_id+2} className={`${styles['userinfo']} ${clsx({
+                  [styles.dark]:theme.setChecked,
+                  [styles.light]:!theme.setChecked})} ${styles['btn']}`}>
+              <h4 key={article.user_id} className={styles["user"]}  >
                 {" "}
                 <img key={article.user_profile.toString()} src={article.user_profile}/> {article.user}
               </h4>
               </div>
-              <h4 key={article.date.toString()} className={styles["date"]}  style={{color:theme.setColor}}>
-                <FontAwesomeIcon  key={article.date.toString()+"1"} icon="fa-solid fa-calendar" /> {article.date}
+              <div className={`${styles["date"]} ${clsx({
+                [styles.dark]:theme.setChecked,
+                [styles.light]:!theme.setChecked
+              })} ${styles['btn']}`}>
+              <h4 key={article.date.toString()}   >
+                 {article.date}
               </h4>
+              </div>
               </div>
             </Link>
           </div>
@@ -141,10 +161,10 @@ function Filter({isHiddenInput,setArticleList,user}){
 
 
       return(
-        <div className={styles['container-div']}>
-        <div className={styles['sort-container']} style={{backgroundColor:theme.setButtonColor}}  >
+        <div className={`${styles['container-div']} `}>
+        <div className={`${styles['sort-container']} `} >
 
-<div className="sortby" >
+<div className={`${styles["sortby"]} `} >
   <button onClick={(e)=>setOpen(true)} className={styles['search-input']} style={{backgroundColor:'white'}}>Filter by Tag</button>
   <Dialog open={open} onClose={(e)=>setOpen(false)} minWidth='xl'>
     <div className={styles['filter-dialog']}>

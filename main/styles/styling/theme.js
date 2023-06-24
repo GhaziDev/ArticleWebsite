@@ -27,7 +27,7 @@ const Input = styled.input.attrs({type:"checkbox"})`
 
 
 const Slider = styled.span`
-position:absolute;
+display: inline-block;
 z-index:4;
 cursor:pointer;
 top:1px;
@@ -36,16 +36,19 @@ left:10px;
 bottom:0;
 transition: 0.9s;
 height:50px;
-border-radius: 3px;
-background-color:${props=>props.theme.setTextColor};
+width:50px;
+border-radius: 50%;
+background-color:${props=>props.theme.setChecked?'white':'black'};
 &:before{
-    position: absolute;
+    display:block;
+    position:relative;
     content:"";
     height:30px;
     width:30px;
-    left:27%;
-    bottom:20%;
-    border-radius: 20px;
+    border-radius: 50%;
+    top:20%;
+    left:20%;
+
     background:url(${props=>props.theme.setIcon});
 
 };

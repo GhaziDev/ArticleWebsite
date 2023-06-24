@@ -13,57 +13,30 @@ import styles from '../styles/styling/navig.module.css'
 
 function ThemeSwitch(){
     const {theme,setTheme} = useContext(themeContext)
-    const [checked,setChecked] = useState(typeof window !== "undefined" ? localStorage.getItem('checked'):false)
 
     const [domLoaded,setDomLoaded] = useState(false)
    
     let handleChange = (e)=>{
         if(e.target.checked){
-            typeof window !== "undefined" ? localStorage.setItem('theme','#1b1b1b'):false
             typeof window !== "undefined" ? localStorage.setItem('checked',e.target.checked):false
-            typeof window !== "undefined" ? localStorage.setItem('color','#ffffff'):false
-            typeof window !== "undefined" ? localStorage.setItem('buttonColor','rgb(37,37,37)'):false
-            typeof window !== "undefined" ? localStorage.setItem('textColor','#ffffff'):false
             typeof window !== "undefined" ? localStorage.setItem('icon', 'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/media/dark-mode-icon.svg'):false
-            typeof window !== "undefined" ? localStorage.setItem('className','dark'):false
             setTheme({
 
-            setBg:typeof window !== "undefined" ? localStorage.getItem('theme'):false,
-            setButtonColor:typeof window !== "undefined" ? localStorage.getItem('buttonColor'):false,
-            setColor:typeof window !== "undefined" ? localStorage.getItem('color'):false,
-            setTextColor:typeof window !== "undefined" ? localStorage.getItem('textColor'):false,
             setIcon:typeof window !== "undefined" ? localStorage.getItem('icon'):false,
-            setClassName:typeof window !== "undefined" ? localStorage.getItem('className'):false
+            setChecked: e.target.checked,
             }
             )
-
-            setChecked(
-                true
-            )
-            
+            console.log(theme.setChecked)
             
 
         }
         else{
-            typeof window !== "undefined" ? localStorage.setItem('theme','white'):false
             typeof window !== "undefined" ? localStorage.setItem('checked',e.target.checked):false
-            typeof window !== "undefined" ? localStorage.setItem('color','black'):false
-            typeof window !== "undefined" ? localStorage.setItem('buttonColor','#F5F5F6'):false
-            typeof window !== "undefined" ? localStorage.setItem('textColor','black'):false
             typeof window !== "undefined" ? localStorage.setItem('icon','https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/media/sun-color-icon.svg'):false
-            typeof window !== "undefined" ? localStorage.setItem('className','light'):false
-
             setTheme({
-            setBg:typeof window !== "undefined" ? localStorage.getItem('theme'):false,
-            setButtonColor:typeof window !== "undefined" ? localStorage.getItem('buttonColor'):false,
-            setColor:typeof window !== "undefined" ? localStorage.getItem('color'):false,
-            setTextColor:typeof window !== "undefined" ? localStorage.getItem('textColor'):false,
             setIcon:typeof window !== "undefined" ? localStorage.getItem('icon'):false,
-            setClassName:typeof window !== "undefined" ? localStorage.getItem('className'):false
+            setChecked:e.target.checked
             }
-                )
-            setChecked(
-                    false
                 )
 
 
@@ -77,7 +50,7 @@ function ThemeSwitch(){
 
     return(
         <Switch hidden={domLoaded}>
-        <Input  defaultChecked={checked==='true'?true:false} onChange={(e)=>handleChange(e)}  theme={theme} name='theme'/>
+        <Input  defaultChecked={theme.setChecked} onChange={(e)=>handleChange(e)}  theme={theme} name='theme'/>
         <Slider theme={theme} ></Slider>
         </Switch>
     )
@@ -101,7 +74,7 @@ function Navigation(){
 
         <div className={styles['nav-div']} >
                <div className={styles['nav-div-left']}>
-            <div style = {{color:theme.setTextColor}} className={styles['l-div']}  onClick={(e)=>redirect.replace('/')}>Home</div>
+            <div style = {{color:theme.setTextColor}} className={styles['l-div']}  onClick={(e)=>redirect.replace('/')}><img width='60' height='60' src='/static/logo_favicon.png'></img></div>
             <Rules></Rules>
             <LoginOrLogout></LoginOrLogout>
             {(redirect.pathname.startsWith('/userprofile')||redirect.pathname.startsWith('/article'))?<button
