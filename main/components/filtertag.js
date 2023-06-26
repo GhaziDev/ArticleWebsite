@@ -25,8 +25,8 @@ function ListAllArticles({ articles,theme}){
         return (
           <div
             className={`${styles["articles"]} ${clsx({
-              [styles.dark]:theme.setChecked,
-              [styles.light]:!theme.setChecked
+              [styles.dark_]:theme.setChecked,
+              [styles.light_]:!theme.setChecked
             })} ${styles['btn']}`} key={article._id.toString()+'1'}
             style={{ backgroundColor: theme.setButtonColor}}
           >
@@ -39,21 +39,21 @@ function ListAllArticles({ articles,theme}){
               <img key={article.thumb_img} src={article.thumb_img} className={styles["image"]} />
               </div>
               <div key={article.tag_id+"1"} className={`${styles['article-tag-like']} ${clsx({
-                  [styles.dark]:theme.setChecked,
-                  [styles.light]:!theme.setChecked})} ${styles['btn']}`}>
+                  [styles.dark_]:theme.setChecked,
+                  [styles.light_]:!theme.setChecked})} ${styles['btn']}`}>
                 <button key={article.tag_id} className={`${styles['tag-sec']} ${clsx({
-                  [styles.dark]:theme.setChecked,
-                  [styles.light]:!theme.setChecked
+                  [styles.dark_]:theme.setChecked,
+                  [styles.light_]:!theme.setChecked
                 })}`}>{article.tag}</button>
                 <div key={article.likes} className={`${styles['article-like-div']} ${clsx({
-                  [styles.dark]:theme.setChecked,
-                  [styles.light]:!theme.setChecked})} ${styles['btn']}` } >
+                  [styles.dark_]:theme.setChecked,
+                  [styles.light_]:!theme.setChecked})} ${styles['btn']}` } >
                 <FavoriteIcon key={article.likes+1} style={{color:'red'}} />
                 {article.likes}</div>
                 </div>
       <div  key={article.title+"1"} className={`${styles['title-card']} ${clsx({
-                  [styles.dark]:theme.setChecked,
-                  [styles.light]:!theme.setChecked})} ${styles['btn']}`}>
+                  [styles.dark_]:theme.setChecked,
+                  [styles.light_]:!theme.setChecked})} ${styles['btn']}`}>
               <h4 key={article.title} className={styles["title"]} >
                 {article.title}
               </h4>
@@ -62,16 +62,16 @@ function ListAllArticles({ articles,theme}){
               
               <div key={article.user_id+1} className={styles['separator']}>
                 <div key={article.user_id+2} className={`${styles['userinfo']} ${clsx({
-                  [styles.dark]:theme.setChecked,
-                  [styles.light]:!theme.setChecked})} ${styles['btn']}`}>
+                  [styles.dark_]:theme.setChecked,
+                  [styles.light_]:!theme.setChecked})} ${styles['btn']}`}>
               <h4 key={article.user_id} className={styles["user"]}  >
                 {" "}
                 <img key={article.user_profile.toString()} src={article.user_profile}/> {article.user}
               </h4>
               </div>
               <div className={`${styles["date"]} ${clsx({
-                [styles.dark]:theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
               })} ${styles['btn']}`}>
               <h4 key={article.date.toString()}   >
                  {article.date}
@@ -165,7 +165,7 @@ function Filter({isHiddenInput,setArticleList,user}){
         <div className={`${styles['sort-container']} `} >
 
 <div className={`${styles["sortby"]} `} >
-  <button onClick={(e)=>setOpen(true)} className={styles['search-input']} style={{backgroundColor:'white'}}>Filter by Tag</button>
+  <button onClick={(e)=>setOpen(true)} className={styles['search-input']} >Filter by Tag</button>
   <Dialog open={open} onClose={(e)=>setOpen(false)} minWidth='xl'>
     <div className={styles['filter-dialog']}>
  

@@ -55,12 +55,10 @@ export default function Verify(){
         if(data){
     
         axios.get(`${HOST}verify/${token}/${user}/`).then((res)=>{
-            console.log(`This is data response : ${res.data}`)
             setMessage(res.data)
 
         
         }).catch((e)=>{
-            console.log(`This is error response : ${e.response.data}`)
             setError(e.response.data)
       
             

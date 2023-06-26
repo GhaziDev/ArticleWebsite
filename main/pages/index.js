@@ -61,7 +61,7 @@ function PaginatedItems({ itemsPerPage,articleList,theme}) { //managing items by
     <div className={`${styles["paginator"]} `}>
     <ReactPaginate
       breakLabel="..."
-      nextLabel={<ArrowForwardIosIcon className={`${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}  ${styles['btn']}`}></ArrowForwardIosIcon>}
+      nextLabel={<ArrowForwardIosIcon className={`${clsx({[styles.dark_]:theme.setChecked,[styles.light_]:!theme.setChecked})}  ${styles['btn']}`}></ArrowForwardIosIcon>}
       onPageChange={(e)=>handlePageClick(e)}
       pageRangeDisplayed={5}
       pageCount={pageCount}
@@ -76,10 +76,10 @@ function PaginatedItems({ itemsPerPage,articleList,theme}) { //managing items by
       breakClassName={styles["page-item"]}
       breakLinkClassName={styles["page-link"]}
       containerClassName={`${styles["pagination"]}
-      ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}
-      activeClassName={`${styles["active"]}  ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})}`}
-      activeLinkClassName = {`${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}
-      previousLabel={<ArrowBackIosIcon className={`${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}></ArrowBackIosIcon>}
+      ${clsx({[styles.dark_]:theme.setChecked,[styles.light_]:!theme.setChecked})} ${styles['btn']}`}
+      activeClassName={`${styles["active"]}  ${clsx({[styles.dark_]:theme.setChecked,[styles.light_]:!theme.setChecked})}`}
+      activeLinkClassName = {`${clsx({[styles.dark_]:theme.setChecked,[styles.light_]:!theme.setChecked})} ${styles['btn']}`}
+      previousLabel={<ArrowBackIosIcon className={`${clsx({[styles.dark_]:theme.setChecked,[styles.light_]:!theme.setChecked})} ${styles['btn']}`}></ArrowBackIosIcon>}
       renderOnZeroPageCount={null}
       marginPagesDisplayed={2}
     />
@@ -117,8 +117,8 @@ const Articles = () => {
   return (
     
 <div  className={`${styles['main']} ${clsx({
-  [styles.dark]:theme.setChecked,
-  [styles.light]:!theme.setChecked
+  [styles.dark_]:theme.setChecked,
+  [styles.light_]:!theme.setChecked
 })}`}>
 
       <Head>
@@ -151,7 +151,7 @@ const Articles = () => {
         <button onClick={(e)=>{
           window.open('https://www.markdownguide.org/cheat-sheet/')
         }}  className={`${styles['create-article-input']}
-        ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}>Markdown Guide</button>
+        ${clsx({[styles.dark_]:theme.setChecked,[styles.light_]:!theme.setChecked})} ${styles['btn']}`}>Markdown Guide</button>
         </div>
         </div>
         </div>
@@ -162,8 +162,8 @@ const Articles = () => {
         </div>
 
 <div className={`${styles["parent-grid"]} ${clsx({
-  [styles.dark]:theme.setChecked,
-  [styles.light]:!theme.setChecked
+  [styles.dark_]:theme.setChecked,
+  [styles.light_]:!theme.setChecked
 })}` } >
   <PaginatedItems articleList={articleList} theme={theme} itemsPerPage={4}/>
 

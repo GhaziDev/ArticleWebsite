@@ -6,25 +6,25 @@ $light-btn:#F1F1F1;
 $light-text:black;
 
 
-.dark{
+.dark_{
     background-color: $dark-bg;
     color:$dark-text;
   
   }
   
-  .dark.btn{
+  .dark_.btn{
     background-color:$dark-btn;
     color:$dark-text
   }
   
   
-  .light{
+  .light_{
     background-color: $light-bg;
     color:$light-text;
   
   }
   
-  .light.btn{
+  .light_.btn{
     background-color:$light-btn;
     color:$light-text
   }

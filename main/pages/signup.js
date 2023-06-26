@@ -215,8 +215,8 @@ const Signup = () => {
 
   return (
     <div className={`${styles["signup-page"]} ${clsx({
-      [styles.dark]:theme.setChecked,
-      [styles.light]:!theme.setChecked
+      [styles.dark_]:theme.setChecked,
+      [styles.light_]:!theme.setChecked
     })}`} >
       <div className={styles['navig-side']}>
         <Navigation></Navigation>
@@ -233,8 +233,8 @@ const Signup = () => {
         <CsrfToken></CsrfToken>
         <div className={`${styles["signup-form"]}
         ${clsx({
-          [styles.dark]:theme.setChecked,
-          [styles.light]:!theme.setChecked
+          [styles.dark_]:theme.setChecked,
+          [styles.light_]:!theme.setChecked
         })}
          ${styles['btn']}`} >
           <h1>Signup Page</h1>
@@ -246,8 +246,8 @@ const Signup = () => {
             name="username"
             className={`${styles["username"]}
             ${clsx({
-              [styles.dark]:theme.setChecked,
-              [styles.light]:!theme.setChecked
+              [styles.dark_]:theme.setChecked,
+              [styles.light_]:!theme.setChecked
             })}`}
             onChange={(e) => handleChange(e)}
             placeholder="Username"
@@ -261,8 +261,8 @@ const Signup = () => {
             name="email"
             className={`${styles["username"]}
             ${clsx({
-              [styles.dark]:theme.setChecked,
-              [styles.light]:!theme.setChecked
+              [styles.dark_]:theme.setChecked,
+              [styles.light_]:!theme.setChecked
             })}`}
             onChange={(e) => handleChange(e)}
             placeholder="Email"
@@ -275,8 +275,8 @@ const Signup = () => {
             name="password"
             className={`${styles["username"]}
             ${clsx({
-              [styles.dark]:theme.setChecked,
-              [styles.light]:!theme.setChecked
+              [styles.dark_]:theme.setChecked,
+              [styles.light_]:!theme.setChecked
             })}`}
             onChange={(e) => handleChange(e)}
             placeholder="Password"
@@ -289,14 +289,14 @@ const Signup = () => {
           <button type="submit" className={`${styles["signupsbmt"]}
 
           ${clsx({
-            [styles.dark]:theme.setChecked,
-            [styles.light]:!theme.setChecked
+            [styles.dark_]:theme.setChecked,
+            [styles.light_]:!theme.setChecked
           })}`} disabled={disabled}  >
             {disabled?<div className={theme.setChecked?styles["lds-ring"]:styles['lds-ring-white']}><div></div><div></div><div></div><div></div></div>:'Signup'}
           </button>
           <button  className={`${clsx({
-      [styles.dark]:theme.setChecked,
-      [styles.light]:!theme.setChecked
+      [styles.dark_]:theme.setChecked,
+      [styles.light_]:!theme.setChecked
     })} ${styles['btn']}`} type='button' style={{border:'none'}} onClick={(e)=>redirect.replace('/login')}>Already have an account?</button>
         </div>
       </form>

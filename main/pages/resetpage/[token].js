@@ -8,9 +8,10 @@ import HOST from "../../config";
 
 import { AuthContext} from "../../store/provider";
 
-import styles from '../../styles/styling/reset.module.css'
+import styles from '../../styles/styling/reset.module.scss'
 import dynamic from "next/dynamic";
 import useSWR from 'swr';
+import {clsx} from 'clsx';
 const VisibilityOffIcon = dynamic(()=>import('@mui/icons-material/VisibilityOff'))
 const VisibilityIcon = dynamic(()=>import('@mui/icons-material/Visibility'))
 const Checkbox = dynamic(()=>import('@mui/material/Checkbox'))
@@ -121,16 +122,38 @@ import Link from "next/link";
     if(!isAuth){
     return(
         ptoken?
-        <form method='post' onSubmit={(e)=>handleSubmit(e)} style={{backgroundColor:theme.setBg}}>
+        <form method='post' onSubmit={(e)=>handleSubmit(e)} className={clsx({
+            [styles.dark_]:theme.setChecked,
+            [styles.light_]:!theme.setChecked,
+        })}>
         <div className='nav-side'>
             <Navigation/>
             </div>
             <div className={styles['pass_change']}>
-            <label className={styles['label']} style={{color:theme.setColor}}>Password</label>
-            <input className={styles['password']}style={{color:theme.setColor,backgroundColor:theme.setButtonColor,borderBottomColor:theme.setColor}} type='password' required value={password} onChange={(e)=>handleChange(e)}></input>
-            <label className={styles['label']} style={{color:theme.setColor}}>Confirm Password </label>
-            <input className={styles['password']} style={{color:theme.setColor,backgroundColor:theme.setButtonColor,borderBottomColor:theme.setColor}} type={type} required value={confirm} onChange={(e)=>handleConfirmChange(e)}></input>
-            <Checkbox className={styles['hide-show']} type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon style={{color:theme.setColor}}/>} checkedIcon={<VisibilityOffIcon/>} />
+            <label className={`${styles['label']} ${clsx({
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked,
+            })}`}>Password</label>
+            <input className={`${styles['password']} ${clsx({
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
+            }
+            )} ${styles['btn']}`} type='password' required value={password} onChange={(e)=>handleChange(e)}></input>
+            <label className={`${styles['label']} ${clsx({
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
+            }
+            )}`}>Confirm Password </label>
+            <input className={`${styles['password']} ${clsx({
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
+            }
+            )} ${styles['btn']}` } type={type} required value={confirm} onChange={(e)=>handleConfirmChange(e)}></input>
+            <Checkbox className={styles['hide-show']} type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon className={`${clsx({
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
+            }
+            )} `} />} checkedIcon={<VisibilityOffIcon/>} />
             <div  className={styles['password-invalid']} style={{display:error.length?'block':'none',color:'red'}}>{displayErrors()}</div>
             <div className={styles['reset-btn-div']}>
             {password===confirm?<button type='submit' className={styles['ll-div']}>Reset</button>:<div style={{color:'red'}}>Password is not matching</div>}

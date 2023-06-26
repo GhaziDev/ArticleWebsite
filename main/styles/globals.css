@@ -17,16 +17,15 @@ a{
 
 
 h1{
-  font-family:'Outfit';
 }
 
 
 
-.dark a{
+.dark_ a{
   color:#3CCF4E;
 }
 
-.light a{
+.light_ a{
   color:#1d6f27;
 }
 

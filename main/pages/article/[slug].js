@@ -229,8 +229,8 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
             <div className={styles["user-date-cmnt-sec"]}>
               <div
                 className={`${styles["cmnt-user"]} ${clsx({
-                  [styles.dark]:theme.setChecked,
-                  [styles.light]:!theme.setChecked
+                  [styles.dark_]:theme.setChecked,
+                  [styles.light_]:!theme.setChecked
                 })}`}
                 onClick={(e) => redirect.push(`/userprofile/${comment.user}`)}
                 key={comment.user}
@@ -305,8 +305,8 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
                 <textarea
 
                   className={`${styles["cmnteditinp"]} ${clsx({
-                    [styles.dark]:theme.setChecked,
-                    [styles.light]:!theme.setChecked
+                    [styles.dark_]:theme.setChecked,
+                    [styles.light_]:!theme.setChecked
                   })} ${styles['btn']}`}
                   defaultValue={comment.desc}
                   value={commentEdit.description}
@@ -316,8 +316,8 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
 
           
                   className={`${styles["cmnt-output-edit"]} ${clsx({
-                    [styles.dark]:theme.setChecked,
-                    [styles.light]:!theme.setChecked
+                    [styles.dark_]:theme.setChecked,
+                    [styles.light_]:!theme.setChecked
                   })} ${styles['btn']}`}
                 >
                   {" "}
@@ -344,8 +344,8 @@ const LoadComment = memo(function LoadComment({updated,comment,setUpdated,setId,
                   }}
 
                   className={`${styles['submitButton']} ${clsx({
-                    [styles.dark]:theme.setChecked,
-                    [styles.light]:!theme.setChecked
+                    [styles.dark_]:theme.setChecked,
+                    [styles.light_]:!theme.setChecked
                   }) } ${styles['btn']}`}
                 >
                   Submit Change
@@ -390,8 +390,8 @@ import Head from "next/head";
         return (
           <div
           className={`${styles["articles"]} ${clsx({
-            [styles.dark]:theme.setChecked,
-            [styles.light]:!theme.setChecked,
+            [styles.dark_]:theme.setChecked,
+            [styles.light_]:!theme.setChecked,
           })} ${styles['btn']}`} key={article._id.toString()+'1'}
         >
           <Link key={article._id.toString()}
@@ -401,21 +401,21 @@ import Head from "next/head";
             <img key={article.thumb_img} src={article.thumb_img} className={styles["image"]} />
             </div>
             <div className={`${styles['article-tag-like']}${clsx({
-                [styles.dark]:theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
               })} ${styles['btn']}`}>
               <button key={article.tag_id}  className={`${styles['tag-sec']} ${clsx({
-                [styles.dark]:theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
               })}`}>{article.tag}</button>
               <div className={`${styles['article-like-div']} ${clsx({
-                [styles.dark]:theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
               })} ${styles['btn']}`} >
               <iconify-icon width="30" height="30" icon='material-symbols:favorite'  style={{color:'red'}} />
               {article.likes}</div>
               </div>
-    <div className={`${styles['title-card']} ${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}>
+    <div className={`${styles['title-card']} ${clsx({[styles.dark_]:theme.setChecked,[styles.light_]:!theme.setChecked})} ${styles['btn']}`}>
             <h4 key={article.title} className={`${styles["title"]}`}>
               {article.title}
             </h4>
@@ -425,16 +425,16 @@ import Head from "next/head";
             <div className={styles['separator']}>
               <div className={styles['userinfo']}>
             <h4 key={article.user_id} className={`${styles["user"]} ${clsx({
-                [styles.dark]:theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
               })} ${styles['btn']}`} >
               {" "}
               <img key={article.user_profile.toString()} src={article.user_profile}/> {article.user}
             </h4>
             </div>
             <h4 key={article.date.toString()} className={`${styles["date"]} ${clsx({
-                [styles.dark]:theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
               })} ${styles['btn']}`} >
               <iconify-icon  width='30' height='30' key={article.date.toString()} icon="uim:calender" /> {article.date}
             </h4>
@@ -457,8 +457,8 @@ import Head from "next/head";
             required
             className={`${styles["cmntinp"]}
             ${clsx({
-              [styles.dark]:theme.setChecked,
-              [styles.light]:!theme.setChecked
+              [styles.dark_]:theme.setChecked,
+              [styles.light_]:!theme.setChecked
             })} ${styles['btn']}`
           }
             onChange={(e) => handleChange(e)}
@@ -475,8 +475,8 @@ import Head from "next/head";
                 color: theme.setTextColor,
               }}
               className={`${styles["cmnt-output"]} ${clsx({
-                [styles.dark]:theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
               })} ${styles['btn']}`}
             >
               <h2
@@ -501,8 +501,8 @@ import Head from "next/head";
           <button
             type="submit"
             className={`${styles['submitButton']} ${clsx({
-              [styles.dark]:theme.setChecked,
-              [styles.light]:!theme.setChecked
+              [styles.dark_]:theme.setChecked,
+              [styles.light_]:!theme.setChecked
             })} ${styles['btn']}`}
 
           >
@@ -588,8 +588,8 @@ const EditArticle = ({
       <div className={styles["edit-article-div"]}>
         <button
           className={`${styles["edit-btn"]} ${clsx({
-            [styles.dark]:theme.setChecked,
-            [styles.light]:!theme.setChecked
+            [styles.dark_]:theme.setChecked,
+            [styles.light_]:!theme.setChecked
           })} ${styles['btn']}` }
           onClick={() => setOpen(true)}
         >
@@ -605,15 +605,15 @@ const EditArticle = ({
           className={styles["dialog"]}
         >
           <div class={`${styles["dialog-content"]}${clsx({
-                [styles.dark]:theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
               })}`} >
             <form
               method="put"
               onSubmit={(e) => handleEdit(e)}
               className={`${styles["dialog-form"]} ${clsx({
-                [styles.dark]:theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
               })}`}
             >
               <div className={styles["back-btn-div"]}>
@@ -627,15 +627,15 @@ const EditArticle = ({
                 </button>
               </div>
               <div className={`${styles["page-name"]}${clsx({
-                [styles.dark]:theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
               })}`}>
                 <h1 >Edit Page</h1>
               </div>
               <div
                 className={`${styles["description-container"]} ${clsx({
-                  [styles.dark]:theme.setChecked,
-                  [styles.light]:!theme.setChecked
+                  [styles.dark_]:theme.setChecked,
+                  [styles.light_]:!theme.setChecked
                 })}`}
               >
                 <textarea
@@ -643,8 +643,8 @@ const EditArticle = ({
                   minLength={"2000"}
                   
                   className={`${styles["description-input1"]}${clsx({
-                    [styles.dark]:theme.setChecked,
-                    [styles.light]:!theme.setChecked
+                    [styles.dark_]:theme.setChecked,
+                    [styles.light_]:!theme.setChecked
                   })} ${styles['btn']}`}
                   value={descEdit}
                   onChange={(e) => handleDescChange(e)}
@@ -654,8 +654,8 @@ const EditArticle = ({
                   <div
                     className={`${styles["description-output"]}
                     ${clsx({
-                      [styles.dark]:theme.setChecked,
-                      [styles.light]:!theme.setChecked
+                      [styles.dark_]:theme.setChecked,
+                      [styles.light_]:!theme.setChecked
                     })} ${styles['btn']}`}
   
                   >
@@ -680,8 +680,8 @@ const EditArticle = ({
                   type="submit"
                   className={`${styles["edit-btn"]} 
                   ${clsx({
-                    [styles.dark]:theme.setChecked,
-                    [styles.light]:!theme.setChecked
+                    [styles.dark_]:theme.setChecked,
+                    [styles.light_]:!theme.setChecked
                   })} ${styles['btn']}`}
     
                 >
@@ -721,8 +721,8 @@ const DeleteArticle = ({ user, article, slug, redirect }) => {
         <button
           className={`${styles["delete-btn"]}
           ${clsx({
-            [styles.dark]:theme.setChecked,
-            [styles.light]:!theme.setChecked
+            [styles.dark_]:theme.setChecked,
+            [styles.light_]:!theme.setChecked
           })} ${styles['btn']}`}
           onClick={() => setOpen(true)}
         >
@@ -732,8 +732,8 @@ const DeleteArticle = ({ user, article, slug, redirect }) => {
           open={open}
           onClose={() => setOpen(false)}
           className={clsx({
-            [styles.dark]:theme.setChecked,
-            [styles.light]:!theme.setChecked
+            [styles.dark_]:theme.setChecked,
+            [styles.light_]:!theme.setChecked
           })}
 
         >
@@ -742,8 +742,8 @@ const DeleteArticle = ({ user, article, slug, redirect }) => {
             onSubmit={(e) => handleDelete(e)}
             className={`${styles['artclDel']}
             ${clsx({
-              [styles.dark]:theme.setChecked,
-              [styles.light]:!theme.setChecked
+              [styles.dark_]:theme.setChecked,
+              [styles.light_]:!theme.setChecked
             })}`
           }
 
@@ -1061,8 +1061,8 @@ useEffect(()=>{
           <h1>Comment Section</h1>
           <button
             className={`${styles["submitButton"]} ${clsx({
-              [styles.dark]:theme.setChecked,
-              [styles.light]:!theme.setChecked
+              [styles.dark_]:theme.setChecked,
+              [styles.light_]:!theme.setChecked
             })} ${styles['btn']}`}
             onClick={() => handleRedirectLogin()}
             
@@ -1072,8 +1072,8 @@ useEffect(()=>{
           <button
             onClick={() => handleRedirectSignUp()}
             className={`${styles["submitButton"]} ${clsx({
-              [styles.dark]:theme.setChecked,
-              [styles.light]:!theme.setChecked
+              [styles.dark_]:theme.setChecked,
+              [styles.light_]:!theme.setChecked
             })} ${styles['btn']}`}
           >
             Signup
@@ -1111,8 +1111,8 @@ useEffect(()=>{
       onScroll={(e)=>handleScroll(e)}
       className={`${styles["spec-article"]}
       ${clsx({
-        [styles.dark]:theme.setChecked,
-        [styles.light]:!theme.setChecked
+        [styles.dark_]:theme.setChecked,
+        [styles.light_]:!theme.setChecked
       })}`}
     >
       <div className='progressBar' style={{position:'sticky',top:0,left:0,height:'5px',width:progress,backgroundColor:!theme.setChecked?'#1d6f27':'#3CCF4E'}}></div>
@@ -1138,8 +1138,8 @@ useEffect(()=>{
             <div className={styles["article-tag"]} onClick={(e) => handleTagRedirect(e)}>
               <span
               className={`${clsx({
-                [styles.dark]:theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]:theme.setChecked,
+                [styles.light_]:!theme.setChecked
               })} ${styles['btn']}`}
                 style={{
                   borderRadius: "4px",
@@ -1196,8 +1196,8 @@ useEffect(()=>{
             </div>
           </div>
         <div className={clsx({
-        [styles.dark]:theme.setChecked,
-        [styles.light]:!theme.setChecked
+        [styles.dark_]:theme.setChecked,
+        [styles.light_]:!theme.setChecked
       })}>
 
       <h1 style={{color:theme.setChecked?'white':'black' ,...wordBreak }}>{data.title}</h1></div>

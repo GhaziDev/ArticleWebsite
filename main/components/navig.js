@@ -74,7 +74,7 @@ function Navigation(){
 
         <div className={styles['nav-div']} >
                <div className={styles['nav-div-left']}>
-            <div style = {{color:theme.setTextColor}} className={styles['l-div']}  onClick={(e)=>redirect.replace('/')}><img width='60' height='60' src='/static/logo_favicon.png'></img></div>
+            <div  className={styles['mainIcon']}  onClick={(e)=>redirect.replace('/')}><img width='60' height='60' src='/static/logo_favicon.png'></img></div>
             <Rules></Rules>
             <LoginOrLogout></LoginOrLogout>
             {(redirect.pathname.startsWith('/userprofile')||redirect.pathname.startsWith('/article'))?<button

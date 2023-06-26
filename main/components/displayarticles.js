@@ -89,8 +89,8 @@ function DisplayDialogOrLogin(){
     return(
       <div className={styles['create-article-wrapper']}>
       <div className={`${styles['create-article-div']} ${clsx({
-        [styles.dark]:theme.setChecked,
-        [styles.light]:!theme.setChecked,
+        [styles.dark_]:theme.setChecked,
+        [styles.light_]:!theme.setChecked,
       })} ${styles['btn']}`}>
       <button className={styles['create-article-input']} onClick={isAuth?(e)=>redirect.replace('/create'):(e)=>redirect.replace('/login')} placeholder='Create an Article' style={{backgroundColor:'#3CCF4E'}} >Create Article</button>
     </div>
@@ -142,8 +142,8 @@ function DisplayDialogOrLogin(){
         aria-controls={open ? 'fade-menu' : undefined}
         aria-haspopup="true"
         className={clsx({
-            [styles.dark]:theme.setChecked,
-            [styles.light]:!theme.setChecked,
+            [styles.dark_]:theme.setChecked,
+            [styles.light_]:!theme.setChecked,
           })
         }
         aria-expanded={open ? 'true' : undefined}
@@ -163,16 +163,16 @@ function DisplayDialogOrLogin(){
         TransitionComponent={Fade}
         >
             <MenuItem><button className={`${styles['ll-div']} ${clsx({
-        [styles.dark]:theme.setChecked,
-        [styles.light]:!theme.setChecked,
+        [styles.dark_]:theme.setChecked,
+        [styles.light_]:!theme.setChecked,
       })} ${styles['btn']}`}  onClick={(e)=>{redirect.replace(`/userprofile/${current.user}/`)}}>My Profile</button></MenuItem>
             <MenuItem><EditProfile username={current.user} className={`${styles['ll-div']} ${clsx({
-        [styles.dark]:theme.setChecked,
-        [styles.light]:!theme.setChecked,
+        [styles.dark_]:theme.setChecked,
+        [styles.light_]:!theme.setChecked,
       })} ${styles['btn']}`} >Settings</EditProfile></MenuItem>
             <MenuItem><button onClick={(e)=>redirectLogout(e)}  className={`${styles['ll-div']} ${clsx({
-        [styles.dark]:theme.setChecked,
-        [styles.light]:!theme.setChecked,
+        [styles.dark_]:theme.setChecked,
+        [styles.light_]:!theme.setChecked,
       })} ${styles['btn']}`} >Logout </button></MenuItem>
         </Menu>
         </span>
@@ -223,12 +223,12 @@ function LoginOrLogout(){ //Login Or Logout component
     return(
       <div className={styles['right-div']}>
             <div className={`${styles['l-div']} ${clsx({
-        [styles.dark]:theme.setChecked,
-        [styles.light]:!theme.setChecked,
+        [styles.dark_]:theme.setChecked,
+        [styles.light_]:!theme.setChecked,
       })}`}  onClick={()=>handleRedirectLogin()}>Login</div>
             <div onClick = {()=>handleRedirectSignUp()}  className={`${styles['l-div']} ${clsx({
-        [styles.dark]:theme.setChecked,
-        [styles.light]:!theme.setChecked,
+        [styles.dark_]:theme.setChecked,
+        [styles.light_]:!theme.setChecked,
       })}`}>Signup</div>
             </div>
         )

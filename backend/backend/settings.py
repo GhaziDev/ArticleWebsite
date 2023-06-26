@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-DEV_MODE = True
+DEV_MODE = False
 
 SECRET_KEY = os.environ['SECRET_KEY']
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -53,7 +53,7 @@ ACCESS_CONTROL_ALLOW_HEADERS = '*'
 CSRF_TRUSTED_ORIGINS = [ 
     "http://127.0.0.1:3000",'http://127.0.0.1:8000','http://localhost:3000',
 'https://globeofarticles.com','https://www.globeofarticles.com','https://backend.globeofarticles.com',
-'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com','https://article-website.vercel.app'
+'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com','https://article-website.vercel.app',
 ]
 
 
@@ -147,15 +147,15 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql',
 
-        'NAME': "mydb",
+        'NAME': os.environ.get('PGDATABASE'),
 
-        'USER':"meghazi",
+        'USER':os.environ.get('PGUSER'),
 
-        'PASSWORD': os.environ['sql'],
+        'PASSWORD': os.environ.get('PGPASSWORD'),
 
-        'HOST': 'localhost',
+        'HOST': os.environ.get('PGHOST'),
 
-        'PORT': '5432',
+        'PORT': os.environ.get('PGPORT'),
 
     }
 

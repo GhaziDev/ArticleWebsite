@@ -45,50 +45,50 @@ function IsAuthenticated({auth,handleChange,handleSubmit,email,password,errored,
     }
         if(auth){
             return <div  id='loggedin' className={clsx({
-                [styles.dark]: theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]: theme.setChecked,
+                [styles.light_]:!theme.setChecked
             })}>You are already logged in <Link href='/' style={{color:'green'}}>Back to main page</Link></div>
         }
         return (
            
             <form onSubmit={(e)=>handleSubmit(e)}  method='post' id='loginform' className={clsx({
-                [styles.dark]: theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]: theme.setChecked,
+                [styles.light_]:!theme.setChecked
             })}>
                 <div  className = {`${styles['login-form']}
                 ${clsx({
-                    [styles.dark]: theme.setChecked,
-                    [styles.light]:!theme.setChecked
+                    [styles.dark_]: theme.setChecked,
+                    [styles.light_]:!theme.setChecked
                 })}`} >
 
                 <CsrfToken/>
                 <h1 style={{color:theme.setChecked?'white':'black'}}>Login Page</h1>
                 <input  type='email' className={`${styles['email']}
                 ${clsx({
-                    [styles.dark]: theme.setChecked,
-                    [styles.light]:!theme.setChecked
+                    [styles.dark_]: theme.setChecked,
+                    [styles.light_]:!theme.setChecked
                 })} ${styles['btn']}`} name='email' onChange={(e)=>handleChange(e)} value={email} placeholder='Email' autoComplete='off' ></input>
 
                 <input type={type} className={`${styles['email']}
                 ${clsx({
-                    [styles.dark]: theme.setChecked,
-                    [styles.light]:!theme.setChecked
+                    [styles.dark_]: theme.setChecked,
+                    [styles.light_]:!theme.setChecked
                 })} ${styles['btn']}`} name='password' onChange={(e)=>handleChange(e)} value={password} placeholder='Password'></input>
                 <Checkbox className={styles['hide-show']} type='checkbox' onChange={(e)=>handleToggle(e)} value={type} icon={<VisibilityIcon style={{color:theme.setColor}}/>} checkedIcon={<VisibilityOffIcon/>} />
 
                 <button  type='submit' className={`${styles['user-link']} ${clsx({
-                [styles.dark]: theme.setChecked,
-                [styles.light]:!theme.setChecked
+                [styles.dark_]: theme.setChecked,
+                [styles.light_]:!theme.setChecked
             })} ${styles['btn']}`} >Login</button>
                 <button type='button' onClick={(e)=>redirect.push('/signup')} className={`${styles['user-link']}
                 ${clsx({
-                    [styles.dark]: theme.setChecked,
-                    [styles.light]:!theme.setChecked
+                    [styles.dark_]: theme.setChecked,
+                    [styles.light_]:!theme.setChecked
                 })} ${styles['btn']}`}>New User?</button>
                 <button type='button' onClick={(e)=>redirect.push('/reset')} className={`${styles['user-link']}
                 ${clsx({
-                    [styles.dark]: theme.setChecked,
-                    [styles.light]:!theme.setChecked
+                    [styles.dark_]: theme.setChecked,
+                    [styles.light_]:!theme.setChecked
                 })} ${styles['btn']}`} >Forgot Password?</button>
                 <WrongUserPass errored={errored} errorText={errorText}></WrongUserPass>
                 </div>
@@ -150,8 +150,8 @@ const Login = ()=>{
 
     return(
         <div className={`${styles['login-page']} ${clsx({
-            [styles.dark]: theme.setChecked,
-            [styles.light]:!theme.setChecked
+            [styles.dark_]: theme.setChecked,
+            [styles.light_]:!theme.setChecked
         })} ${styles['btn']}`} id='loginpage'>
             <CsrfToken></CsrfToken>
             <div className={styles['navig-side']}>
