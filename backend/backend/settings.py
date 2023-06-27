@@ -44,7 +44,7 @@ else:
     SECURE_HSTS_SECONDS = 60
   
 
-ALLOWED_HOSTS = ['xezwms5k.up.railway.app','139.99.169.115','globeofarticles','127.0.0.1','localhost','backend.globeofarticles.com','globeofarticles.com','www.globeofarticles.com','https://globeofarticles.com','https://www.globeofarticles.com/','https://backend.globeofarticles.com','.vercel.app']
+ALLOWED_HOSTS = ['xezwms5k.up.railway.app','globeofarticles','127.0.0.1','localhost','backend.globeofarticles.com','globeofarticles.com','www.globeofarticles.com','https://globeofarticles.com','https://www.globeofarticles.com/','https://backend.globeofarticles.com','.vercel.app']
 ACCESS_CONTROL_ALLOW_ORIGIN = '*'
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
@@ -210,6 +210,8 @@ USE_L10N = False
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
