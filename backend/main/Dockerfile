@@ -1,6 +1,7 @@
 
 
 # syntax=docker/dockerfile:1.4
+#new test comment
 
 FROM --platform=$BUILDPLATFORM python:3.9-alpine AS builder
 EXPOSE 8000
