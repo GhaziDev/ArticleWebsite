@@ -54,7 +54,7 @@ const Rules = () => {
             </li>
           
           </ul>
-          <div class={styles["more"]} style={{ fontWeight: "bold" }}>
+          <div className={styles["more"]} style={{ fontWeight: "bold" }}>
             More features and rules are coming in the future.
           </div>
         </div>
