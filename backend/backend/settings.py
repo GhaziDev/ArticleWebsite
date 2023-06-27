@@ -55,7 +55,6 @@ CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:3000",'http://127.0.0.1:8000','http://localhost:3000',
 'https://globeofarticles.com','https://www.globeofarticles.com','https://backend.globeofarticles.com',
 'https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com','https://article-website.vercel.app',
-'xezwms5k.up.railway.app'
 ]
 
 
