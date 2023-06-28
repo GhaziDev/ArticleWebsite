@@ -42,6 +42,8 @@ else:
     CSRF_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
     SECURE_HSTS_SECONDS = 60
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
   
 
 ALLOWED_HOSTS = ['xezwms5k.up.railway.app','globeofarticles','127.0.0.1','localhost','backend.globeofarticles.com','globeofarticles.com','www.globeofarticles.com','https://globeofarticles.com','https://www.globeofarticles.com/','https://backend.globeofarticles.com','.vercel.app']
