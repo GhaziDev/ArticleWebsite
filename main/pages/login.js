@@ -152,9 +152,13 @@ const Login = ()=>{
         <div className={`${styles['login-page']} ${clsx({
             [styles.dark_]: theme.setChecked,
             [styles.light_]:!theme.setChecked
-        })} ${styles['btn']}`} id='loginpage'>
+        })}`} id='loginpage'>
             <CsrfToken></CsrfToken>
-            <div className={styles['navig-side']}>
+            <div className={`${styles['navig-side']}
+            ${clsx({
+                [styles.dark_]: theme.setChecked,
+                [styles.light_]:!theme.setChecked
+            })} ${styles['btn']}`}>
                 <Navigation/>
        </div>
        <div className={styles['formSec']}>
