@@ -62,20 +62,22 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 
-'''
 SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_PATH = '/'
-'''
 
 
 
-'''
+
+
 SESSION_COOKIE_DOMAIN = '.globeofarticles.com'
 CSRF_COOKIE_DOMAIN = '.globeofarticles.com'
+
+
 '''
 CSRF_COOKIE_SAMESITE = 'Strict'
 SESSION_COOKIE_SAMESITE = 'Strict'
+'''
 
 
 
