@@ -30,7 +30,7 @@ const Markdown = memo(function Markdown({children,theme}){
   return <ReactMarkDown
   children={children}
   theme={theme}
-  className={`${clsx({[styles.dark_]:theme.setChecked,[styles.light_]:!theme.setChecked})} ${styles['btn']}`}
+  className={`${clsx({[styles.dark]:theme.setChecked,[styles.light]:!theme.setChecked})} ${styles['btn']}`}
                     remarkPlugins={[
                       remarkGfm,
                       remarkMath,
