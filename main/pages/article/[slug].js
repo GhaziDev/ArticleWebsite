@@ -604,7 +604,7 @@ const EditArticle = ({
           maxWidth="l"
           className={styles["dialog"]}
         >
-          <div class={`${styles["dialog-content"]}${clsx({
+          <div class={`${styles["dialog-content"]} ${clsx({
                 [styles.dark_]:theme.setChecked,
                 [styles.light_]:!theme.setChecked
               })}`} >
@@ -626,7 +626,7 @@ const EditArticle = ({
                   &larr;
                 </button>
               </div>
-              <div className={`${styles["page-name"]}${clsx({
+              <div className={`${styles["page-name"]} ${clsx({
                 [styles.dark_]:theme.setChecked,
                 [styles.light_]:!theme.setChecked
               })}`}>
@@ -642,7 +642,7 @@ const EditArticle = ({
                   required
                   minLength={"2000"}
                   
-                  className={`${styles["description-input1"]}${clsx({
+                  className={`${styles["description-input1"]} ${clsx({
                     [styles.dark_]:theme.setChecked,
                     [styles.light_]:!theme.setChecked
                   })} ${styles['btn']}`}
@@ -653,7 +653,7 @@ const EditArticle = ({
                 <div>
                   <div
                     className={`${styles["description-output"]}
-                    ${clsx({
+                   ${clsx({
                       [styles.dark_]:theme.setChecked,
                       [styles.light_]:!theme.setChecked
                     })} ${styles['btn']}`}
@@ -678,8 +678,7 @@ const EditArticle = ({
               <div className={styles["edit-btn-div"]}>
                 <button
                   type="submit"
-                  className={`${styles["edit-btn"]} 
-                  ${clsx({
+                  className={`${styles["edit-btn"]} ${clsx({
                     [styles.dark_]:theme.setChecked,
                     [styles.light_]:!theme.setChecked
                   })} ${styles['btn']}`}

@@ -154,14 +154,13 @@ const Login = ()=>{
             [styles.light_]:!theme.setChecked
         })}`} id='loginpage'>
             <CsrfToken></CsrfToken>
-            <div className={`${styles['navig-side']}
-            ${clsx({
+            <div className={`${styles['navig-side']}`}>
+                <Navigation/>
+       </div>
+       <div className={`${styles['formSec']} ${clsx({
                 [styles.dark_]: theme.setChecked,
                 [styles.light_]:!theme.setChecked
             })} ${styles['btn']}`}>
-                <Navigation/>
-       </div>
-       <div className={styles['formSec']}>
             <IsAuthenticated theme={theme} errorText={errorText} errored={isError} handleChange={handleChange} email={email} password={password} handleSubmit={handleSubmit} auth={isAuth}></IsAuthenticated>
             </div>
         </div>
