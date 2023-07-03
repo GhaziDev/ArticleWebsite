@@ -13,6 +13,10 @@ import Link from 'next/link'
 import styles from '../styles/styling/filtertag.module.scss'
 import {clsx} from 'clsx'
 
+import 'iconify-icon';
+
+
+
 
 
 
@@ -28,7 +32,7 @@ function ListAllArticles({ articles,theme}){
             className={`${styles["articles"]} ${clsx({
               [styles.dark_]:theme.setChecked,
               [styles.light_]:!theme.setChecked
-            })} ${styles['btn']}`} key={article._id.toString()+'1'}
+            })}`} key={article._id.toString()+'1'}
             style={{ backgroundColor: theme.setButtonColor}}
           >
             <Link key={article._id.toString()}
@@ -41,20 +45,20 @@ function ListAllArticles({ articles,theme}){
               </div>
               <div key={article.tag_id+"1"} className={`${styles['article-tag-like']} ${clsx({
                   [styles.dark_]:theme.setChecked,
-                  [styles.light_]:!theme.setChecked})} ${styles['btn']}`}>
+                  [styles.light_]:!theme.setChecked})} `}>
                 <button key={article.tag_id} className={`${styles['tag-sec']} ${clsx({
                   [styles.dark_]:theme.setChecked,
                   [styles.light_]:!theme.setChecked
                 })}`}>{article.tag}</button>
                 <div key={article.likes} className={`${styles['article-like-div']} ${clsx({
                   [styles.dark_]:theme.setChecked,
-                  [styles.light_]:!theme.setChecked})} ${styles['btn']}` } >
+                  [styles.light_]:!theme.setChecked})} ` } >
                 <FavoriteIcon key={article.likes+1} style={{color:'red'}} />
                 {article.likes}</div>
                 </div>
       <div  key={article.title+"1"} className={`${styles['title-card']} ${clsx({
                   [styles.dark_]:theme.setChecked,
-                  [styles.light_]:!theme.setChecked})} ${styles['btn']}`}>
+                  [styles.light_]:!theme.setChecked})} `}>
               <h4 key={article.title} className={styles["title"]} >
                 {article.title}
               </h4>
@@ -64,7 +68,7 @@ function ListAllArticles({ articles,theme}){
               <div key={article.user_id+1} className={styles['separator']}>
                 <div key={article.user_id+2} className={`${styles['userinfo']} ${clsx({
                   [styles.dark_]:theme.setChecked,
-                  [styles.light_]:!theme.setChecked})} ${styles['btn']}`}>
+                  [styles.light_]:!theme.setChecked})} `}>
               <h4 key={article.user_id} className={styles["user"]}  >
                 {" "}
                 <img key={article.user_profile.toString()} src={article.user_profile}/> {article.user}
@@ -73,7 +77,7 @@ function ListAllArticles({ articles,theme}){
               <div className={`${styles["date"]} ${clsx({
                 [styles.dark_]:theme.setChecked,
                 [styles.light_]:!theme.setChecked
-              })} ${styles['btn']}`}>
+              })}`}>
               <h4 key={article.date.toString()}   >
                  {article.date}
               </h4>
@@ -164,9 +168,24 @@ function Filter({isHiddenInput,setArticleList,user}){
       return(
         <div className={`${styles['container-div']} `}>
         <div className={`${styles['sort-container']} `} >
+        <iconify-icon width="30" height="30" icon="material-symbols:search" ></iconify-icon>
+
 
 <div className={`${styles["sortby"]} `} >
-  <button onClick={(e)=>setOpen(true)} className={styles['search-input']} >Filter by Tag</button>
+<input id={styles['title']} type='text' placeholder='Search by title' value={filter.title} className={`${styles['search-input']} ${clsx({
+  [styles.dark_]:theme.setChecked,
+  [styles.light_]:!theme.setChecked
+})}`} onChange={(e)=>handleTitleChange(e)}></input>
+<div className={styles['searchSep']}></div>
+<input id={styles['user']} type='text' hidden={isHiddenInput} placeholder='Search by username' value={filter.user} className={`${styles['search-input']} ${clsx({
+  [styles.dark_]:theme.setChecked,
+  [styles.light_]:!theme.setChecked,
+})}`} onChange={(e)=>handleUserChange(e)}></input>
+
+  <button onClick={(e)=>setOpen(true)} className={`${styles['search-input']} ${clsx({
+    [styles.dark_]:theme.setChecked,
+    [styles.light_]:!theme.setChecked
+  })} ${styles['tag']}`} >Filter by Tag</button>
   <Dialog open={open} onClose={(e)=>setOpen(false)} minWidth='xl'>
     <div className={styles['filter-dialog']}>
  
@@ -189,8 +208,7 @@ function Filter({isHiddenInput,setArticleList,user}){
    </Dialog>
 
  </div>
- <input type='text' hidden={isHiddenInput} placeholder='Search by username' value={filter.user} className={styles['search-input']} onChange={(e)=>handleUserChange(e)}></input>
- <input type='text' placeholder='Search by title' value={filter.title} className={styles['search-input']} onChange={(e)=>handleTitleChange(e)}></input>
+
 
 </div>
 </div>

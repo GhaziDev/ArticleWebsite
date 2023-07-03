@@ -1,9 +1,13 @@
 $dark-bg:#1b1b1b;
 $dark-btn:#222222;
 $dark-text:white;
+$dark-link:rgb(60, 207, 78);
+
 $light-bg:white;
 $light-btn:#F1F1F1;
 $light-text:black;
+$light-link:rgb(50, 128, 59);
+
 
 
 .dark_{
@@ -29,3 +33,10 @@ $light-text:black;
     color:$light-text
   }
   
+.dark_.link{
+  background-color:$dark-link;
+}
+
+.light_.link{
+  background-color:$light-link;
+}

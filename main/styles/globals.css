@@ -1,5 +1,18 @@
+input{
+  caret-color:rgb(60, 207, 78);
+}
 
+a{
+  color:rgba(60,207,78);
+}
+::selection{
+  background-color:rgb(60, 207, 78);
+  color:white;
+}
 
+input:focus::-webkit-input-placeholder {
+  opacity: 0;
+}
 
 body{
   margin:0;

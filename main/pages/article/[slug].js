@@ -147,7 +147,7 @@ catch(err){
 
 const Markdown = memo(function Markdown({children,theme}){
 
-  return <ReactMarkDown className={theme.setClassName}
+  return <ReactMarkDown className={theme.setChecked?styles['dark']:styles['light']}
   children={children}
                     remarkPlugins={[
                       remarkGfm,
