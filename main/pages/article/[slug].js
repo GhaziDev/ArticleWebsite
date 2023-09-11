@@ -135,6 +135,9 @@ catch(err){
 */
 
 
+export const runtime = 'edge';
+
+
 export async function getServerSideProps(context) {
   // Fetch data from external API
   const {slug} = context.params
