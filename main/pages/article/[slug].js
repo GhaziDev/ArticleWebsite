@@ -135,6 +135,17 @@ catch(err){
 */
 
 
+export async function getServerSideProps(context) {
+  // Fetch data from external API
+  const {slug} = context.params
+
+  const res = await fetch(`${HOST}articles/${slug}/`)
+  const data = await res.json()
+ 
+  // Pass data to the page via props
+  return { props: { data } }
+}
+
 
 
 
@@ -759,8 +770,8 @@ const DeleteArticle = ({ user, article, slug, redirect }) => {
   return null;
 };
 
-const SpecificArticle = ({InitialData}) => {
-  function fetcher(url) {
+const SpecificArticle = ({data}) => {
+  /* function fetcher(url) {
     return fetch(url)
       .then(response => response.json())
       .then(data => {
@@ -771,10 +782,11 @@ const SpecificArticle = ({InitialData}) => {
         return null;
       });
   }
+  */
    let redirect = useRouter();
    let {slug } = redirect.query;
 
-  let {data,error} = useSWR(slug?`${HOST}articles/${slug}/`:null,slug?fetcher:null,{InitialData})
+  // let {data,error} = useSWR(slug?`${HOST}articles/${slug}/`:null,slug?fetcher:null,{InitialData})
   console.log(data)
 
 //some comment here
