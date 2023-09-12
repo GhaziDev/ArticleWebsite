@@ -47,8 +47,8 @@ function ListAllArticles({ articles,theme}){
                   [styles.dark_]:theme.setChecked,
                   [styles.light_]:!theme.setChecked})} `}>
                 <button key={article.tag_id} className={`${styles['tag-sec']} ${clsx({
-                  [styles.dark_]:theme.setChecked,
-                  [styles.light_]:!theme.setChecked
+                  [styles.dark_]:'white',
+                  [styles.light_]:'black'
                 })}`}>{article.tag}</button>
                 <div key={article.likes} className={`${styles['article-like-div']} ${clsx({
                   [styles.dark_]:theme.setChecked,

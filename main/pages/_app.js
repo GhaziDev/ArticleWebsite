@@ -60,7 +60,7 @@ useEffect(()=>{
 
 
 
-  return domLoaded? <div className='test'><Head><link rel="shortcut icon" href="https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/logo_favicon.png" /></Head><AuthProvider ><CurrentUserProvider><themeContext.Provider value={{theme,setTheme}}><Component {...pageProps} /></themeContext.Provider></CurrentUserProvider></AuthProvider></div>:null
+  return <div className='test'><Head><link rel="shortcut icon" href="https://thenewfirstbucket.s3.ap-southeast-2.amazonaws.com/logo_favicon.png" /></Head><AuthProvider ><CurrentUserProvider><themeContext.Provider value={{theme,setTheme}}><Component {...pageProps} /></themeContext.Provider></CurrentUserProvider></AuthProvider></div>
 }
 
 export default MyApp
